@@ -5,10 +5,8 @@ import { CompanyServiceCard } from "./CompanyServiceCard";
 
 const thumbnails = [
   "noun-solar-pannel.svg",
-
   "noun-maintenance.svg",
   "noun-advisor.svg",
-
   "noun-sell.svg",
 ];
 

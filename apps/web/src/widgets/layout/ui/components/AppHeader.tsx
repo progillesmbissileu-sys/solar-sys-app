@@ -57,7 +57,7 @@ export function AppHeader() {
             </section>
             <section className="container h-20 flex overflow-hidden items-center justify-between">
                 <div className="xl:basis-1/3">
-                    <a href="/">
+                    <a href="/apps/web/public">
                         <figure>
                             <Image src="logo.svg" alt="Logo de l'entreprise" width={56} height={100}/>
                         </figure>

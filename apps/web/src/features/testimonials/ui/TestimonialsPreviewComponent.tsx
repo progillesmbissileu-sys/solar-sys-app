@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { TestimonialCard } from "./TestimonialCard";
 import { Fade } from "react-awesome-reveal";

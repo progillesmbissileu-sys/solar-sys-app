@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { ProjectItemCard, ProjectItemType } from "./ProjectItemCard";
 import {CarouselComponent} from "@/shared/ui/widgets/CarouselComponent";

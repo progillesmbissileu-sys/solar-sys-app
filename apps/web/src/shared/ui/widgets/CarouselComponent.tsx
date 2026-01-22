@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { Options as CarouselConfigType } from "@splidejs/splide";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
