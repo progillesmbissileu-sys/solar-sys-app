@@ -1,10 +1,9 @@
 import React from 'react';
+import {HomePage} from "@/views/home";
 
 
 export default function Home() {
   return (
-    <div className='bg-primary w-full h-screen'>
-        OK ALRIGHT
-    </div>
+    <HomePage/>
   );
 }
