@@ -3,7 +3,6 @@ import { ProductType } from "../model/ProductType";
 import {cn} from "@/shared/lib/utils";
 import {generateHundred} from "@/shared/lib";
 
-'https://picsum.photos/200/300'
 
 export const ProductCard = (props: ProductType & { color: "dark" | "primary" }) => {
     const random = generateHundred()

@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 
 export enum SCREEN_SIZE {

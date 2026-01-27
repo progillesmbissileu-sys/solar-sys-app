@@ -1,3 +1,5 @@
+'use client'
+
 import { ArrowRight } from "lucide-react";
 import { HeroSectionComponent } from "./section/HeroSectionComponent";
 import {ProductPreviewComponent} from "@/features/products";
@@ -10,7 +12,7 @@ import {TestimonialsPreviewComponent} from "@/features/testimonials/ui/Testimoni
 import {testimonials} from "@/shared/assets/data/testimonials";
 import {ProjectPreviewComponent} from "@/features/projects/ui/ProjectPreviewComponent";
 import {projects} from "@/shared/assets/data/projects";
-import {EmbeddedMap} from "@/shared/ui/widgets/map/EmbeddedMap";
+// import {EmbeddedMap} from "@repo/ui/map/EmbeddedMap";
 
 export default function HomePage(){
 
@@ -139,10 +141,9 @@ export default function HomePage(){
                     </ul>
                 </aside>
                 <aside className='col-span-1 h-full'>
-                    <EmbeddedMap/>
+                    {/*{typeof window !== 'undefined' && <EmbeddedMap/>}*/}
                 </aside>
             </div>
         </section>
-
     </div>
 }

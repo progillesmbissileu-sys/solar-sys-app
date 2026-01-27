@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 
 export function HTMLMarkupRender(props: { rawContent?: string; classKey?: string; ref?: any }) {

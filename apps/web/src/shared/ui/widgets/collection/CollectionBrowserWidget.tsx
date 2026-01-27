@@ -19,12 +19,6 @@ import AppPagination from "@/shared/ui/core/AppPagination";
 export function CollectionBrowserWidget<T>(props: CollectionBrowserWidgetProps<T>) {
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  // const { data } = useSWR(
-  //   "/api/collections",
-  //   () => fetcher("https://node-api-olive.vercel.app/api/publication/collection"),
-  //   { suspense: true },
-  // );
-
   return (
     <div className="grid grid-cols-4 gap-4">
       <aside className="xl:col-span-1 space-y-6">
