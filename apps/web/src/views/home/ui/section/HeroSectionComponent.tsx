@@ -5,6 +5,7 @@ import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import { Options } from "@splidejs/splide";
 import {useViewPort} from "@/shared/hooks/use-view-port";
 import AppButton from "@/shared/ui/core/AppButton/AppButton";
+import {generateHundred} from "@/shared/lib";
 
 export type HeroSectionComponentProps = {
   picturesList: string[];
@@ -15,6 +16,7 @@ export type HeroSectionComponentProps = {
 
 export const HeroSectionComponent = (props: HeroSectionComponentProps) => {
   const viewPort = useViewPort();
+    const random = generateHundred()
 
   const options: Options = {
     gap: "0px",
@@ -36,7 +38,7 @@ export const HeroSectionComponent = (props: HeroSectionComponentProps) => {
               <SplideSlide key={index}>
                 <figure className="relative w-full h-full">
                   <img
-                    src={picture}
+                      src={`https://picsum.photos/${random}/${random}`}
                     alt="Picture"
                     className="h-full lg:aspect-[15/3] xl:aspect-[16/4]"
                   />

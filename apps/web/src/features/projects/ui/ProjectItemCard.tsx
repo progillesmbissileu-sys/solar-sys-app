@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import {generateHundred} from "@/shared/lib";
 
 export type ProjectItemType = {
   title: string;
@@ -10,11 +11,13 @@ export type ProjectItemType = {
 };
 
 export const ProjectItemCard = (props: ProjectItemType) => {
+    const random = generateHundred()
+
   return (
     <div className="relative w-full xl:h-[700px]">
       <header className="relative w-full h-3/4">
         <figure className="w-full h-full relative rounded-sm overflow-hidden">
-          <img src={props.thumbnail} alt={props.title} className="w-full h-full object-cover" />
+          <img src={`https://picsum.photos/${random}/${random}`} alt={props.title} className="w-full h-full object-cover" />
         </figure>
         <div className="absolute w-full h-full top-0 left-0 z-20 bg-black/20 p-6">
           {props.counter && (
