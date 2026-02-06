@@ -97,7 +97,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem key={item.key}>
                   {/* @CHRIS/SEV: discussion whether to componentize (-> state mgmt) */}
                   <button
-                    onClick={() => setOpenMenus((prev) => [...prev, item.key])}
+                    onClick={() =>
+                      setOpenMenus((prev) =>
+                        prev.includes(item.key)
+                          ? prev.filter((key) => key !== item.key)
+                          : [...prev, item.key],
+                      )
+                    }
                     className={cx(
                       "flex w-full items-center justify-between gap-x-2.5 rounded-md p-2 text-base text-gray-900 transition hover:bg-gray-200/50 sm:text-sm dark:text-gray-400 hover:dark:bg-gray-900 hover:dark:text-gray-50",
                       focusRing,

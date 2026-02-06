@@ -29,8 +29,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-white-50 h-full antialiased dark:bg-gray-950`}
       >
-        {/* eslint-disable-next-line react/no-children-prop */}
-        <App children={children} />
+        {children}
       </body>
     </html>
   )

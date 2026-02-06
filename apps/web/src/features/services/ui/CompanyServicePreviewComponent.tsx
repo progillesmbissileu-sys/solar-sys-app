@@ -1,6 +1,6 @@
 import React from "react";
 import { Fade } from "react-awesome-reveal";
-import { CompanyServiceType } from "../model/CompanyServiceType";
+import { ServiceType } from "../model/ServiceType";
 import { CompanyServiceCard } from "./CompanyServiceCard";
 
 const thumbnails = [
@@ -11,7 +11,7 @@ const thumbnails = [
 ];
 
 export function CompanyServicePreviewComponent(props: {
-  previewList: CompanyServiceType[];
+  previewList: ServiceType[];
   path: string;
 }) {
   return (

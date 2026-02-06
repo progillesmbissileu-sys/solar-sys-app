@@ -1,10 +1,10 @@
 import React from "react";
 import { Rotate } from "react-awesome-reveal";
-import { CompanyServiceType } from "../model/CompanyServiceType";
+import { ServiceType } from "../model/ServiceType";
 import Image from "next/image";
 
 export const CompanyServiceCard = (
-  props: CompanyServiceType & { rootPath: string },
+  props: ServiceType & { rootPath: string },
 ) => {
   return (
     <div className="w-full h-full relative overflow-hidden rounded-lg cursor-pointer group border border-yellow-500 ">
