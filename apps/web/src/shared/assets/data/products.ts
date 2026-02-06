@@ -1,4 +1,3 @@
-
 export const products = [
   {
     id: 1,
@@ -7,7 +6,7 @@ export const products = [
     description: "Minimalist LED desk lamp with adjustable arm",
     price: 4000,
     categoryId: "lighting",
-      slug: "aurora-desk-lamp"
+    slug: "aurora-desk-lamp",
   },
   {
     id: 2,
@@ -16,7 +15,7 @@ export const products = [
     description: "Insulated stainless-steel bottle, 750ml",
     price: 250,
     categoryId: "outdoors",
-      slug: "cascade-water-bottle"
+    slug: "cascade-water-bottle",
   },
   {
     id: 3,
@@ -25,7 +24,7 @@ export const products = [
     description: "15W fast wireless charger pad, USB‑C",
     price: 2500,
     categoryId: "electronics",
-      slug: "nimbus-wireless-charger"
+    slug: "nimbus-wireless-charger",
   },
   {
     id: 4,
@@ -34,7 +33,7 @@ export const products = [
     description: "Hand‑glazed ceramic mug, 350ml",
     price: 1499,
     categoryId: "kitchen",
-      slug: "terra-ceramic-mug"
+    slug: "terra-ceramic-mug",
   },
   {
     id: 5,
@@ -43,7 +42,7 @@ export const products = [
     description: "Compact portable speaker with deep bass",
     price: 59.95,
     categoryId: "electronics",
-      slug: "stratus-bluetooth-speaker"
+    slug: "stratus-bluetooth-speaker",
   },
   {
     id: 6,
@@ -52,7 +51,7 @@ export const products = [
     description: "Hardcover dotted notebook, 192 pages",
     price: 125,
     categoryId: "stationery",
-      slug: "vertex-notebook-a5"
+    slug: "vertex-notebook-a5",
   },
   {
     id: 7,
@@ -61,7 +60,7 @@ export const products = [
     description: "Soft woven throw with fringes, 130×170cm",
     price: 3990,
     categoryId: "home",
-      slug: "boreal-throw-blanket"
+    slug: "boreal-throw-blanket",
   },
   {
     id: 8,

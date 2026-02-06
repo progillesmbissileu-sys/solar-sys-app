@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
 import React from "react";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import { Options } from "@splidejs/splide";
-import {useViewPort} from "@/shared/hooks/use-view-port";
+import { useViewPort } from "@/shared/hooks/use-view-port";
 import AppButton from "@/shared/ui/core/AppButton/AppButton";
-import {generateHundred} from "@/shared/lib";
+import { generateHundred } from "@/shared/lib";
 
 export type HeroSectionComponentProps = {
   picturesList: string[];
@@ -16,7 +16,7 @@ export type HeroSectionComponentProps = {
 
 export const HeroSectionComponent = (props: HeroSectionComponentProps) => {
   const viewPort = useViewPort();
-    const random = generateHundred()
+  const random = generateHundred();
 
   const options: Options = {
     gap: "0px",
@@ -34,11 +34,11 @@ export const HeroSectionComponent = (props: HeroSectionComponentProps) => {
       <Splide options={options} hasTrack={false} className="w-full h-full">
         <div className="relative">
           <SplideTrack>
-            {props.picturesList.map((picture,index) => (
+            {props.picturesList.map((picture, index) => (
               <SplideSlide key={index}>
                 <figure className="relative w-full h-full">
                   <img
-                      src={`https://picsum.photos/${random}/${random}`}
+                    src={`https://picsum.photos/${random}/${random}`}
                     alt="Picture"
                     className="h-full lg:aspect-[15/3] xl:aspect-[16/4]"
                   />
@@ -56,17 +56,29 @@ export const HeroSectionComponent = (props: HeroSectionComponentProps) => {
         <div className="relative container h-full mx-auto">
           <div className="absolute bottom-1/4 xxl:bottom-1/5 xl:bottom-1/4 lg:w-3/5 xxl:w-2/5 space-y-6">
             <div className="space-y-6">
-              <h1 className="text-white lg:text-6xl font-bold font-sans">{props.title}</h1>
+              <h1 className="text-white lg:text-6xl font-bold font-sans">
+                {props.title}
+              </h1>
               {props.description && props.description.length > 0 && (
-                <p className="text-white text-xl font-light">{props.description}</p>
+                <p className="text-white text-xl font-light">
+                  {props.description}
+                </p>
               )}
             </div>
             <div className="flex gap-x-3">
               <a href="/catalogue" className="">
-                <AppButton label="Voir catalogue" type="primary" variant="solid" />
+                <AppButton
+                  label="Voir catalogue"
+                  type="primary"
+                  variant="solid"
+                />
               </a>
               <a href="/contacts" className="cursor-pointer">
-                <AppButton label="Contactez-nous" type="default" variant="outline" />
+                <AppButton
+                  label="Contactez-nous"
+                  type="default"
+                  variant="outline"
+                />
               </a>
             </div>
           </div>

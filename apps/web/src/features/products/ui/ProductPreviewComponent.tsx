@@ -1,11 +1,14 @@
-'use client'
+"use client";
 
 import React from "react";
 import { ProductCard } from "./ProductCard";
 import { ProductType } from "../model/ProductType";
-import {CarouselComponent} from "@/shared/ui/widgets/CarouselComponent";
+import { CarouselComponent } from "@/shared/ui/widgets/CarouselComponent";
 
-export const ProductPreviewComponent = (props: { previewList: ProductType[], path?: string }) => {
+export const ProductPreviewComponent = (props: {
+  previewList: ProductType[];
+  path?: string;
+}) => {
   return (
     <CarouselComponent<ProductType>
       items={props.previewList.map((item) => ({ ...item, key: item.id }))}
@@ -21,7 +24,11 @@ export const ProductPreviewComponent = (props: { previewList: ProductType[], pat
         rewind: true,
       }}
       renderItem={(item, index) => (
-        <a className="block w-full h-full" href={`${props.path}/${item.slug}`} key={item.slug}>
+        <a
+          className="block w-full h-full"
+          href={`${props.path}/${item.slug}`}
+          key={item.slug}
+        >
           <ProductCard {...item} color={index % 2 === 0 ? "dark" : "primary"} />
         </a>
       )}

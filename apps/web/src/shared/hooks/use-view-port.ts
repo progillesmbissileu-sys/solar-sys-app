@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 
@@ -18,7 +18,10 @@ export const useViewPort = () => {
   const [screenType, setScreenType] = React.useState<ScreenType>();
 
   const assertScreenType = React.useCallback(
-    (event: MediaQueryListEvent, type: "isMobile" | "isTablet" | "isDesktop") => {
+    (
+      event: MediaQueryListEvent,
+      type: "isMobile" | "isTablet" | "isDesktop",
+    ) => {
       if (event.matches) {
         setScreenType((prevState: any) => ({ ...prevState, [type]: true }));
       } else {
@@ -29,7 +32,10 @@ export const useViewPort = () => {
   );
 
   React.useEffect(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    if (
+      typeof window === "undefined" ||
+      typeof window.matchMedia !== "function"
+    ) {
       return;
     }
 
@@ -37,7 +43,9 @@ export const useViewPort = () => {
     const tablet = window.matchMedia(
       `(min-width: ${SCREEN_SIZE.MOBILE + 1}px) and (max-width: ${SCREEN_SIZE.TABLET}px)`,
     );
-    const desktop = window.matchMedia(`(min-width: ${SCREEN_SIZE.TABLET + 1}px)`);
+    const desktop = window.matchMedia(
+      `(min-width: ${SCREEN_SIZE.TABLET + 1}px)`,
+    );
 
     setScreenType(() => ({
       isMobile: mobile.matches,
@@ -45,14 +53,26 @@ export const useViewPort = () => {
       isDesktop: desktop.matches,
     }));
 
-    mobile.addEventListener("change", (evt) => assertScreenType(evt, "isMobile"));
-    tablet.addEventListener("change", (evt) => assertScreenType(evt, "isTablet"));
-    desktop.addEventListener("change", (evt) => assertScreenType(evt, "isDesktop"));
+    mobile.addEventListener("change", (evt) =>
+      assertScreenType(evt, "isMobile"),
+    );
+    tablet.addEventListener("change", (evt) =>
+      assertScreenType(evt, "isTablet"),
+    );
+    desktop.addEventListener("change", (evt) =>
+      assertScreenType(evt, "isDesktop"),
+    );
 
     return () => {
-      mobile.removeEventListener("change", (evt) => assertScreenType(evt, "isMobile"));
-      tablet.removeEventListener("change", (evt) => assertScreenType(evt, "isTablet"));
-      desktop.removeEventListener("change", (evt) => assertScreenType(evt, "isDesktop"));
+      mobile.removeEventListener("change", (evt) =>
+        assertScreenType(evt, "isMobile"),
+      );
+      tablet.removeEventListener("change", (evt) =>
+        assertScreenType(evt, "isTablet"),
+      );
+      desktop.removeEventListener("change", (evt) =>
+        assertScreenType(evt, "isDesktop"),
+      );
     };
   }, [assertScreenType]);
 

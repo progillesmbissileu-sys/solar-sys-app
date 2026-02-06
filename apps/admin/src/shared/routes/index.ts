@@ -7,8 +7,8 @@ export const appRoutes = {
   LOGOUT: "/logout",
 
   PRODUCTS: "/products",
-  PRODUCTS_COLLECTION: "/products/collection",
-  PRODUCTS_INFORMATION: "/products/information/:id",
+  PRODUCTS_MANAGEMENT: "/products",
+  PRODUCTS_DETAILS: "/products/details/:id",
   PRODUCTS_ADD: "/products/add",
 
   PRODUCTS_CATEGORIES: "/products/categories",

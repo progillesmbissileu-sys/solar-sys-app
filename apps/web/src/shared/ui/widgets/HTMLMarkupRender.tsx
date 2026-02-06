@@ -1,8 +1,12 @@
-'use client'
+"use client";
 
 import React from "react";
 
-export function HTMLMarkupRender(props: { rawContent?: string; classKey?: string; ref?: any }) {
+export function HTMLMarkupRender(props: {
+  rawContent?: string;
+  classKey?: string;
+  ref?: any;
+}) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {

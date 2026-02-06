@@ -1,16 +1,21 @@
 import React from "react";
 import { ProductType } from "../model/ProductType";
-import {cn} from "@/shared/lib/utils";
-import {generateHundred} from "@/shared/lib";
+import { cn } from "@/shared/lib/utils";
+import { generateHundred } from "@/shared/lib";
 
-
-export const ProductCard = (props: ProductType & { color: "dark" | "primary" }) => {
-    const random = generateHundred()
+export const ProductCard = (
+  props: ProductType & { color: "dark" | "primary" },
+) => {
+  const random = generateHundred();
   return (
     <div className=" cursor-pointer w-full h-full overflow-hidden">
       <header className="w-full h-4/5">
         <figure className="w-full h-full relative overflow-hidden rounded-md">
-          <img src={`https://picsum.photos/${random}/${random}`} alt={props.description} className="h-full aspect-video" />
+          <img
+            src={`https://picsum.photos/${random}/${random}`}
+            alt={props.description}
+            className="h-full aspect-video"
+          />
           <div
             className={cn(
               "absolute text-center content-center xl:w-3/4 xl:h-1/5 bottom-0 right-0 z-30 rounded-tl-[44px] opacity-100",
@@ -33,7 +38,9 @@ export const ProductCard = (props: ProductType & { color: "dark" | "primary" }) 
       </header>
       <footer className="h-1/5 content-center">
         <div>
-          <h4 className="font-semibold leading-[120%] text-lg   text-dark">{props.designation}</h4>
+          <h4 className="font-semibold leading-[120%] text-lg   text-dark">
+            {props.designation}
+          </h4>
         </div>
       </footer>
     </div>

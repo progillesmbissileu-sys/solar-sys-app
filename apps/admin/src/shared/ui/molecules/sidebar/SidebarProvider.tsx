@@ -1,14 +1,12 @@
-'use client'
+"use client"
 
 import * as React from "react"
 import { useIsMobile } from "@/shared/lib/useMobile"
 import { cx } from "@/shared/lib/utils"
 
-
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
-
 
 export type SidebarContext = {
   state: "expanded" | "collapsed"
@@ -21,7 +19,6 @@ export type SidebarContext = {
 }
 
 export const SidebarContext = React.createContext<SidebarContext | null>(null)
-
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,

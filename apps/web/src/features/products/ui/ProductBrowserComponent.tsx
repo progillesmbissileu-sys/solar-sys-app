@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import React from "react";
 import { ProductCard2 } from "./ProductCard2";
-import {ProductType} from "../model/ProductType";
-import {CollectionBrowserWidget} from "@/shared/ui/widgets/collection/CollectionBrowserWidget";
+import { ProductType } from "../model/ProductType";
+import { CollectionBrowserWidget } from "@/shared/ui/widgets/collection/CollectionBrowserWidget";
 
 export const ProductBrowserComponent = (props: { path?: string }) => {
   return (
@@ -12,8 +12,15 @@ export const ProductBrowserComponent = (props: { path?: string }) => {
         throw new Error("Function not implemented.");
       }}
       renderItem={(product: ProductType, index?: number) => (
-        <a className="block" href={`${props.path}/${product.slug}`} key={product.id}>
-          <ProductCard2 {...product} color={(index || 0) % 2 === 0 ? "dark" : "primary"} />
+        <a
+          className="block"
+          href={`${props.path}/${product.slug}`}
+          key={product.id}
+        >
+          <ProductCard2
+            {...product}
+            color={(index || 0) % 2 === 0 ? "dark" : "primary"}
+          />
         </a>
       )}
       groupFilters={[

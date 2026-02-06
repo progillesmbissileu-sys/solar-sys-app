@@ -11,12 +11,12 @@ export const productModuleConfig: AppModuleConfig = {
     {
       key: "product.management",
       title: "product.management",
-      path: appRoutes.PRODUCTS_COLLECTION,
+      path: appRoutes.PRODUCTS_MANAGEMENT,
     },
     {
       key: "product.category",
       title: "product.categoryManagement",
-      path: appRoutes.PRODUCTS_COLLECTION,
+      path: appRoutes.PRODUCTS_MANAGEMENT,
     },
   ],
 }

@@ -11,5 +11,8 @@ export type CollectionFilterType = {
 export type CollectionBrowserWidgetProps<T> = {
   collection: (params?: any) => Promise<any>;
   renderItem: (item: T, index?: number) => React.ReactNode;
-  groupFilters?: Array<{ groupTitle: string; groupItems: CollectionFilterType[] }>;
+  groupFilters?: Array<{
+    groupTitle: string;
+    groupItems: CollectionFilterType[];
+  }>;
 };

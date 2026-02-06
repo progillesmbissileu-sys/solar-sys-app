@@ -1,17 +1,21 @@
 import React from "react";
 import { ProductType } from "../model/ProductType";
-import {cn} from "@/shared/lib/utils";
-import {generateHundred} from "@/shared/lib";
-export const ProductCard2 = (props: ProductType & { color?: "dark" | "primary" }) => {
-    const random = generateHundred()
+import { cn } from "@/shared/lib/utils";
+import { generateHundred } from "@/shared/lib";
+export const ProductCard2 = (
+  props: ProductType & { color?: "dark" | "primary" },
+) => {
+  const random = generateHundred();
 
-
-
-    return (
+  return (
     <div className=" cursor-pointer w-full h-full overflow-hidden">
       <header className="w-full h-4/5">
         <figure className="w-full h-full relative overflow-hidden rounded-md">
-          <img src={`https://picsum.photos/${random}/${random}`} alt={props.description} className="w-full aspect-square" />
+          <img
+            src={`https://picsum.photos/${random}/${random}`}
+            alt={props.description}
+            className="w-full aspect-square"
+          />
           <div
             className={cn(
               "absolute text-center content-center xl:w-3/4 xl:h-1/5 bottom-0 right-0 z-30 rounded-tl-[44px] opacity-100",

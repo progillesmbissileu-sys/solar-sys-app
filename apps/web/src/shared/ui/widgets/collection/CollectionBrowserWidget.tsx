@@ -16,13 +16,15 @@ import AppPagination from "@/shared/ui/core/AppPagination";
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function CollectionBrowserWidget<T>(props: CollectionBrowserWidgetProps<T>) {
+export function CollectionBrowserWidget<T>(
+  props: CollectionBrowserWidgetProps<T>,
+) {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   return (
     <div className="grid grid-cols-4 gap-4">
       <aside className="xl:col-span-1 space-y-6">
-        {props.groupFilters?.map((filter,index) => (
+        {props.groupFilters?.map((filter, index) => (
           <div className="space-y-6" key={index}>
             <h3 className="text-xl font-medium relative h-14 content-center">
               {filter.groupTitle}
@@ -30,7 +32,12 @@ export function CollectionBrowserWidget<T>(props: CollectionBrowserWidgetProps<T
             </h3>
             <div className="xl:pr-6">
               {filter.groupItems.map((item, index) => (
-                <div className={cn("border-b border-gray-200 pb-3", { "pt-3": index != 0 })} key={index}>
+                <div
+                  className={cn("border-b border-gray-200 pb-3", {
+                    "pt-3": index != 0,
+                  })}
+                  key={index}
+                >
                   <CollectionFilterGroup
                     label={item.label}
                     items={item.items}
@@ -47,7 +54,10 @@ export function CollectionBrowserWidget<T>(props: CollectionBrowserWidgetProps<T
           <div className="flex items-center">Afficher 10 sur 10 resultats</div>
           <div className="col-span-2 flex items-center gap-x-2">
             <div>Rechercher: </div>
-            <Input placeholder="Type something ..." className="!h-12 rounded-sm" />
+            <Input
+              placeholder="Type something ..."
+              className="!h-12 rounded-sm"
+            />
           </div>
           <div className="flex gap-x-2 items-center">
             <div>Filtres: </div>

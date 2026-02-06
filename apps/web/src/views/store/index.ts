@@ -1,1 +1,1 @@
-export {default as CatalogPage} from './ui/CatalogPage'
+export { default as CatalogPage } from "./ui/CatalogPage";

@@ -14,7 +14,6 @@ import * as React from "react"
 import { Button } from "../../atoms/Button"
 import { useSidebar } from "@/shared/lib/hooks/useSidebar"
 
-
 const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
   ({ className, children, ...props }, ref) => {
     const { isMobile, state, openMobile, setOpenMobile, open, setOpen } =

@@ -69,7 +69,11 @@ export default function AppPagination({
   siblingCount = 1,
   className,
 }: DynamicPaginationProps) {
-  const paginationRange = generatePaginationRange(currentPage, totalPages, siblingCount);
+  const paginationRange = generatePaginationRange(
+    currentPage,
+    totalPages,
+    siblingCount,
+  );
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
@@ -92,7 +96,11 @@ export default function AppPagination({
               handlePageChange(currentPage - 1);
             }}
             aria-disabled={currentPage === 1}
-            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+            className={
+              currentPage === 1
+                ? "pointer-events-none opacity-50"
+                : "cursor-pointer"
+            }
           />
         </PaginationItem>
 
@@ -131,7 +139,9 @@ export default function AppPagination({
             }}
             aria-disabled={currentPage === totalPages}
             className={
-              currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"
+              currentPage === totalPages
+                ? "pointer-events-none opacity-50"
+                : "cursor-pointer"
             }
           />
         </PaginationItem>

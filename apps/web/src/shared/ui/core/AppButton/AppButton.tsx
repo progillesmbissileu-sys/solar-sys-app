@@ -1,5 +1,5 @@
 import React from "react";
-import {cn} from "@/shared/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -11,7 +11,10 @@ interface ButtonProps {
   label?: string;
 }
 
-const buttonStyles = (type: ButtonProps["type"], variant: ButtonProps["variant"]) => {
+const buttonStyles = (
+  type: ButtonProps["type"],
+  variant: ButtonProps["variant"],
+) => {
   switch (type) {
     case "primary":
       if (variant === "solid") {
