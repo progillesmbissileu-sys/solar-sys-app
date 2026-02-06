@@ -24,23 +24,16 @@ import Image from "next/image"
 import { productModuleConfig } from "@/modules/product/config/module"
 import { dashboardModuleConfig } from "@/modules/dashboard"
 import { locationModuleConfig } from "@/modules/location"
+import { useLayout } from "@/app/components/layouts/lib/use-layout"
 
 const navigation = [dashboardModuleConfig, locationModuleConfig]
 
 const navigation2 = [productModuleConfig]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [openMenus, setOpenMenus] = React.useState<string[]>([
-    navigation2[0].key,
-    // navigation2[1].name,
-  ])
-  const toggleMenu = (name: string) => {
-    setOpenMenus((prev: string[]) =>
-      prev.includes(name)
-        ? prev.filter((item: string) => item !== name)
-        : [...prev, name],
-    )
-  }
+  const context = useLayout()
+  const [openMenus, setOpenMenus] = React.useState<string[]>([])
+
   return (
     <Sidebar {...props} className="bg-gray-50 dark:bg-gray-925">
       <SidebarHeader className="px-3 py-4">
@@ -77,10 +70,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
               {navigation.map((item) => (
-                <SidebarMenuItem key={item.key}>
+                <SidebarMenuItem
+                  key={item.key}
+                  onClick={() => context.toggleMenu(item.key)}
+                >
                   <SidebarLink
                     href={item.path}
-                    isActive={false}
+                    isActive={context.activeMenu === item.key}
                     icon={item.icon}
                     notifications={false}
                   >
@@ -101,7 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem key={item.key}>
                   {/* @CHRIS/SEV: discussion whether to componentize (-> state mgmt) */}
                   <button
-                    onClick={() => toggleMenu(item.key)}
+                    onClick={() => setOpenMenus((prev) => [...prev, item.key])}
                     className={cx(
                       "flex w-full items-center justify-between gap-x-2.5 rounded-md p-2 text-base text-gray-900 transition hover:bg-gray-200/50 sm:text-sm dark:text-gray-400 hover:dark:bg-gray-900 hover:dark:text-gray-50",
                       focusRing,
@@ -128,11 +124,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenuSub>
                       <div className="absolute inset-y-0 left-4 w-px bg-gray-300 dark:bg-gray-800" />
                       {item.children.map((child) => (
-                        <SidebarMenuItem key={child.key}>
-                          <SidebarSubLink href={child.path} isActive={false}>
-                            {child.title}
-                          </SidebarSubLink>
-                        </SidebarMenuItem>
+                        <div
+                          key={child.key}
+                          onClick={() => context.toggleMenu(child.key)}
+                        >
+                          <SidebarMenuItem>
+                            <SidebarSubLink
+                              href={child.path}
+                              isActive={context.activeMenu == child.key}
+                            >
+                              {child.title}
+                            </SidebarSubLink>
+                          </SidebarMenuItem>
+                        </div>
                       ))}
                     </SidebarMenuSub>
                   )}
