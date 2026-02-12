@@ -11,7 +11,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        gray: { 925: "#050814" },
+        // gray: { 925: "#050814" },
+        foreground: "#f9fafb",
+        "foreground-dark": "#1a202c",
+        dark: "#030712",
       },
       keyframes: {
         hide: {

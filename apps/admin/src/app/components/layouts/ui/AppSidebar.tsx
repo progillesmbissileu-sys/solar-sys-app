@@ -35,7 +35,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [openMenus, setOpenMenus] = React.useState<string[]>([])
 
   return (
-    <Sidebar {...props} className="bg-gray-50 dark:bg-gray-925">
+    <Sidebar {...props} className="dark:bg-foreground-dark bg-gray-50">
       <SidebarHeader className="px-3 py-4">
         <div className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-md bg-white p-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-gray-900 dark:ring-gray-800">
