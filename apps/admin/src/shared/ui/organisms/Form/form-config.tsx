@@ -14,12 +14,6 @@ import {
 } from "@/shared/ui/molecules/inputs"
 import { SubscribeButton } from "./SubmitButton"
 
-const Input = withFieldContext<TextInputProps>(TextInput)
-const Password = withFieldContext<PasswordInputProps>(PasswordInput)
-const Email = withFieldContext<EmailInputProps>(EmailInput)
-const Select = withFieldContext<SelectInputProps>(SelectInput)
-const Checkbox = withFieldContext<CheckboxInputProps>(CheckboxInput)
-
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
 
@@ -30,10 +24,10 @@ export const { useAppForm } = createFormHook({
     SubscribeButton,
   },
   fieldComponents: {
-    Input,
-    Password,
-    Email,
-    Select,
-    Checkbox,
+    Input: withFieldContext<TextInputProps>(TextInput),
+    Password: withFieldContext<PasswordInputProps>(PasswordInput),
+    Email: withFieldContext<EmailInputProps>(EmailInput),
+    Select: withFieldContext<SelectInputProps>(SelectInput),
+    Checkbox: withFieldContext<CheckboxInputProps>(CheckboxInput),
   },
 })

@@ -15,6 +15,16 @@ export default {
         foreground: "#f9fafb",
         "foreground-dark": "#1a202c",
         dark: "#030712",
+        primary: "#1170f3",
+        "primary-dark": "#0059b3",
+        secondary: "#f9fafb",
+        "secondary-dark": "#1a202c",
+        success: "#34d399",
+        "success-dark": "#10b981",
+        warning: "#f59e0b",
+        "warning-dark": "#d97706",
+        error: "#ef4444",
+        "error-dark": "#dc2626",
       },
       keyframes: {
         hide: {

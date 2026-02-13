@@ -26,9 +26,16 @@ export function withFieldContext<TProps extends object>(
         <Component
           {...(componentProps as TProps)}
           name={name}
-          value={field.state.value}
+          defaultValue={field.state.value}
           onChange={(e: any) => field.handleChange(e.target?.value || e)}
         />
+        {!field.state.meta.isValid && (
+          <div>
+            <span className="font-montserrat-sans mt-1.5 block text-xs italic text-red-600">
+              {field.state.meta.errors.map((err: any) => err?.message)?.at(0)}
+            </span>
+          </div>
+        )}
       </div>
     )
   }

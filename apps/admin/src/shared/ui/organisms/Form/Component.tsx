@@ -1,11 +1,12 @@
+import { ButtonProps } from "../../atoms/Button"
 import { useFormContext } from "./use-form-context"
 
-function SubmitButton({ label }: { label: string }) {
+function SubmitButton(props: ButtonProps & { label: string }) {
   const form = useFormContext()
 
   return (
     <form.AppForm>
-      <form.SubscribeButton label={label} />
+      <form.SubscribeButton {...props} />
     </form.AppForm>
   )
 }
