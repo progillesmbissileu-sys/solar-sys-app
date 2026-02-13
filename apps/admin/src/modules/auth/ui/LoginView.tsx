@@ -1,8 +1,11 @@
 "use client"
 
-import { FormField, FormWrapper } from "@/shared/ui/organisms/Form"
+import {
+  FormField,
+  FormWrapper,
+  FormComponent,
+} from "@/shared/ui/organisms/Form"
 import { z } from "zod"
-import { SubmitButton } from "@/shared/ui/organisms/Form/SubmitButton"
 
 export default function LoginView() {
   return (
@@ -14,7 +17,7 @@ export default function LoginView() {
         >
           <FormField.Email name="email" label="Email" />
           <FormField.Password name="password" label="Password" />
-          <SubmitButton label="action.submit" />
+          <FormComponent.SubmitButton label="action.submit" />
         </FormWrapper>
       </div>
     </div>

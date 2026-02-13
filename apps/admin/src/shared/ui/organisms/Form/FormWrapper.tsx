@@ -20,7 +20,15 @@ export function FormWrapper<TSchema extends ZodSchema<any>>(
 
   return (
     <FormContext value={form as any}>
-      <form.AppForm>{props.children}</form.AppForm>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <form.AppForm>{props.children}</form.AppForm>
+      </form>
     </FormContext>
   )
 }

@@ -1,7 +1,7 @@
-import { useFormContext } from "@/shared/ui/organisms/Form/use-form-context"
+import { useFormContext } from "./form-config"
 import { Button } from "@/shared/ui/atoms/Button"
 
-export function SubmitButton({ label }: { label: string }) {
+export function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
 
   return (

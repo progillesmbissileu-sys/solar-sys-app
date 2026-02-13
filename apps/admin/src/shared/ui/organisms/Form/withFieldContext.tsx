@@ -27,7 +27,7 @@ export function withFieldContext<TProps extends object>(
           {...(componentProps as TProps)}
           name={name}
           value={field.state.value}
-          onChange={(e: any) => field.handleChange(e.target.value || e)}
+          onChange={(e: any) => field.handleChange(e.target?.value || e)}
         />
       </div>
     )
