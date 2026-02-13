@@ -18,24 +18,34 @@ export function withFieldContext<TProps extends object>(
     const { label, className, name, ...componentProps } = props
     const field = useFieldContext<InputValue>()
 
+    const isFieldValid = field.state.meta.isValid
+
     return (
-      <div
-        className={cx("text-foreground dark:text-foreground-dark", className)}
-      >
-        {label && <Label>{label}</Label>}
-        <Component
-          {...(componentProps as TProps)}
-          name={name}
-          defaultValue={field.state.value}
-          onChange={(e: any) => field.handleChange(e.target?.value || e)}
-        />
-        {!field.state.meta.isValid && (
-          <div>
-            <span className="font-montserrat-sans mt-1.5 block text-xs italic text-red-600">
-              {field.state.meta.errors.map((err: any) => err?.message)?.at(0)}
-            </span>
-          </div>
-        )}
+      <div className={cx("relative", className)}>
+        <div
+          className={cx("mb-0 transition-all duration-200 ease-linear", {
+            "mb-3": !isFieldValid,
+          })}
+        >
+          {label && <Label>{label}</Label>}
+          <Component
+            {...(componentProps as TProps)}
+            name={name}
+            defaultValue={field.state.value}
+            onChange={(e: any) => field.handleChange(e.target?.value || e)}
+          />
+        </div>
+        <div
+          className={cx(
+            "absolute bottom-0 text-transparent transition-all delay-200 duration-200 ease-linear",
+            { "-bottom-6 text-green-600": !isFieldValid },
+          )}
+        >
+          <span className="font-montserrat-sans block text-sm">
+            {!isFieldValid &&
+              field.state.meta.errors.map((err: any) => err?.message)?.at(0)}
+          </span>
+        </div>
       </div>
     )
   }
