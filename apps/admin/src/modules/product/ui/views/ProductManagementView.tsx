@@ -1,9 +1,10 @@
 "use client"
 
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { AppTable } from "@/shared/ui/organisms/AppTable"
 import { quotes } from "../../../../../data/data"
 import { Badge } from "@/shared/ui/atoms/Badge"
+import { productCollection } from "@/entities/product/api"
 
 const project = [
   {
@@ -111,6 +112,14 @@ const project = [
 ]
 
 export default function ProductManagementView() {
+  useEffect(() => {
+    ;(async () => {
+      const products = await productCollection()
+
+      console.log("PRODUCTS LIST:- ", products)
+    })()
+  }, [])
+
   return (
     <Fragment>
       <AppTable<{

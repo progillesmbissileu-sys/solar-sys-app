@@ -11,7 +11,7 @@ import { AtSign, KeyRound } from "lucide-react"
 export default function LoginView() {
   return (
     <div className="h-screen w-screen content-center">
-      <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md border bg-white p-3 xl:w-1/3">
+      <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md bg-white p-3 shadow-[0px_1px_3px_0px_rgba(0,0,0,0.02),0px_0px_0px_1px_rgba(27,31,35,0.15)] xl:w-1/3 dark:bg-dark">
         <div className="flex items-center justify-center">
           <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-100">
             login.pageTitle
@@ -54,10 +54,10 @@ export default function LoginView() {
                   />
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-2 pl-7 pt-6">
+              <div className="flex flex-col items-center gap-2 pl-7 pt-3">
                 <div className="flex items-center gap-x-2">
                   <FormField.Checkbox name="remember" />
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-gray-700 dark:text-gray-400">
                     login.rememberMe
                   </span>
                 </div>
@@ -70,8 +70,8 @@ export default function LoginView() {
           </FormWrapper>
         </div>
         <div className="pl-7">
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-            <a href="#" className="underline">
+          <p className="text-center text-sm text-gray-400 dark:text-gray-600">
+            <a href="#" className="underline underline-offset-[3px]">
               login.forgotPassword
             </a>
           </p>

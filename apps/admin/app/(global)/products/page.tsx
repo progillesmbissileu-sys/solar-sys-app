@@ -1,5 +1,6 @@
 import { ProductManagementView } from "@/modules/product"
+import { productCollection } from "@/entities/product/api"
 
-export default function Page() {
+export default async function Page() {
   return <ProductManagementView />
 }
