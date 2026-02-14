@@ -1,5 +1,6 @@
 import { callAction } from "@/shared/api"
 
-export const productCollection = callAction("/api/product", "get", {
-  skipAuth: true,
-})
+export const productCollection = callAction<void, { data: Array<any> }>(
+  "/api/product",
+  "get",
+)

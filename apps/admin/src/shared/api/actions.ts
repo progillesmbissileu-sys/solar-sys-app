@@ -9,7 +9,7 @@ export async function login(credentials: {
   email: string
   password: string
 }): Promise<AuthTokens> {
-  const response = await fetch(`${env.NEXT_PUBLIC_API_ENDPOINT}/auth/login`, {
+  const response = await fetch(`${env.NEXT_PUBLIC_API_ENDPOINT}/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,8 +23,8 @@ export async function login(credentials: {
 
   const data = await response.json()
   const tokens: AuthTokens = {
-    accessToken: data.accessToken,
-    refreshToken: data.refreshToken,
+    accessToken: data.data.accessToken,
+    refreshToken: data.data.refreshToken,
   }
 
   // Store tokens in cookies (client-side)
