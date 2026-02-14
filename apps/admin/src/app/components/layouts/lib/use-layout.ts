@@ -3,8 +3,6 @@ import { useLayoutStore } from "./layout-store"
 export const useLayout = () => {
   const layout = useLayoutStore()
 
-  console.log(layout)
-
   return {
     toggleMenu: layout.activateNavbarItem,
     toggleSidebar: layout.toggleSidebar,

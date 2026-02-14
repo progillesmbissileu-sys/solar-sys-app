@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import { ZodSchema } from "zod"
+import { FormOptions } from "@tanstack/react-form"
 
 export type InputType =
   | "text_input"
@@ -47,9 +48,13 @@ export interface FormBuilderProps<
   TFormData = any,
 > {
   initialValues?: TFormData
-  schema: TSchema
-  onSubmit: (payload: TFormData) => Promise<void>
+  onSubmit?: (payload: TFormData) => Promise<void>
   children: React.ReactNode
+  serverAction: any
+  formOptions: Omit<
+    FormOptions<any, any, any, any, any, any, any, any, any, any, any>,
+    "onSubmit"
+  >
 }
 
 export type WithFormBlockProps = {
