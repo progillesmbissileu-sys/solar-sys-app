@@ -1,7 +1,7 @@
 import { authFetchJson, AuthFetchOptions } from "@/shared/api/api-client"
 import { env } from "@/shared/config"
 
-const baseUrl = env.NEXT_PUBLIC_API_ENDPOINT
+const apiEndpoint = env.NEXT_PUBLIC_API_ENDPOINT
 
 export function callAction<TData = any, TReturn = any>(
   path: string,
@@ -9,11 +9,16 @@ export function callAction<TData = any, TReturn = any>(
   options?: Omit<AuthFetchOptions, "method" | "body">,
 ) {
   return async (payload?: TData) => {
-    return await authFetchJson<TReturn>(`${baseUrl}${path}`, {
-      method,
-      body: payload ? JSON.stringify(payload) : undefined,
-      ...options,
-    })
+    try {
+      const response = await authFetchJson<TReturn>(`${apiEndpoint}${path}`, {
+        ...options,
+        method,
+        body: payload ? JSON.stringify(payload) : undefined,
+      })
+      return response
+    } catch (error) {
+      return error as any
+    }
   }
 }
 
@@ -30,7 +35,7 @@ export function callActionWithId<TData = any, TReturn = any>(
 
     path = path.replace(`{${pattern!}}`, resourceId)
 
-    return await authFetchJson<TReturn>(`${baseUrl}${path}`, {
+    return await authFetchJson<TReturn>(`${apiEndpoint}${path}`, {
       method,
       body: payload ? JSON.stringify(payload) : undefined,
       ...options,

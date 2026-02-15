@@ -1,6 +1,5 @@
 import { getServerAccessToken } from "@/shared/lib/auth/helpers/server-token"
 import { refreshAccessToken } from "../lib/auth/helpers/session"
-import { getClientAccessToken } from "@/shared/lib/auth/helpers/client-token"
 
 export interface AuthFetchOptions extends RequestInit {
   skipAuth?: boolean
@@ -21,10 +20,7 @@ export async function authFetch(
   let accessToken: string | null = null
 
   if (!skipAuth) {
-    accessToken =
-      typeof window !== "undefined"
-        ? getClientAccessToken()
-        : await getServerAccessToken()
+    accessToken = await getServerAccessToken()
   }
 
   // Prepare headers
@@ -33,6 +29,8 @@ export async function authFetch(
   if (accessToken && !skipAuth) {
     headers.set("Authorization", `Bearer ${accessToken}`)
   }
+
+  console.log("Calling action", url, "with options", options)
 
   // Make the request
   const response = await fetch(url, {
@@ -115,11 +113,12 @@ export async function authFetchJson<T>(
   url: string,
   options?: AuthFetchOptions,
 ): Promise<T> {
+  console.log("Calling action", url, "with options", options)
   const response = await authFetch(url, options)
 
   if (response.ok) {
-    return response.json()
+    return await response.json()
   }
 
-  return Promise.reject(response)
+  return Promise.reject(await response.json())
 }

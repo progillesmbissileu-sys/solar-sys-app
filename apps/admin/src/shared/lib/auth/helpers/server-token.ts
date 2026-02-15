@@ -10,6 +10,41 @@ import {
 /**
  * Server-side function to get access token from cookies
  */
+async function setServerAccessToken(token: string): Promise<void> {
+  const cookieStore = await import("next/headers").then(({ cookies }) =>
+    cookies(),
+  )
+  cookieStore.set(TOKEN_COOKIE_NAME, token, {
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  })
+}
+
+async function setServerRefreshToken(token: string): Promise<void> {
+  const cookieStore = await import("next/headers").then(({ cookies }) =>
+    cookies(),
+  )
+  cookieStore.set(REFRESH_TOKEN_COOKIE_NAME, token, {
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  })
+}
+
+async function setServerTokens(
+  accessToken: string,
+  refreshToken: string,
+): Promise<void> {
+  await setServerAccessToken(accessToken)
+  await setServerRefreshToken(refreshToken)
+}
+
+/**
+ * Server-side function to get access token from cookies
+ */
 async function getServerAccessToken(): Promise<string | null> {
   const cookieStore = await import("next/headers").then(({ cookies }) =>
     cookies(),
@@ -29,8 +64,10 @@ async function getServerRefreshToken(): Promise<string | null> {
   return token?.value || null
 }
 
-/**
- * Logout - clear all auth cookies
- */
-
-export { getServerAccessToken, getServerRefreshToken }
+export {
+  getServerAccessToken,
+  getServerRefreshToken,
+  setServerTokens,
+  setServerAccessToken,
+  setServerRefreshToken,
+}

@@ -1,25 +1,30 @@
 "use server"
 
-import {
-  createServerValidate,
-  ServerValidateError,
-} from "@tanstack/react-form-nextjs"
-import { formOpts } from "../config/shared"
-
-const serverValidate = createServerValidate({
-  ...formOpts,
-  onServerValidate: () => {},
-})
+import { callAction } from "@/shared/api"
+import { AuthTokens, setServerTokens } from "@/shared/lib"
 
 export default async function loginAction(_prev: unknown, formData: FormData) {
-  console.log("FORM DATA", formData.get("email"), formData.get("password"))
-  try {
-    await serverValidate(formData)
-  } catch (error) {
-    if (error instanceof ServerValidateError) {
-      return error.formState
-    }
+  const credentials = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  }
 
-    throw error
+  const response = await callAction<
+    any,
+    {
+      data: { accessToken: string; refreshToken: string }
+    }
+  >("/api/login", "post", {
+    skipAuth: true,
+  })(credentials)
+
+  console.log("RESPONSE", response)
+
+  if (response?.data) {
+    const tokens: AuthTokens = {
+      accessToken: response.data?.accessToken ?? "",
+      refreshToken: response.data?.refreshToken ?? "",
+    }
+    await setServerTokens(tokens.accessToken, tokens.refreshToken)
   }
 }
