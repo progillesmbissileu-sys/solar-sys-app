@@ -1,9 +1,8 @@
 import { env } from "@/shared/config"
-import { logout } from "./logout"
 
 export async function refreshAccessToken(): Promise<string | void> {
   const refreshToken = await import("./server-token").then(
-    ({ getServerAccessToken }) => getServerAccessToken(),
+    ({ getAccessToken }) => getAccessToken(),
   )
 
   if (!refreshToken) {
@@ -23,8 +22,9 @@ export async function refreshAccessToken(): Promise<string | void> {
     )
 
     if (!response.ok) {
-      // Refresh token is invalid, clear cookies
-      await logout()
+      await fetch(`${env.NEXT_PUBLIC_APP_URL}/api/session/logout`, {
+        method: "DELETE",
+      })
       return
     }
 
@@ -32,8 +32,8 @@ export async function refreshAccessToken(): Promise<string | void> {
     const newAccessToken = data.accessToken
 
     // Update access token in cookies
-    await import("./server-token").then(({ setServerAccessToken }) =>
-      setServerAccessToken(newAccessToken),
+    await import("./server-token").then(({ setAccessToken }) =>
+      setAccessToken(newAccessToken),
     )
     return newAccessToken
   } catch (error) {

@@ -1,9 +1,9 @@
-import { getServerAccessToken } from "@/shared/lib"
+import { getAccessToken } from "@/shared/lib"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export async function proxy(request: NextRequest) {
-  const token = await getServerAccessToken()
+  const token = await getAccessToken()
 
   const isAuthPage =
     request.nextUrl.pathname.startsWith("/login") ||

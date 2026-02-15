@@ -1,7 +1,9 @@
 "use server"
 
 import { callAction } from "@/shared/api"
-import { AuthTokens, setServerTokens } from "@/shared/lib"
+import { AuthTokens, setAuthTokens } from "@/shared/lib"
+import { appRoutes } from "@/shared/routes"
+import { redirect } from "next/navigation"
 
 export default async function loginAction(_prev: unknown, formData: FormData) {
   const credentials = {
@@ -18,13 +20,13 @@ export default async function loginAction(_prev: unknown, formData: FormData) {
     skipAuth: true,
   })(credentials)
 
-  console.log("RESPONSE", response)
-
   if (response?.data) {
     const tokens: AuthTokens = {
       accessToken: response.data?.accessToken ?? "",
       refreshToken: response.data?.refreshToken ?? "",
     }
-    await setServerTokens(tokens.accessToken, tokens.refreshToken)
+    await setAuthTokens(tokens.accessToken, tokens.refreshToken)
+
+    redirect(appRoutes.DASHBOARD)
   }
 }

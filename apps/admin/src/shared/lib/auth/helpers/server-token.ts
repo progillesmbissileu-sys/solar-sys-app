@@ -10,7 +10,7 @@ import {
 /**
  * Server-side function to get access token from cookies
  */
-async function setServerAccessToken(token: string): Promise<void> {
+async function setAccessToken(token: string): Promise<void> {
   const cookieStore = await import("next/headers").then(({ cookies }) =>
     cookies(),
   )
@@ -18,11 +18,11 @@ async function setServerAccessToken(token: string): Promise<void> {
     path: "/",
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "lax",
   })
 }
 
-async function setServerRefreshToken(token: string): Promise<void> {
+async function setRefreshToken(token: string): Promise<void> {
   const cookieStore = await import("next/headers").then(({ cookies }) =>
     cookies(),
   )
@@ -30,33 +30,34 @@ async function setServerRefreshToken(token: string): Promise<void> {
     path: "/",
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "lax",
   })
 }
 
-async function setServerTokens(
+async function setAuthTokens(
   accessToken: string,
   refreshToken: string,
 ): Promise<void> {
-  await setServerAccessToken(accessToken)
-  await setServerRefreshToken(refreshToken)
+  await setAccessToken(accessToken)
+  await setRefreshToken(refreshToken)
 }
 
 /**
  * Server-side function to get access token from cookies
  */
-async function getServerAccessToken(): Promise<string | null> {
+async function getAccessToken(): Promise<string | null> {
   const cookieStore = await import("next/headers").then(({ cookies }) =>
     cookies(),
   )
   const token = cookieStore.get(TOKEN_COOKIE_NAME)
+
   return token?.value || null
 }
 
 /**
  * Server-side function to get refresh token from cookies
  */
-async function getServerRefreshToken(): Promise<string | null> {
+async function getRefreshToken(): Promise<string | null> {
   const cookieStore = await import("next/headers").then(({ cookies }) =>
     cookies(),
   )
@@ -65,9 +66,9 @@ async function getServerRefreshToken(): Promise<string | null> {
 }
 
 export {
-  getServerAccessToken,
-  getServerRefreshToken,
-  setServerTokens,
-  setServerAccessToken,
-  setServerRefreshToken,
+  getAccessToken,
+  getRefreshToken,
+  setAuthTokens,
+  setAccessToken,
+  setRefreshToken,
 }
