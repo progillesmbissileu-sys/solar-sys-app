@@ -19,6 +19,8 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@react-aria/datepicker": "^3.16.0",
+    "@react-stately/datepicker": "^3.16.0",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "@tanstack/react-form": "^1.28.0",
