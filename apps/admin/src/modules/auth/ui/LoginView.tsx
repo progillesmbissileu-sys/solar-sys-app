@@ -8,23 +8,8 @@ import {
 import { AtSign, KeyRound } from "lucide-react"
 import loginAction from "../api/actions"
 import { formOpts } from "../config/shared"
-import { useEffect } from "react"
-import { callAction } from "@/shared/api"
 
 export default function LoginView() {
-  useEffect(() => {
-    ;(async () => {
-      const response = await callAction<
-        any,
-        {
-          data: { accessToken: string; refreshToken: string }
-        }
-      >("/api/login", "post", {
-        skipAuth: true,
-      })({ email: "admin-dev@admin.com", password: "password-pwd" })
-      console.log(response)
-    })()
-  }, [])
   return (
     <div className="h-screen w-screen content-center">
       <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md bg-white p-3 shadow-[0px_1px_3px_0px_rgba(0,0,0,0.02),0px_0px_0px_1px_rgba(27,31,35,0.15)] xl:w-1/3 dark:bg-dark">
