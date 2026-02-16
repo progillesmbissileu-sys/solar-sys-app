@@ -3,12 +3,12 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "build:admin": "turbo run admin#build",
+    "build:admin:prod": "turbo run admin#build",
     "build:web": "turbo run web#build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "start:admin": "turbo run admin#start",
-    "start:web": "turbo run web#start",
+    "start:admin:prod": "turbo run start",
+    "start:web:prop": "turbo run start",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
