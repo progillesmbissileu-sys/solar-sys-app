@@ -169,33 +169,39 @@ const SidebarLink = React.forwardRef<
     isActive?: boolean
     notifications?: number | boolean
   }
->(({ children, isActive, icon, notifications, className, ...props }, ref) => {
-  const Icon = icon
-  return (
-    <Link
-      ref={ref as any}
-      aria-current={isActive ? "page" : undefined}
-      data-active={isActive}
-      className={cx(
-        "flex items-center justify-between rounded-md p-2 text-base transition hover:bg-gray-200/50 sm:text-sm hover:dark:bg-gray-900",
-        "text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
-        "data-[active=true]:text-blue-600 data-[active=true]:dark:text-blue-500",
-        focusRing,
-      )}
-      {...props}
-    >
-      <span className="flex items-center gap-x-2.5">
-        {Icon && <Icon className="size-[18px] shrink-0" aria-hidden="true" />}
-        {children}
-      </span>
-      {notifications && (
-        <span className="inline-flex size-5 items-center justify-center rounded bg-blue-100 text-sm font-medium text-blue-600 sm:text-xs dark:bg-blue-500/10 dark:text-blue-500">
-          {notifications}
+>(
+  (
+    { children, isActive, icon, notifications, className, href, ...props },
+    ref,
+  ) => {
+    const Icon = icon
+    return (
+      <Link
+        ref={ref}
+        href={href as any}
+        aria-current={isActive ? "page" : undefined}
+        data-active={isActive}
+        className={cx(
+          "flex items-center justify-between rounded-md p-2 text-base transition hover:bg-gray-200/50 sm:text-sm hover:dark:bg-gray-900",
+          "text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
+          "data-[active=true]:text-blue-600 data-[active=true]:dark:text-blue-500",
+          focusRing,
+        )}
+        {...props}
+      >
+        <span className="flex items-center gap-x-2.5">
+          {Icon && <Icon className="size-[18px] shrink-0" aria-hidden="true" />}
+          {children}
         </span>
-      )}
-    </Link>
-  )
-})
+        {notifications && (
+          <span className="inline-flex size-5 items-center justify-center rounded bg-blue-100 text-sm font-medium text-blue-600 sm:text-xs dark:bg-blue-500/10 dark:text-blue-500">
+            {notifications}
+          </span>
+        )}
+      </Link>
+    )
+  },
+)
 SidebarLink.displayName = "SidebarLink"
 
 const SidebarGroup = React.forwardRef<
@@ -251,10 +257,11 @@ const SidebarSubLink = React.forwardRef<
     children: React.ReactNode
     isActive?: boolean
   }
->(({ isActive, children, className, ...props }, ref) => {
+>(({ isActive, children, className, href, ...props }, ref) => {
   return (
     <Link
-      ref={ref as any}
+      ref={ref}
+      href={href as any}
       aria-current={isActive ? "page" : undefined}
       data-active={isActive}
       className={cx(
