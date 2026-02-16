@@ -1,7 +1,6 @@
 export const changeSidebarState = () => {
   const sidebarState = localStorage.getItem("isSidebarOpen") || "true"
   const state = sidebarState !== "true"
-  console.log(state)
   localStorage.setItem("isSidebarOpen", state.toString())
 }
 

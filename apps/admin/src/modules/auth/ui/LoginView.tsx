@@ -5,9 +5,9 @@ import {
   FormWrapper,
   FormComponent,
 } from "@/shared/ui/organisms/Form"
-import { z } from "zod"
 import { AtSign, KeyRound } from "lucide-react"
-import { login } from "@/shared/api"
+import loginAction from "../api/actions"
+import { formOpts } from "../config/shared"
 
 export default function LoginView() {
   return (
@@ -19,12 +19,7 @@ export default function LoginView() {
           </h1>
         </div>
         <div className="mx-auto w-4/5">
-          <FormWrapper
-            schema={z.object({ email: z.email(), password: z.string() })}
-            onSubmit={async (payload) => {
-              await login(payload)
-            }}
-          >
+          <FormWrapper formOptions={formOpts} serverAction={loginAction}>
             <div className="space-y-6">
               <div className="flex items-center space-x-2" data-testid="email">
                 <div>

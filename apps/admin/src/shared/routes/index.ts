@@ -1,5 +1,5 @@
 export const appRoutes = {
-  DASHBOARD: "/",
+  DASHBOARD: "/dashboard",
 
   LOGIN: "/login",
   REGISTER: "/register",

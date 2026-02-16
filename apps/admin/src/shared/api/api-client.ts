@@ -1,16 +1,11 @@
-import { getServerAccessToken } from "@/shared/lib/auth/helpers/server-token"
+import { getAccessToken } from "@/shared/lib/auth/helpers/server-token"
 import { refreshAccessToken } from "../lib/auth/helpers/session"
-import { getClientAccessToken } from "@/shared/lib/auth/helpers/client-token"
 
 export interface AuthFetchOptions extends RequestInit {
   skipAuth?: boolean
   retry?: boolean
 }
 
-/**
- * Authenticated fetch wrapper that automatically includes the access token
- * Works both client-side and server-side
- */
 export async function authFetch(
   url: string,
   options: AuthFetchOptions = {},
@@ -21,14 +16,15 @@ export async function authFetch(
   let accessToken: string | null = null
 
   if (!skipAuth) {
-    accessToken =
-      typeof window !== "undefined"
-        ? getClientAccessToken()
-        : await getServerAccessToken()
+    accessToken = await getAccessToken()
   }
 
   // Prepare headers
   const headers = new Headers(fetchOptions.headers)
+
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json")
+  }
 
   if (accessToken && !skipAuth) {
     headers.set("Authorization", `Bearer ${accessToken}`)
@@ -60,55 +56,6 @@ export async function authFetch(
 }
 
 /**
- * Convenience methods for common HTTP verbs
- */
-export const authApi = {
-  post: async (url: string, data?: any, options?: AuthFetchOptions) => {
-    return authFetch(url, {
-      ...options,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    })
-  },
-
-  put: async (url: string, data?: any, options?: AuthFetchOptions) => {
-    return authFetch(url, {
-      ...options,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    })
-  },
-
-  patch: async (url: string, data?: any, options?: AuthFetchOptions) => {
-    return authFetch(url, {
-      ...options,
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    })
-  },
-
-  get: async (url: string, options?: AuthFetchOptions) => {
-    return authFetch(url, { ...options, method: "GET" })
-  },
-
-  delete: async (url: string, options?: AuthFetchOptions) => {
-    return authFetch(url, { ...options, method: "DELETE" })
-  },
-}
-
-/**
  * Type-safe wrapper that also parses JSON response
  */
 export async function authFetchJson<T>(
@@ -118,8 +65,8 @@ export async function authFetchJson<T>(
   const response = await authFetch(url, options)
 
   if (response.ok) {
-    return response.json()
+    return await response.json()
   }
 
-  return Promise.reject(response)
+  return Promise.reject(await response.json())
 }
