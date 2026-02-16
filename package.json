@@ -7,8 +7,8 @@
     "build:web": "turbo run web#build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "start:admin:prod": "turbo run start",
-    "start:web:prop": "turbo run start",
+    "start:admin:prod": "turbo run admin#start",
+    "start:web:prod": "turbo run web#start",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
