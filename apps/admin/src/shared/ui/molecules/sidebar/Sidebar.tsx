@@ -13,6 +13,7 @@ import { PanelLeft } from "lucide-react"
 import * as React from "react"
 import { Button } from "../../atoms/Button"
 import { useSidebar } from "@/shared/lib/hooks/useSidebar"
+import Link from "next/link"
 
 const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
   ({ className, children, ...props }, ref) => {
@@ -171,8 +172,8 @@ const SidebarLink = React.forwardRef<
 >(({ children, isActive, icon, notifications, className, ...props }, ref) => {
   const Icon = icon
   return (
-    <a
-      ref={ref}
+    <Link
+      ref={ref as any}
       aria-current={isActive ? "page" : undefined}
       data-active={isActive}
       className={cx(
@@ -192,7 +193,7 @@ const SidebarLink = React.forwardRef<
           {notifications}
         </span>
       )}
-    </a>
+    </Link>
   )
 })
 SidebarLink.displayName = "SidebarLink"
@@ -252,8 +253,8 @@ const SidebarSubLink = React.forwardRef<
   }
 >(({ isActive, children, className, ...props }, ref) => {
   return (
-    <a
-      ref={ref}
+    <Link
+      ref={ref as any}
       aria-current={isActive ? "page" : undefined}
       data-active={isActive}
       className={cx(
@@ -271,7 +272,7 @@ const SidebarSubLink = React.forwardRef<
         />
       )}
       {children}
-    </a>
+    </Link>
   )
 })
 SidebarSubLink.displayName = "SidebarSubLink"
