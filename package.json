@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:admin": "turbo run admin#build",
+    "build:web": "turbo run web#build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "start:admin": "turbo run admin#start",
