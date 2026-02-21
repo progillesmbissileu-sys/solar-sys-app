@@ -6,14 +6,14 @@ const apiEndpoint = env.NEXT_PUBLIC_API_ENDPOINT
 export function callAction<TData = any, TReturn = any>(
   path: string,
   method: string,
-  options?: Omit<AuthFetchOptions, "method" | "body">,
+  options?: Omit<AuthFetchOptions, "method" | "data">,
 ) {
   return async (payload?: TData): Promise<TReturn> => {
     try {
       const response = await authFetchJson<TReturn>(`${apiEndpoint}${path}`, {
         ...options,
         method,
-        body: payload ? JSON.stringify(payload) : undefined,
+        data: payload,
       })
       return response
     } catch (error) {
@@ -25,7 +25,7 @@ export function callAction<TData = any, TReturn = any>(
 export function callActionWithId<TData = any, TReturn = any>(
   path: string,
   method: string,
-  options?: Omit<AuthFetchOptions, "method" | "body">,
+  options?: Omit<AuthFetchOptions, "method" | "data">,
 ) {
   return async (resourceId: string, payload?: TData) => {
     const pathChunks = path.split("/")
@@ -37,7 +37,7 @@ export function callActionWithId<TData = any, TReturn = any>(
 
     return await authFetchJson<TReturn>(`${apiEndpoint}${path}`, {
       method,
-      body: payload ? JSON.stringify(payload) : undefined,
+      data: payload,
       ...options,
     })
   }

@@ -2,7 +2,9 @@ import { ProductManagementView } from "@/modules/product"
 import { productCollection } from "@/entities/product"
 
 export default async function Page() {
-  const products = await productCollection()
+  const collection = await productCollection()
 
-  return <ProductManagementView productItems={products.data} />
+  // console.log(collection)
+
+  return <ProductManagementView collection={collection} />
 }
