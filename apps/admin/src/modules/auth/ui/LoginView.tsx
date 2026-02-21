@@ -22,12 +22,12 @@ export default function LoginView() {
           <FormWrapper formOptions={formOpts} serverAction={loginAction}>
             <div className="space-y-6">
               <div className="flex items-center space-x-2" data-testid="email">
-                <div>
+                {/*<div>
                   <AtSign
                     size={20}
                     className="text-gray-400 dark:text-gray-600"
                   />
-                </div>
+                </div>*/}
                 <div className="w-full">
                   <FormField.Email
                     name="email"
@@ -39,12 +39,12 @@ export default function LoginView() {
                 className="flex items-center space-x-2"
                 data-testid="password"
               >
-                <div>
+                {/*<div>
                   <KeyRound
                     size={20}
                     className="text-gray-400 dark:text-gray-600"
                   />
-                </div>
+                </div>*/}
                 <div className="w-full">
                   <FormField.Password
                     name="password"
@@ -52,7 +52,7 @@ export default function LoginView() {
                   />
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-2 pl-7 pt-3">
+              <div className="flex flex-col items-center gap-2 pt-3">
                 <div className="flex items-center gap-x-2">
                   <FormField.Checkbox name="remember" />
                   <span className="text-sm text-gray-700 dark:text-gray-400">

@@ -1,4 +1,4 @@
-import { authFetchJson, AuthFetchOptions } from "@/shared/api/api-client"
+import { authFetchJson, AuthFetchOptions } from "@/shared/api/client/api-client"
 import { env } from "@/shared/config"
 
 const apiEndpoint = env.NEXT_PUBLIC_API_ENDPOINT
@@ -8,7 +8,7 @@ export function callAction<TData = any, TReturn = any>(
   method: string,
   options?: Omit<AuthFetchOptions, "method" | "body">,
 ) {
-  return async (payload?: TData) => {
+  return async (payload?: TData): Promise<TReturn> => {
     try {
       const response = await authFetchJson<TReturn>(`${apiEndpoint}${path}`, {
         ...options,

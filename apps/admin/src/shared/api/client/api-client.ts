@@ -1,5 +1,5 @@
 import { getAccessToken } from "@/shared/lib/auth/helpers/server-token"
-import { refreshAccessToken } from "../lib/auth/helpers/session"
+import { refreshAccessToken } from "../../lib/auth/helpers/session"
 
 export interface AuthFetchOptions extends RequestInit {
   skipAuth?: boolean
