@@ -25,7 +25,7 @@ export default function ProductManagementView({
         title: "product.pageTitle",
         actions: (
           <div>
-            <Button className="cursor-pointer gap-x-2 bg-dark shadow-none hover:bg-dark/90">
+            <Button className="cursor-pointer gap-x-2">
               <RiBox1Line className="size-5 text-white/90" />
               <Label className="cursor-pointer text-white/90">action.new</Label>
             </Button>
