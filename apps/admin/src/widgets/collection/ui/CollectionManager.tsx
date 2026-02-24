@@ -1,7 +1,5 @@
 "use client"
 
-import React from "react"
-
 import { AppTable } from "@/shared/ui/organisms/AppTable"
 import type { ColumnType } from "@/shared/ui/organisms/AppTable/types"
 import type { CollectionResponseType } from "@/shared/api"
@@ -16,6 +14,7 @@ export type CollectionManagerProps<TData> = {
   searchPlaceholder?: string
   filters?: FilterConfig[]
   className?: string
+  onRowClick?: (record: TData) => void
 }
 
 export default function CollectionManager<TData>({
@@ -26,19 +25,12 @@ export default function CollectionManager<TData>({
   searchPlaceholder,
   filters,
   className,
+  ...props
 }: CollectionManagerProps<TData>) {
   const dataSource = collection?.data ?? []
 
   return (
     <section className={cx("grid", className)}>
-      {/*{title ? (
-        <header>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-            {title}
-          </h2>
-        </header>
-      ) : null}*/}
-
       <header className="p-5">
         <Controls
           searchKey={searchKey}
@@ -48,7 +40,11 @@ export default function CollectionManager<TData>({
       </header>
 
       <div>
-        <AppTable<TData> columns={columns} dataSource={dataSource as any} />
+        <AppTable<TData>
+          columns={columns}
+          dataSource={dataSource as any}
+          onRowSelection={props.onRowClick}
+        />
       </div>
     </section>
   )

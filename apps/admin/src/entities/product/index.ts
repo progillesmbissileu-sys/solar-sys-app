@@ -1,4 +1,4 @@
-export * from "./api"
+export * from "./api/actions"
 export type { Product, ProductPreview } from "./model/product"
 export {
   type ProductCategory,

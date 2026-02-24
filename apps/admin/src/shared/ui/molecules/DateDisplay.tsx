@@ -10,11 +10,13 @@ const DateDisplay = ({
   localeKey = "fr",
   className = "",
 }: {
-  date: Date | string
+  date?: Date | string
   variant?: "standard" | "relative" | "short"
   localeKey?: keyof typeof locales
   className?: string
 }) => {
+  if (!date) return null
+
   const dateObj = typeof date === "string" ? new Date(date) : date
 
   if (!isValid(dateObj)) {

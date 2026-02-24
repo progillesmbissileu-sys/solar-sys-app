@@ -8,7 +8,7 @@ export type CollectionResponseType<TData> = {
 }
 
 export type Pagination = {
-  total: number
+  total?: number
   page: number
   limit: number
 }
@@ -20,3 +20,7 @@ export type FilterParams = {
 export type SortParams = {
   [key: string]: "asc" | "desc"
 }
+
+export type CollectionQueryParams = Pagination &
+  FilterParams &
+  SortParams & { q?: string }

@@ -67,7 +67,7 @@ export function Controls({
   }, [searchParams, searchKey])
 
   const onSearchChange = (value: string) => {
-    setSearch(value)
+    // setSearch(value)
     if (debounceRef.current) window.clearTimeout(debounceRef.current)
     debounceRef.current = window.setTimeout(() => {
       updateParam(searchKey, value.trim() === "" ? null : value)
@@ -80,7 +80,7 @@ export function Controls({
         <Input
           type="search"
           placeholder={searchPlaceholder}
-          value={search}
+          // value={search}
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>

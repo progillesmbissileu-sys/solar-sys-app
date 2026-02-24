@@ -115,6 +115,7 @@ export async function authFetchJson<T>(
   url: string,
   options?: AuthFetchOptions,
 ): Promise<T> {
+  console.log("Fetching JSON from", url)
   const response = await authFetch(url, options)
 
   // Axios already parsed the data if it's JSON

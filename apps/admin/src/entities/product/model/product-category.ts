@@ -4,8 +4,8 @@ export type ProductCategory = {
   type: string
   parentId?: string
   slug: string | null
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export enum ProductCategoryType {

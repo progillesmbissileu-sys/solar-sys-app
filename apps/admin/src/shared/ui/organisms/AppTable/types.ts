@@ -13,7 +13,7 @@ export type DataSourceType<T> = Array<T>
 export type AppTableProps<T> =
   | {
       columns: Array<ColumnType<T>>
-      onRowSelection?: (record: Partial<T>) => void
+      onRowSelection?: (record: T) => void
       isLoading?: boolean
       groupedSource?: never
       dataSource: DataSourceType<{ key?: string | number } & T>
