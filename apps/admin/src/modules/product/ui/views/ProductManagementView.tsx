@@ -55,9 +55,7 @@ export default function ProductManagementView({
             key: "date",
             title: "common.addedAt",
             align: "end",
-            render: (product) => (
-              <DateDisplay date={product.createdAt} variant="short" />
-            ),
+            render: (product) => <DateDisplay date={product.createdAt} />,
           },
         ]}
         collection={collection}

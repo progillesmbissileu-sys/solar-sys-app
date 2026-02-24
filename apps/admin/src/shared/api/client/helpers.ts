@@ -11,7 +11,7 @@ export function callAction<
   TQuery extends CollectionQueryParams = CollectionQueryParams,
 >(
   path: string,
-  method: string,
+  method: AuthFetchOptions["method"],
   options?: Omit<AuthFetchOptions, "method" | "data">,
 ) {
   return async (payload?: TData, query?: TQuery): Promise<TReturn> => {
@@ -37,7 +37,7 @@ export function callActionWithId<
   TQuery extends CollectionQueryParams = CollectionQueryParams,
 >(
   path: string,
-  method: string,
+  method: AuthFetchOptions["method"],
   options?: Omit<AuthFetchOptions, "method" | "data">,
 ) {
   return async (resourceId: string, payload?: TData, query?: TQuery) => {

@@ -8,6 +8,7 @@ import { DesktopPageContainer } from "@/widgets/container"
 import { Button } from "@/shared/ui/atoms/Button"
 import { Label } from "@/shared/ui/atoms/Label"
 import { RiBox1Line } from "@remixicon/react"
+import Link from "next/link"
 
 export default function ProductCategoriesView({
   collection,
@@ -24,10 +25,14 @@ export default function ProductCategoriesView({
         title: "product.pageTitle.category",
         actions: (
           <div>
-            <Button className="cursor-pointer gap-x-2">
-              <RiBox1Line className="size-5 text-white/90" />
-              <Label className="cursor-pointer text-white/90">action.new</Label>
-            </Button>
+            <Link href="/products/categories/create">
+              <Button className="cursor-pointer gap-x-2">
+                <RiBox1Line className="size-5 text-white/90" />
+                <Label className="cursor-pointer text-white/90">
+                  action.new
+                </Label>
+              </Button>
+            </Link>
           </div>
         ),
       }}
@@ -43,9 +48,7 @@ export default function ProductCategoriesView({
             key: "date",
             title: "common.addedAt",
             align: "end",
-            render: (product) => (
-              <DateDisplay date={product.createdAt} variant="short" />
-            ),
+            render: (product) => <DateDisplay date={product.createdAt} />,
           },
         ]}
         collection={collection}

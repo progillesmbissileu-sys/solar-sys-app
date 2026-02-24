@@ -8,6 +8,16 @@ export type ProductCategory = {
   updatedAt?: Date | string
 }
 
+export type CategoryUpdatePayload = Pick<
+  ProductCategory,
+  "designation" | "type" | "parentId" | "id"
+>
+
+export type CategoryCreatePayload = Pick<
+  ProductCategory,
+  "designation" | "type" | "parentId"
+>
+
 export enum ProductCategoryType {
   CATEGORY = "CATEGORY",
   TAG = "TAG",
