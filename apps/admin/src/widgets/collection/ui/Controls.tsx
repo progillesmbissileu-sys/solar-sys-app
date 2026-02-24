@@ -64,7 +64,6 @@ export function Controls({
   React.useEffect(() => {
     const urlValue = searchParams.get(searchKey) ?? ""
     setSearch(urlValue)
-     
   }, [searchParams, searchKey])
 
   const onSearchChange = (value: string) => {

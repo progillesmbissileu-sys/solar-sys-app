@@ -30,22 +30,22 @@ export default function CollectionManager<TData>({
   const dataSource = collection?.data ?? []
 
   return (
-    <section className={cx("grid gap-y-3", className)}>
-      {title ? (
-        <header className="mb-4">
+    <section className={cx("grid", className)}>
+      {/*{title ? (
+        <header>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
             {title}
           </h2>
         </header>
-      ) : null}
+      ) : null}*/}
 
-      <div>
+      <header className="p-5">
         <Controls
           searchKey={searchKey}
           searchPlaceholder={searchPlaceholder}
           filters={filters}
         />
-      </div>
+      </header>
 
       <div>
         <AppTable<TData> columns={columns} dataSource={dataSource as any} />

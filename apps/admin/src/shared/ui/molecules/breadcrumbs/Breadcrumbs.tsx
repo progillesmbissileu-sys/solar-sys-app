@@ -1,34 +1,42 @@
+"use client"
+
+import { cx } from "@/shared/lib/utils"
+import { useBreadcrumbs } from "@/widgets/container"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
+import React from "react"
 
 export function Breadcrumbs() {
+  const { breadcrumbs } = useBreadcrumbs("page-header")
+
   return (
     <>
       <nav aria-label="Breadcrumb" className="ml-2">
         <ol role="list" className="flex items-center space-x-3 text-sm">
-          <li className="flex">
-            <Link
-              href="#"
-              className="text-gray-500 transition hover:text-gray-700 dark:text-gray-400 hover:dark:text-gray-300"
-            >
-              Home
-            </Link>
-          </li>
-          <ChevronRight
-            className="size-4 shrink-0 text-gray-600 dark:text-gray-400"
-            aria-hidden="true"
-          />
-          <li className="flex">
-            <div className="flex items-center">
-              <Link
-                href="#"
-                // aria-current={page.current ? 'page' : undefined}
-                className="text-gray-900 dark:text-gray-50"
-              >
-                Quotes
-              </Link>
-            </div>
-          </li>
+          {(breadcrumbs?.segments ?? []).map((segment, index) => (
+            <React.Fragment key={index}>
+              <li key={index} className="flex">
+                <Link
+                  href={segment.href as string}
+                  className={cx(
+                    "text-gray-500 transition dark:text-gray-400 hover:dark:text-gray-300",
+                    {
+                      "text-gray-900 hover:text-gray-900":
+                        index === (breadcrumbs?.segments ?? []).length - 1,
+                    },
+                  )}
+                >
+                  {segment.label}
+                </Link>
+              </li>
+              {index < (breadcrumbs?.segments ?? []).length - 1 && (
+                <ChevronRight
+                  className="size-4 shrink-0 text-gray-600 dark:text-gray-400"
+                  aria-hidden="true"
+                />
+              )}
+            </React.Fragment>
+          ))}
         </ol>
       </nav>
     </>

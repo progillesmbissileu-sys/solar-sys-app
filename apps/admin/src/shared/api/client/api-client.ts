@@ -51,8 +51,6 @@ export async function authFetch(
         validateStatus: () => true,
       })
 
-      console.log(`Attempt ${attempt} of ${maxRetries}`, response?.status)
-
       // If we get a 401 and haven't retried yet, try to refresh the token
       if (response.status === 401 && retry && !skipAuth) {
         const newAccessToken = await refreshAccessToken()
