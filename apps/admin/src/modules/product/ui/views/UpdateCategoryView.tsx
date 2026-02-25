@@ -1,33 +1,28 @@
-import {
-  getProductCategory,
-  productCategoryCollection,
-} from "@/entities/product"
+"use client"
+
+import { ProductCategory } from "@/entities/product"
 import UpdateCategoryForm from "../forms/UpdateCategoryForm"
 
-export default async function UpdateCategoryView({
-  categoryId,
+export default function UpdateCategoryView({
+  categories,
+  initialValues,
 }: {
-  categoryId?: string
+  categories: ProductCategory[]
+  initialValues?: ProductCategory
 }) {
-  let initialValues
-
-  const categories = await productCategoryCollection()
-
-  if (categoryId) {
-    initialValues = await getProductCategory(categoryId)
-  }
-
   return (
     <div>
       <header className="border-b p-5">
         <h1 className="font-semibold text-dark/60 xl:text-2xl">
-          {categoryId ? "Modifier une catégorie" : "Ajouter une catégorie"}
+          {initialValues?.id
+            ? "Modifier une catégorie"
+            : "Ajouter une catégorie"}
         </h1>
       </header>
       <main className="p-5">
         <UpdateCategoryForm
-          categories={categories.data}
-          initialValues={initialValues?.data}
+          categories={categories}
+          initialValues={initialValues}
         />
       </main>
     </div>

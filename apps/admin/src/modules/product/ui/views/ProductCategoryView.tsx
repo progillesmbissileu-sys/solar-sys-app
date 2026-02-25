@@ -9,17 +9,21 @@ import { Button } from "@/shared/ui/atoms/Button"
 import { Label } from "@/shared/ui/atoms/Label"
 import { RiBox1Line } from "@remixicon/react"
 import Link from "next/link"
+import { useNavigator } from "@/shared/lib/router"
+import { routePaths } from "@/shared/routes"
 
 export default function ProductCategoriesView({
   collection,
 }: {
   collection: CollectionResponseType<ProductCategoryPreview>
 }) {
+  const navigator = useNavigator()
+
   return (
     <DesktopPageContainer
       breadcrumbs={[
         { label: "Home", href: "/" },
-        { label: "Categories", href: "/products/categories" },
+        { label: "Categories", href: routePaths.PRODUCTS_CATEGORIES },
       ]}
       pageHeader={{
         title: "product.pageTitle.category",
@@ -45,13 +49,29 @@ export default function ProductCategoriesView({
             dataIndex: "designation",
           },
           {
-            key: "date",
+            key: "type",
+            title: "common.type",
+            dataIndex: "type",
+          },
+          {
+            key: "added",
             title: "common.addedAt",
             align: "end",
             render: (product) => <DateDisplay date={product.createdAt} />,
           },
+          {
+            key: "updated",
+            title: "common.updatedAt",
+            align: "end",
+            render: (product) => <DateDisplay date={product.updatedAt} />,
+          },
         ]}
         collection={collection}
+        onRowClick={(record) =>
+          navigator.navigate(routePaths.PRODUCTS_CATEGORIES_VIEW, {
+            id: record.id,
+          })
+        }
       />
     </DesktopPageContainer>
   )

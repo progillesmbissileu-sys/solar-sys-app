@@ -5,7 +5,6 @@ import {
   CategoryUpdatePayload,
 } from "@/entities/product"
 import { callAction } from "@/shared/api"
-import { refreshPageCache } from "@/shared/lib"
 import { routePaths } from "@/shared/routes"
 import { extractFormPayload } from "@/shared/ui/organisms/Form"
 import { redirect } from "next/navigation"
@@ -16,14 +15,17 @@ export const createProductCategoryAction = async (
 ) => {
   const payload = extractFormPayload<CategoryCreatePayload>(formData)
 
-  const resp = await callAction<CategoryCreatePayload, void>(
+  const resp = await callAction<
+    CategoryCreatePayload,
+    void | { error?: string; errors?: any[] }
+  >(
     "/api/product-category",
     "POST",
   )(payload)
 
   console.error(resp)
 
-  redirect(routePaths.PRODUCTS_CATEGORIES)
+  !resp && redirect(routePaths.PRODUCTS_CATEGORIES)
 }
 
 export const updateProductCategoryAction = async (
@@ -32,12 +34,17 @@ export const updateProductCategoryAction = async (
 ) => {
   const payload = extractFormPayload<CategoryUpdatePayload>(formData)
 
-  const resp = await callAction<CategoryUpdatePayload, void>(
+  const resp = await callAction<
+    CategoryUpdatePayload,
+    void | { error?: string; errors?: any[] }
+  >(
     `/api/product-category/${payload.id}`,
     "PATCH",
   )(payload)
 
   console.error(resp)
 
-  await refreshPageCache()
+  !resp && redirect(routePaths.PRODUCTS_CATEGORIES)
+
+  // await refreshPageCache()
 }

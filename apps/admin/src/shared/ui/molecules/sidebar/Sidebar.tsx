@@ -12,7 +12,7 @@ import { RiCloseLine } from "@remixicon/react"
 import { PanelLeft } from "lucide-react"
 import * as React from "react"
 import { Button } from "../../atoms/Button"
-import { useSidebar } from "@/shared/lib/hooks/useSidebar"
+import { useSidebar } from "@/shared/lib/layout/useSidebar"
 import Link from "next/link"
 
 const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(

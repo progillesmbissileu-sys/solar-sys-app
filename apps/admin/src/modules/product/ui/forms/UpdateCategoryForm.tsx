@@ -8,7 +8,10 @@ import {
 } from "@/shared/ui/organisms/Form"
 import { formOptions } from "@tanstack/react-form"
 import z from "zod"
-import { createProductCategoryAction } from "../../api/actions"
+import {
+  createProductCategoryAction,
+  updateProductCategoryAction,
+} from "../../api/actions"
 import {
   CategoryUpdatePayload,
   ProductCategory,
@@ -37,7 +40,11 @@ export default function UpdateCategoryForm({
   return (
     <FormWrapper
       formOptions={formOpts}
-      serverAction={createProductCategoryAction}
+      serverAction={
+        !initialValues?.id
+          ? createProductCategoryAction
+          : updateProductCategoryAction
+      }
     >
       <div data-testid="id">
         <FormField.Text name="id" className="h-0" />
@@ -67,7 +74,7 @@ export default function UpdateCategoryForm({
 
         <div className="flex flex-col items-center gap-2 pt-3">
           <FormComponent.SubmitButton
-            label="action.submit"
+            label="actions.submit"
             className="w-full"
           />
         </div>
