@@ -1,4 +1,4 @@
-export const appRoutes = {
+export const routePaths = {
   DASHBOARD: "/dashboard",
 
   LOGIN: "/login",
@@ -12,7 +12,7 @@ export const appRoutes = {
   PRODUCTS_ADD: "/products/add",
 
   PRODUCTS_CATEGORIES: "/products/categories",
-  PRODUCTS_CATEGORIES_ADD: "/products/categories/add",
+  PRODUCTS_CATEGORIES_ADD: "/products/categories/create",
   PRODUCTS_CATEGORIES_VIEW: "/products/categories/view/:id",
 
   USERS: "/users",
@@ -27,6 +27,6 @@ export const appRoutes = {
   LOCATIONS_VIEW: "/locations/view/:id",
 } as const
 
-export type AppRoutes = typeof appRoutes
+export type AppRoutes = typeof routePaths
 export type AppRouteKey = keyof AppRoutes
 export type AppRoutePath = AppRoutes[AppRouteKey]

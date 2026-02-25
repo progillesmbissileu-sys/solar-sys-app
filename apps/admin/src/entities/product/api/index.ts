@@ -11,7 +11,7 @@ export const productCollection = callAction<
   CollectionResponseType<Product>
 >("/api/product", "get")
 
-export const getProduct = callActionWithId<void, Product>(
+export const getProduct = callActionWithId<void, { data: Product }>(
   "/api/product/{id}",
   "get",
 )
@@ -21,7 +21,7 @@ export const productCategoryCollection = callAction<
   CollectionResponseType<ProductCategory>
 >("/api/product-category", "get")
 
-export const getProductCategory = callActionWithId<void, ProductCategory>(
-  "/api/product-category/{id}",
-  "get",
-)
+export const getProductCategory = callActionWithId<
+  void,
+  { data: ProductCategory }
+>("/api/product-category/{id}", "get")

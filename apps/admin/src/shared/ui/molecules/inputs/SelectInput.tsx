@@ -6,11 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/atoms/Select"
+import { cx } from "@/shared/lib/utils"
 
 export type SelectInputProps = SelectProps & {
   onChange?: (value: string) => void
   options?: Array<{ label: string; value: string }>
   placeholder?: string
+  className?: any
 }
 
 export function SelectInput({
@@ -21,7 +23,7 @@ export function SelectInput({
 }: SelectInputProps) {
   return (
     <Select {...props} onValueChange={(value) => onChange?.(value)}>
-      <SelectTrigger className="w-full py-1.5 sm:w-44">
+      <SelectTrigger className={cx("h-10 w-full", props.className)}>
         <SelectValue placeholder={`${placeholder || "Select an option"}...`} />
       </SelectTrigger>
       <SelectContent align="end">

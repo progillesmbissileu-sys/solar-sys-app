@@ -1,3 +1,5 @@
+"use client"
+
 import { useFormContext } from "./form-config"
 import { Button, ButtonProps } from "@/shared/ui/atoms/Button"
 import { cx } from "@/shared/lib/utils"

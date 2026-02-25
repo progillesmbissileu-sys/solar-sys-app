@@ -1,5 +1,7 @@
+"use client"
+
 import React from "react"
-import { useAppForm } from "@/shared/ui/organisms/Form/form-config"
+import { useAppForm } from "./form-config"
 
 export const FormContext = React.createContext<ReturnType<
   typeof useAppForm

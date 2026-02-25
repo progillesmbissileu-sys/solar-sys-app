@@ -1,3 +1,5 @@
+"use client"
+
 import { cx } from "@/shared/lib/utils"
 import { useFieldContext } from "./form-config"
 import { Label } from "@/shared/ui/atoms/Label"

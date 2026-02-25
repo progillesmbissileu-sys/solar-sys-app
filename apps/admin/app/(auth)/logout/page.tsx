@@ -1,6 +1,6 @@
 "use client"
 
-import { appRoutes } from "@/shared/routes"
+import { routePaths } from "@/shared/routes"
 import { redirect } from "next/navigation"
 import { useEffect } from "react"
 
@@ -23,7 +23,7 @@ export default function Page() {
       }
 
       if (canRedirect) {
-        redirect(appRoutes.LOGIN)
+        redirect(routePaths.LOGIN)
       }
     })()
   }, [])

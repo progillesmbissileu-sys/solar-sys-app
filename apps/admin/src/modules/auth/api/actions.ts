@@ -2,7 +2,7 @@
 
 import { callAction } from "@/shared/api"
 import { AuthTokens, setAuthTokens } from "@/shared/lib"
-import { appRoutes } from "@/shared/routes"
+import { routePaths } from "@/shared/routes"
 import { redirect } from "next/navigation"
 
 export default async function loginAction(_prev: unknown, formData: FormData) {
@@ -27,6 +27,6 @@ export default async function loginAction(_prev: unknown, formData: FormData) {
     }
     await setAuthTokens(tokens.accessToken, tokens.refreshToken)
 
-    redirect(appRoutes.DASHBOARD)
+    redirect(routePaths.DASHBOARD)
   }
 }

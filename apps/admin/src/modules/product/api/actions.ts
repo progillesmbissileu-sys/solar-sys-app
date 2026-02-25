@@ -6,32 +6,38 @@ import {
 } from "@/entities/product"
 import { callAction } from "@/shared/api"
 import { refreshPageCache } from "@/shared/lib"
+import { routePaths } from "@/shared/routes"
 import { extractFormPayload } from "@/shared/ui/organisms/Form"
+import { redirect } from "next/navigation"
 
-export const createProductCategory = async (
+export const createProductCategoryAction = async (
   _prev: unknown,
   formData: FormData,
 ) => {
   const payload = extractFormPayload<CategoryCreatePayload>(formData)
 
-  await callAction<CategoryCreatePayload, void>(
-    "/api/product-category/create",
+  const resp = await callAction<CategoryCreatePayload, void>(
+    "/api/product-category",
     "POST",
   )(payload)
 
-  await refreshPageCache()
+  console.error(resp)
+
+  redirect(routePaths.PRODUCTS_CATEGORIES)
 }
 
-export const updateProductCategory = async (
+export const updateProductCategoryAction = async (
   _prev: unknown,
   formData: FormData,
 ) => {
   const payload = extractFormPayload<CategoryUpdatePayload>(formData)
 
-  await callAction<CategoryUpdatePayload, void>(
+  const resp = await callAction<CategoryUpdatePayload, void>(
     `/api/product-category/${payload.id}`,
     "PATCH",
   )(payload)
+
+  console.error(resp)
 
   await refreshPageCache()
 }
