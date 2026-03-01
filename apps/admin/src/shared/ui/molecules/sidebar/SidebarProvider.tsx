@@ -97,7 +97,7 @@ const SidebarProvider = React.forwardRef<
               ...style,
             } as React.CSSProperties
           }
-          className={cx("flex min-h-svh w-full", className)}
+          className={cx("flex h-full w-full", className)}
           ref={ref}
           {...props}
         >

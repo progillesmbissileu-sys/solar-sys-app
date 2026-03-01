@@ -1,15 +1,17 @@
 "use client"
 
-import { ProductCategory } from "@/entities/product"
+import { PanelComponentProps } from "@/widgets/container"
 import UpdateCategoryForm from "../forms/UpdateCategoryForm"
+import { ProductCategory } from "@/entities/product"
 
-export default function UpdateCategoryView({
-  categories,
-  initialValues,
-}: {
-  categories: ProductCategory[]
+export type CategoryFormPanelProps = {
+  categories?: ProductCategory[]
   initialValues?: ProductCategory
-}) {
+}
+
+export function CategoryFormPanel({ panelProps }: PanelComponentProps) {
+  const { categories, initialValues } = (panelProps || {}) as CategoryFormPanelProps
+  
   return (
     <div className="h-full">
       <header className="content-center border-b px-5 xl:h-16">
@@ -20,9 +22,9 @@ export default function UpdateCategoryView({
         </h1>
       </header>
       <main className="content-center p-5 xl:h-[calc(100%-64px)]">
-        <div className="mx-auto my-auto xl:w-2/5">
+        <div className="mx-auto my-auto xl:w-full">
           <UpdateCategoryForm
-            categories={categories}
+            categories={categories || []}
             initialValues={initialValues}
           />
         </div>

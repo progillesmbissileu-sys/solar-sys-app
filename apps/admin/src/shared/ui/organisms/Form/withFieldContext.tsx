@@ -26,7 +26,7 @@ export function withFieldContext<TProps extends object>(
       <div className={cx("relative", className)}>
         <div
           className={cx("mb-0 transition-all duration-200 ease-linear", {
-            "mb-3": !isFieldValid,
+            "pb-3": !isFieldValid,
           })}
         >
           {label && <Label>{label}</Label>}
@@ -40,7 +40,7 @@ export function withFieldContext<TProps extends object>(
         <div
           className={cx(
             "absolute bottom-0 text-transparent transition-all delay-200 duration-200 ease-linear",
-            { "-bottom-6 text-green-600": !isFieldValid },
+            { "-bottom-4 text-green-600": !isFieldValid },
           )}
         >
           <span className="font-montserrat-sans block text-sm">

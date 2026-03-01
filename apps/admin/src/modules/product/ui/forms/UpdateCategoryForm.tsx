@@ -51,13 +51,18 @@ export default function UpdateCategoryForm({
       </div>
       <div className="space-y-6">
         <div className="w-full" data-testid="designation">
-          <FormField.Text name="designation" placeholder="common.designation" />
+          <FormField.Text
+            name="designation"
+            placeholder="common.designation"
+            inputClassName="!h-12"
+          />
         </div>
         <div className="w-full" data-testid="designation">
           <FormField.Select
             name="type"
             placeholder="common.categoryType"
             options={parseEnumOptions(ProductCategoryType)}
+            classNames={{ trigger: "h-12" }}
           />
         </div>
 
@@ -69,13 +74,14 @@ export default function UpdateCategoryForm({
               value: category.id as string,
               label: category.designation,
             }))}
+            classNames={{ trigger: "h-12" }}
           />
         </div>
 
         <div className="flex flex-col items-center gap-2 pt-3">
           <FormComponent.SubmitButton
             label="actions.submit"
-            className="w-full"
+            className="h-12 w-full"
           />
         </div>
       </div>
