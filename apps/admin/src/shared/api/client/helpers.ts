@@ -46,10 +46,10 @@ export function callActionWithId<
       (chunk) => chunk.startsWith("{") && chunk.endsWith("}"),
     )
 
-    path = path.replace(pattern!, resourceId)
+    const resolvedPath = path.replace(pattern!, resourceId)
 
     return await authFetchJson<TReturn>(
-      `${apiEndpoint}${path}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ""}`,
+      `${apiEndpoint}${resolvedPath}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ""}`,
       {
         method,
         data: payload,
