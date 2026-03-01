@@ -6,6 +6,12 @@ import { cx, focusRing } from '@/shared/lib/utils';
 
 export type ImageItem = File | string;
 
+export type ImageUploadInputRemoveEvent = {
+  removed: ImageItem;
+  index: number;
+  nextValue: ImageItem[];
+};
+
 export type ImageUploadInputProps = {
   name: string;
   /**
@@ -13,6 +19,11 @@ export type ImageUploadInputProps = {
    */
   defaultValue?: ImageItem[];
   onChange?: (value: ImageItem[]) => void;
+  /**
+   * Called when the user removes an item via the UI.
+   * Useful for triggering delete-on-server for already uploaded images.
+   */
+  onRemove?: (event: ImageUploadInputRemoveEvent) => void | Promise<void>;
   multiple?: boolean;
   maxFiles?: number;
   accept?: string;
@@ -89,9 +100,14 @@ export function ImageUploadInput({
 
   const removeAt = React.useCallback(
     (index: number) => {
-      commit(items.filter((_, i) => i !== index));
+      const removed = items[index];
+      const nextValue = items.filter((_, i) => i !== index);
+      commit(nextValue);
+      if (removed !== undefined) {
+        void props.onRemove?.({ removed, index, nextValue });
+      }
     },
-    [commit, items]
+    [commit, items, props]
   );
 
   const handleChooseFiles = React.useCallback(() => {

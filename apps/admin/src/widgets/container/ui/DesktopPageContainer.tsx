@@ -7,13 +7,13 @@ import { useRightPanelStore } from '../model/right-panel-store';
 import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
 import { useClickAway } from '@uidotdev/usehooks';
+import { CrossIcon, PanelTopCloseIcon, XIcon } from 'lucide-react';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms
 
-function RightPanelContent() {
+function RightPanelContent({ panelProps }: { panelProps?: any }) {
   const panelType = useRightPanelStore((state) => state.panelType);
-  const panelProps = useRightPanelStore((state) => state.panelProps);
   const PanelComponent = usePanelComponent(panelType);
 
   if (!PanelComponent) {
@@ -38,6 +38,7 @@ function DesktopPageContainerInner({
   const rightPanelRef = useClickAway<HTMLDivElement>(() => {
     closePanel();
   });
+  const panelProps = useRightPanelStore((state) => state.panelProps);
 
   useEffect(() => {
     if (breadcrumbs) {
@@ -81,9 +82,10 @@ function DesktopPageContainerInner({
   return (
     <div className="relative flex h-full w-full overflow-hidden">
       <div
+        style={{ marginRight: isVisible ? panelProps?.width || RIGHT_PANEL_WIDTH : 0 }}
         className={cx(
           'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out',
-          isVisible && 'mr-[24rem]'
+          isVisible && `mr-[${rightPanel?.panelProps?.width || RIGHT_PANEL_WIDTH}]`
         )}
       >
         <header className="flex flex-col justify-between border-b px-5 pb-3 pt-5 xl:min-h-52">
@@ -103,19 +105,25 @@ function DesktopPageContainerInner({
           'transition-transform duration-300 ease-in-out',
           isVisible ? 'translate-x-0' : 'translate-x-full'
         )}
-        style={{ width: RIGHT_PANEL_WIDTH }}
+        style={{ width: panelProps?.width || RIGHT_PANEL_WIDTH }}
       >
         {shouldRender && (
-          <div className="h-full overflow-auto p-5" ref={rightPanelRef}>
+          <div className="h-full overflow-auto p-5">
             <div className="h-full">
-              <header className="border-b border-dashed xl:pb-2.5">
+              <header className="flex justify-between border-b border-dashed xl:pb-2.5">
                 <h1 className="font-semibold text-dark/60 xl:text-xl">
-                  {rightPanel?.panelProps?.title || 'Default Title'}
+                  {panelProps?.title || 'Default Title'}
                 </h1>
+                <button
+                  className="rounded-md border border-zinc-300 p-2 dark:border-zinc-700 dark:bg-dark dark:text-white"
+                  onClick={() => closePanel()}
+                >
+                  <XIcon className="h-4 w-4" />
+                </button>
               </header>
               <main className="content-center xl:py-[30px]">
                 <div className="mx-auto my-auto xl:w-full">
-                  {rightPanel?.panelContent || 'No content'}
+                  <RightPanelContent panelProps={panelProps} />
                 </div>
               </main>
             </div>

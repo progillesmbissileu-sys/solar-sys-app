@@ -1,5 +1,6 @@
 import { ProductManagementView } from '@/modules/product';
-import { productCollection } from '@/entities/product';
+import { productCategoryCollection, productCollection } from '@/entities/product';
+import { Suspense } from 'react';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
   const query = await searchParams;
@@ -10,5 +11,9 @@ export default async function Page({ searchParams }: { searchParams: any }) {
     q: query.q,
   });
 
-  return <ProductManagementView collection={collection} />;
+  const categories = productCategoryCollection();
+
+  return (
+    <Suspense>{<ProductManagementView collection={collection} categories={categories} />}</Suspense>
+  );
 }

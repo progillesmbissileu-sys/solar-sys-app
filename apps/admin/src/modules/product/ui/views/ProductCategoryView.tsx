@@ -14,8 +14,15 @@ import { Label } from '@/shared/ui/atoms/Label';
 import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
-import { panelRegistry } from '../../config/registry';
-import UpdateCategoryForm from '../forms/UpdateCategoryForm';
+import { CategoryFormPanel } from '../panels/CategoryFormPanel';
+import { panelRegistry } from '@/modules/product/config/registry';
+
+// Define panel type constant for type safety
+export const PANEL_TYPES = {
+  CATEGORY_FORM: 'category-form',
+} as const;
+
+// Panel registry mapping panel types to components
 
 export default function ProductCategoriesView({
   collection,
@@ -26,7 +33,7 @@ export default function ProductCategoriesView({
   const openPanel = useRightPanelStore((state) => state.openPanel);
 
   const handleOpenCategoryForm = () => {
-    openPanel();
+    openPanel(PANEL_TYPES.CATEGORY_FORM);
   };
 
   return (
@@ -46,10 +53,6 @@ export default function ProductCategoriesView({
               </Button>
             </div>
           ),
-        }}
-        rightPanel={{
-          panelContent: <UpdateCategoryForm />,
-          panelProps: { title: 'Modifier categorie' },
         }}
       >
         <CollectionManager<ProductCategoryPreview>

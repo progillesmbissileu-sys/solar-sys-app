@@ -5,14 +5,22 @@ import { useFormContext } from './use-form-context';
 import {
   CheckboxInputProps,
   ImageUploadInputProps,
+  NumberInputProps,
   SelectInputProps,
   TextInputProps,
+  TextareaInputProps,
 } from '@/shared/ui/molecules/inputs';
 
 function Text(props: TextInputProps & WithFormBlockProps) {
   const form = useFormContext();
 
   return <form.AppField name={props.name} children={(field) => <field.Input {...props} />} />;
+}
+
+function Number(props: NumberInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.Number {...props} />} />;
 }
 
 function Password(props: TextInputProps & WithFormBlockProps) {
@@ -45,4 +53,10 @@ function Images(props: ImageUploadInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.ImageUpload {...props} />} />;
 }
 
-export { Text, Password, Email, Select, Checkbox, Images };
+function Textarea(props: TextareaInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.Textarea {...props} />} />;
+}
+
+export { Text, Number, Password, Email, Select, Checkbox, Images, Textarea };

@@ -5,7 +5,10 @@ export type RightPanelType = string | null;
 export type RightPanelState = {
   open: boolean;
   panelType: RightPanelType;
-  panelProps: Record<string, unknown>;
+  panelProps: Record<string, unknown> & {
+    title?: string;
+    width?: string;
+  };
 };
 
 export type RightPanelActions = {
@@ -13,7 +16,7 @@ export type RightPanelActions = {
   setPanelType: (panelType: RightPanelType) => void;
   setPanelProps: (props: Record<string, unknown>) => void;
   togglePanel: () => void;
-  openPanel: (panelType?: RightPanelType, props?: Record<string, unknown>) => void;
+  openPanel: (panelType?: RightPanelType, props?: RightPanelState['panelProps']) => void;
   closePanel: () => void;
 };
 

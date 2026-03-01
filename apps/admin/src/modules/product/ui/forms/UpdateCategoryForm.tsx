@@ -13,7 +13,7 @@ import { CategoryUpdatePayload, ProductCategory, ProductCategoryType } from '@/e
 
 export default function UpdateCategoryForm({
   initialValues,
-  categories,
+  // categories,
 }: {
   initialValues?: CategoryUpdatePayload;
   categories?: ProductCategory[];

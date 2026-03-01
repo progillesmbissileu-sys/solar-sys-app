@@ -3,8 +3,8 @@ export type Product = {
   designation: string;
   description: string;
   price: number;
-  pictureId: any;
-  categoryId: any;
+  pictureId: string | null;
+  categoryId: string;
   brand?: string;
   slug?: string;
   isAvailable?: boolean;

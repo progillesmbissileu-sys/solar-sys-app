@@ -9,12 +9,16 @@ import {
   EmailInputProps,
   ImageUploadInput,
   ImageUploadInputProps,
+  NumberInput,
+  NumberInputProps,
   PasswordInput,
   PasswordInputProps,
   SelectInput,
   SelectInputProps,
   TextInput,
   TextInputProps,
+  TextareaInput,
+  TextareaInputProps,
 } from '@/shared/ui/molecules/inputs';
 import { SubscribeButton } from './SubmitButton';
 
@@ -29,10 +33,12 @@ export const { useAppForm } = createFormHook({
   },
   fieldComponents: {
     Input: withFieldContext<TextInputProps>(TextInput),
+    Number: withFieldContext<NumberInputProps>(NumberInput),
     Password: withFieldContext<PasswordInputProps>(PasswordInput),
     Email: withFieldContext<EmailInputProps>(EmailInput),
     Select: withFieldContext<SelectInputProps>(SelectInput),
     Checkbox: withFieldContext<CheckboxInputProps>(CheckboxInput),
     ImageUpload: withFieldContext<ImageUploadInputProps>(ImageUploadInput),
+    Textarea: withFieldContext<TextareaInputProps>(TextareaInput),
   },
 });

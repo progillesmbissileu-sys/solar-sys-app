@@ -11,9 +11,8 @@ export type PageContainerProps = {
   breadcrumbs?: BreadcrumbSegment[];
   rightPanel?: {
     panelType?: RightPanelType;
-    panelProps?: { title: string };
+    panelProps?: Record<string, unknown>;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
-    panelContent?: React.ReactNode;
   };
 };
