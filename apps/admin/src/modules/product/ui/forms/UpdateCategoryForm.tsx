@@ -68,7 +68,7 @@ export default function UpdateCategoryForm({
         </div>
 
         <div className="flex flex-col items-center gap-2 pt-3">
-          <FormComponent.SubmitButton label="actions.submit" className="h-12 w-full" />
+          <FormComponent.SubmitButton label="actions.submit" className="w-full" />
         </div>
       </div>
     </FormWrapper>

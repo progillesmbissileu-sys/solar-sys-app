@@ -6,6 +6,7 @@ import { PageContainerProps } from './types';
 import { useRightPanelStore } from '../model/right-panel-store';
 import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
+import { useClickAway } from '@uidotdev/usehooks';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms
@@ -25,9 +26,13 @@ function RightPanelContent() {
 function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
   const rightPanelOpen = useRightPanelStore((state) => state.open);
+  const closePanel = useRightPanelStore((state) => state.closePanel);
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const rightPanelRef = useClickAway<HTMLDivElement>(() => {
+    closePanel();
+  });
 
   useEffect(() => {
     if (breadcrumbs) {
@@ -96,7 +101,7 @@ function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageCo
         style={{ width: RIGHT_PANEL_WIDTH }}
       >
         {shouldRender && (
-          <div className="h-full overflow-auto p-4">
+          <div className="h-full overflow-auto p-5" ref={rightPanelRef}>
             <RightPanelContent />
           </div>
         )}

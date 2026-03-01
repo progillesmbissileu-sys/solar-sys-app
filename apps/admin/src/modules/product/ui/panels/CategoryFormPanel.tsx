@@ -14,12 +14,12 @@ export function CategoryFormPanel({ panelProps }: PanelComponentProps) {
 
   return (
     <div className="h-full">
-      <header className="content-center border-b px-5 xl:h-16">
-        <h1 className="font-semibold text-dark/60 xl:text-2xl">
-          {initialValues?.id ? 'Modifier une catégorie' : 'Ajouter une catégorie'}
+      <header className="border-b border-dashed xl:pb-2.5">
+        <h1 className="font-semibold text-dark/60 xl:text-xl">
+          {initialValues?.id ? 'Modifier une catégorie' : 'Créer catégorie'}
         </h1>
       </header>
-      <main className="content-center p-5 xl:h-[calc(100%-64px)]">
+      <main className="content-center xl:py-[30px]">
         <div className="mx-auto my-auto xl:w-full">
           <UpdateCategoryForm categories={categories || []} initialValues={initialValues} />
         </div>

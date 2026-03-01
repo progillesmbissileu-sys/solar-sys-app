@@ -14,17 +14,7 @@ import { Label } from '@/shared/ui/atoms/Label';
 import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
-import { CategoryFormPanel } from '../panels/CategoryFormPanel';
-
-// Define panel type constant for type safety
-export const PANEL_TYPES = {
-  CATEGORY_FORM: 'category-form',
-} as const;
-
-// Panel registry mapping panel types to components
-const panelRegistry = {
-  [PANEL_TYPES.CATEGORY_FORM]: CategoryFormPanel,
-};
+import { PANEL_TYPES, panelRegistry } from '../../config/registry';
 
 export default function ProductCategoriesView({
   collection,
