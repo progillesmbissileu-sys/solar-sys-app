@@ -31,7 +31,7 @@ export default function CollectionManager<TData>({
 
   return (
     <section className={cx('grid', className)}>
-      <header className="p-5">
+      <header className="p-3">
         <Controls searchKey={searchKey} searchPlaceholder={searchPlaceholder} filters={filters} />
       </header>
 

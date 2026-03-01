@@ -8,6 +8,7 @@ import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
 import { useClickAway } from '@uidotdev/usehooks';
 import { CrossIcon, PanelTopCloseIcon, XIcon } from 'lucide-react';
+import { useSidebar } from '@/shared/lib/layout/useSidebar';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms
@@ -35,9 +36,10 @@ function DesktopPageContainerInner({
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const rightPanelRef = useClickAway<HTMLDivElement>(() => {
-    closePanel();
-  });
+  const sidebar = useSidebar();
+  // const rightPanelRef = useClickAway<HTMLDivElement>(() => {
+  //   closePanel();
+  // });
   const panelProps = useRightPanelStore((state) => state.panelProps);
 
   useEffect(() => {
@@ -87,9 +89,9 @@ function DesktopPageContainerInner({
           'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out'
         )}
       >
-        <header className="flex flex-col justify-between border-b px-5 pb-3 pt-5 xl:min-h-44">
+        <header className="flex flex-col justify-between border-b p-3 xl:min-h-44">
           {pageHeader?.title && (
-            <h1 className="border-b border-dashed pb-3 font-semibold text-dark/60 xl:text-2xl">
+            <h1 className="border-b border-dashed pb-3 font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
               {pageHeader.title}
             </h1>
           )}
@@ -109,15 +111,18 @@ function DesktopPageContainerInner({
         style={{ width: panelProps?.width || RIGHT_PANEL_WIDTH }}
       >
         {shouldRender && (
-          <div className="h-full overflow-auto p-5">
+          <div className="h-full overflow-auto p-3">
             <div className="h-full">
               <header className="flex items-end justify-between border-b border-dashed xl:pb-2.5">
-                <h1 className="font-semibold text-dark/60 xl:text-xl">
+                <h1 className="font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
                   {panelProps?.title || 'Default Title'}
                 </h1>
                 <button
                   className="rounded-md border border-zinc-300 p-2 dark:border-zinc-700 dark:bg-dark dark:text-white"
-                  onClick={() => closePanel()}
+                  onClick={() => {
+                    closePanel();
+                    sidebar.setOpen(true);
+                  }}
                 >
                   <XIcon className="h-4 w-4" />
                 </button>

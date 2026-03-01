@@ -5,6 +5,8 @@ export { useBreadcrumbs } from './lib/use-breadcrumbs';
 
 // Store
 export { useRightPanelStore } from './model/right-panel-store';
+export { useRightPanel } from './lib/use-right-panel';
+
 export type {
   RightPanelStoreType,
   RightPanelState,

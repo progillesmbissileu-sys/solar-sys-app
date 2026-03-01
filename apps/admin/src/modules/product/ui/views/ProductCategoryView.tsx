@@ -4,25 +4,18 @@ import { ProductCategoryPreview } from '@/entities/product';
 import DateDisplay from '@/shared/ui/molecules/DateDisplay';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
-import {
-  DesktopPageContainer,
-  useRightPanelStore,
-  PanelRegistryProvider,
-} from '@/widgets/container';
+import { DesktopPageContainer, PanelRegistryProvider } from '@/widgets/container';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Label } from '@/shared/ui/atoms/Label';
 import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
-import { CategoryFormPanel } from '../panels/CategoryFormPanel';
 import { panelRegistry } from '@/modules/product/config/registry';
+import { useRightPanel } from '@/widgets/container';
 
-// Define panel type constant for type safety
 export const PANEL_TYPES = {
   CATEGORY_FORM: 'category-form',
 } as const;
-
-// Panel registry mapping panel types to components
 
 export default function ProductCategoriesView({
   collection,
@@ -30,11 +23,7 @@ export default function ProductCategoriesView({
   collection: CollectionResponseType<ProductCategoryPreview>;
 }) {
   const navigator = useNavigator();
-  const openPanel = useRightPanelStore((state) => state.openPanel);
-
-  const handleOpenCategoryForm = () => {
-    openPanel(PANEL_TYPES.CATEGORY_FORM);
-  };
+  const { openPanel } = useRightPanel();
 
   return (
     <PanelRegistryProvider panels={panelRegistry}>
@@ -47,7 +36,14 @@ export default function ProductCategoriesView({
           title: 'product.pageTitle.category',
           actions: (
             <div>
-              <Button className="cursor-pointer gap-x-2" onClick={handleOpenCategoryForm}>
+              <Button
+                className="cursor-pointer gap-x-2"
+                onClick={() =>
+                  openPanel(PANEL_TYPES.CATEGORY_FORM, {
+                    title: 'Nouvelle catégorie',
+                  })
+                }
+              >
                 <RiBox1Line className="size-5 text-white/90" />
                 <Label className="cursor-pointer text-white/90">action.new</Label>
               </Button>

@@ -38,7 +38,7 @@ export default function ProductManagementView({
                 className="cursor-pointer gap-x-2"
                 onClick={() => {
                   openPanel(PANEL_TYPES.PRODUCT_FORM, {
-                    title: 'Créer produit',
+                    title: 'Nouveau produit',
                     categories: _categories?.data,
                     width: '35vw',
                   });
