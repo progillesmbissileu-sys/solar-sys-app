@@ -8,7 +8,10 @@ import {
 } from '@/shared/ui/organisms/Form';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
-import { createProductCategoryAction, updateProductCategoryAction } from '../../api/actions';
+import {
+  createProductCategoryAction,
+  updateProductCategoryAction,
+} from '../../api/category-actions';
 import { CategoryUpdatePayload, ProductCategory, ProductCategoryType } from '@/entities/product';
 
 export default function UpdateCategoryForm({

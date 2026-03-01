@@ -17,13 +17,6 @@ type ProductFormProps = {
    * Called when the user removes an already uploaded image (value is an imageId string).
    * The actual API implementation is intentionally left to the caller.
    */
-  onDeleteImageAction?: (imageId: string) => Promise<void> | void;
-  /**
-   * Called when user selects a new file.
-   * Expected to return the created imageId.
-   * (Caller wires the real API; form only orchestrates.)
-   */
-  onCreateImageIdAction?: (file: File) => Promise<string>;
 };
 
 function toDefaultImageItems(product?: Partial<Product> | Partial<ProductFormValues>): ImageItem[] {
@@ -35,13 +28,7 @@ function toDefaultImageItems(product?: Partial<Product> | Partial<ProductFormVal
   return [];
 }
 
-export default function ProductForm({
-  initialValues,
-  categories,
-  serverAction,
-  onDeleteImageAction,
-  onCreateImageIdAction,
-}: ProductFormProps) {
+export default function ProductForm({ initialValues, categories, serverAction }: ProductFormProps) {
   const formOpts = formOptions({
     validators: {
       onSubmit: productFormSchema,
@@ -49,10 +36,10 @@ export default function ProductForm({
     defaultValues: initialValues,
   });
 
-  const [imageItems, setImageItems] = React.useState<ImageItem[]>(() =>
-    toDefaultImageItems(initialValues)
-  );
-  const [isResolvingImageId, setIsResolvingImageId] = React.useState(false);
+  // const [imageItems, setImageItems] = React.useState<ImageItem[]>(() =>
+  //   toDefaultImageItems(initialValues)
+  // );
+  // const [isResolvingImageId, setIsResolvingImageId] = React.useState(false);
 
   return (
     <FormWrapper formOptions={formOpts} serverAction={serverAction}>
@@ -87,61 +74,38 @@ export default function ProductForm({
         </div>
 
         <div className="w-full" data-testid="description">
-          <FormField.Textarea
-            name="description"
-            placeholder="common.description"
-            // className="min-h-28"
-          />
+          <FormField.Textarea name="description" placeholder="common.description" />
+        </div>
+
+        <div className="space-y-3">
+          <div className="w-full" data-testid="picture">
+            <FormField.Images
+              name="picture"
+              multiple={false}
+              maxFiles={1}
+              // disabled={isResolvingImageId}
+              // defaultValue={imageItems}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div data-testid="picture-title">
+              <FormField.Text
+                name="pictureTitle"
+                placeholder="common.title"
+                inputClassName="!h-12"
+              />
+            </div>
+            <div data-testid="picture-alt">
+              <FormField.Text name="pictureAlt" placeholder="common.alt" inputClassName="!h-12" />
+            </div>
+          </div>
         </div>
 
         <div className="w-full" data-testid="brand">
           <FormField.Text name="brand" placeholder="common.brand" inputClassName="!h-12" />
         </div>
 
-        <div className="w-full" data-testid="pictureId">
-          <FormField.Images
-            name="pictureId"
-            multiple={false}
-            maxFiles={1}
-            disabled={isResolvingImageId}
-            defaultValue={imageItems}
-            onChange={async (items) => {
-              setImageItems(items);
-
-              const first = items[0];
-              // new file selected -> ask caller for imageId and set pictureId
-              if (first instanceof File) {
-                if (!onCreateImageIdAction) return;
-                setIsResolvingImageId(true);
-                try {
-                  const imageId = await onCreateImageIdAction(first);
-                  // write into form value
-                  // We cannot directly access the field here; rely on hidden input approach.
-                  // Submit payload will include pictureId from this field's value.
-                  (formOpts.defaultValues as any).pictureId = imageId;
-                } finally {
-                  setIsResolvingImageId(false);
-                }
-              }
-
-              // if cleared
-              if (!first) {
-                (formOpts.defaultValues as any).pictureId = null;
-              }
-            }}
-            onRemove={async ({ removed }) => {
-              // Only delete if it's an id string (already uploaded).
-              if (typeof removed === 'string') {
-                // In this app, removed could also be a URL string; treat non-uuid as non-deletable.
-                const maybeId = removed;
-                const isUuid = z.uuid().safeParse(maybeId).success;
-                if (isUuid) await onDeleteImageAction?.(maybeId);
-              }
-            }}
-          />
-        </div>
-
-        <div className="flex flex-col items-center gap-2 pt-3">
+        <div>
           <FormComponent.SubmitButton label="actions.submit" className="w-full" />
         </div>
       </div>

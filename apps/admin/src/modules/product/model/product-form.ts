@@ -7,7 +7,9 @@ export const productFormSchema = z.object({
   price: z.number().nonnegative(),
   categoryId: z.uuid(),
   brand: z.string().optional(),
-  pictureId: z.uuid().nullable().optional(),
+  picture: z.file(),
+  pictureTitle: z.string().optional(),
+  pictureAlt: z.string().optional(),
 });
 
 export type ProductFormValues = z.infer<typeof productFormSchema>;
