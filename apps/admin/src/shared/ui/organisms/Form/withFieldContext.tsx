@@ -11,7 +11,7 @@ type WithFormFieldProps = {
   className?: string;
 };
 
-type InputValue = string | number | boolean;
+type InputValue = unknown;
 
 export function withFieldContext<TProps extends object>(Component: React.ComponentType<TProps>) {
   return function Field(props: TProps & WithFormFieldProps) {

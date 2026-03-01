@@ -2,7 +2,12 @@
 
 import { WithFormBlockProps } from './types';
 import { useFormContext } from './use-form-context';
-import { CheckboxInputProps, SelectInputProps, TextInputProps } from '@/shared/ui/molecules/inputs';
+import {
+  CheckboxInputProps,
+  ImageUploadInputProps,
+  SelectInputProps,
+  TextInputProps,
+} from '@/shared/ui/molecules/inputs';
 
 function Text(props: TextInputProps & WithFormBlockProps) {
   const form = useFormContext();
@@ -34,4 +39,10 @@ function Checkbox(props: CheckboxInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.Checkbox {...props} />} />;
 }
 
-export { Text, Password, Email, Select, Checkbox };
+function Images(props: ImageUploadInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.ImageUpload {...props} />} />;
+}
+
+export { Text, Password, Email, Select, Checkbox, Images };

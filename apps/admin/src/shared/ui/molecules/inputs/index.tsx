@@ -4,3 +4,4 @@ export { type EmailInputProps, EmailInput } from './EmailInput';
 export { type PasswordInputProps, PasswordInput } from './PasswordInput';
 export { type SelectInputProps, SelectInput } from './SelectInput';
 export { type CheckboxInputProps, CheckboxInput } from './CheckboxInput';
+export { type ImageUploadInputProps, type ImageItem, ImageUploadInput } from './ImageUploadInput';

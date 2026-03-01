@@ -7,6 +7,8 @@ import {
   CheckboxInputProps,
   EmailInput,
   EmailInputProps,
+  ImageUploadInput,
+  ImageUploadInputProps,
   PasswordInput,
   PasswordInputProps,
   SelectInput,
@@ -31,5 +33,6 @@ export const { useAppForm } = createFormHook({
     Email: withFieldContext<EmailInputProps>(EmailInput),
     Select: withFieldContext<SelectInputProps>(SelectInput),
     Checkbox: withFieldContext<CheckboxInputProps>(CheckboxInput),
+    ImageUpload: withFieldContext<ImageUploadInputProps>(ImageUploadInput),
   },
 });
