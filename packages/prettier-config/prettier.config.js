@@ -9,7 +9,7 @@ export default {
   arrowParens: 'always',
   endOfLine: 'lf',
   plugins: ['prettier-plugin-tailwindcss'],
-  tailwindFunctions: ['clsx', 'cn', 'cva'],
+  tailwindFunctions: ['clsx', 'cn', 'cva', 'cx'],
   overrides: [
     {
       files: '*.json',
