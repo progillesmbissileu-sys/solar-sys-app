@@ -205,9 +205,7 @@ export function ImageUploadInput({
         onChange={handleFileChange}
       />
 
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <div className="text-sm text-gray-600">Drag and drop images here, or click the drop zone.</div>
-
+      <div className="flex items-center justify-end gap-2">
         {typeof effectiveMaxFiles === 'number' && (
           <span className="text-xs text-gray-500">
             {items.length}/{effectiveMaxFiles}
@@ -261,11 +259,7 @@ export function ImageUploadInput({
           </div>
 
           {/* Previews */}
-          {items.length === 0 ? (
-            <div className="col-span-2 flex items-center justify-center text-sm text-gray-500 sm:col-span-3 lg:col-span-4">
-              No images selected.
-            </div>
-          ) : (
+          {items.length > 0 &&
             previewSrcs.map((src, index) => (
               <div key={`${src}-${index}`} className="group relative">
                 <div className="aspect-square overflow-hidden rounded-md border border-gray-200 bg-gray-50">
@@ -294,10 +288,8 @@ export function ImageUploadInput({
                   <RiDeleteBinLine className="size-4" aria-hidden="true" />
                 </button>
               </div>
-            ))
-          )}
+            ))}
         </div>
-
       </div>
     </div>
   );

@@ -80,6 +80,7 @@ export default function ProductForm({ initialValues, categories, serverAction }:
         <div className="space-y-3">
           <div className="w-full" data-testid="picture">
             <FormField.Images
+              label="common.picture"
               name="picture"
               multiple={false}
               maxFiles={1}
