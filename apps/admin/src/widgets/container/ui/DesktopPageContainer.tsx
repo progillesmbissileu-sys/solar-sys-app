@@ -84,13 +84,14 @@ function DesktopPageContainerInner({
       <div
         style={{ marginRight: isVisible ? panelProps?.width || RIGHT_PANEL_WIDTH : 0 }}
         className={cx(
-          'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out',
-          isVisible && `mr-[${rightPanel?.panelProps?.width || RIGHT_PANEL_WIDTH}]`
+          'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out'
         )}
       >
-        <header className="flex flex-col justify-between border-b px-5 pb-3 pt-5 xl:min-h-52">
+        <header className="flex flex-col justify-between border-b px-5 pb-3 pt-5 xl:min-h-44">
           {pageHeader?.title && (
-            <h1 className="font-semibold text-dark/60 xl:text-2xl">{pageHeader.title}</h1>
+            <h1 className="border-b border-dashed pb-3 font-semibold text-dark/60 xl:text-2xl">
+              {pageHeader.title}
+            </h1>
           )}
           <div></div>
           {pageHeader?.actions && <div className="flex justify-end">{pageHeader.actions}</div>}
@@ -110,7 +111,7 @@ function DesktopPageContainerInner({
         {shouldRender && (
           <div className="h-full overflow-auto p-5">
             <div className="h-full">
-              <header className="flex justify-between border-b border-dashed xl:pb-2.5">
+              <header className="flex items-end justify-between border-b border-dashed xl:pb-2.5">
                 <h1 className="font-semibold text-dark/60 xl:text-xl">
                   {panelProps?.title || 'Default Title'}
                 </h1>
