@@ -1,1 +1,1 @@
-export * from "./enum-helper"
+export * from './enum-helper';

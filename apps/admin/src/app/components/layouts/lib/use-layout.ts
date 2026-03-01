@@ -1,7 +1,7 @@
-import { useLayoutStore } from "./layout-store"
+import { useLayoutStore } from './layout-store';
 
 export const useLayout = () => {
-  const layout = useLayoutStore()
+  const layout = useLayoutStore();
 
   return {
     toggleMenu: layout.activateNavbarItem,
@@ -10,5 +10,5 @@ export const useLayout = () => {
     activeMenu: layout.activeNavbarItem,
     isSidebarOpen: layout.isSidebarOpen,
     isMobileMenuOpen: layout.isMobileMenuOpen,
-  }
-}
+  };
+};

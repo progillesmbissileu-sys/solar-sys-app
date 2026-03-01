@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../pagination";
+} from '../pagination';
 
 interface DynamicPaginationProps {
   currentPage: number;
@@ -22,8 +22,8 @@ interface DynamicPaginationProps {
 function generatePaginationRange(
   currentPage: number,
   totalPages: number,
-  siblingCount: number,
-): (number | "ellipsis")[] {
+  siblingCount: number
+): (number | 'ellipsis')[] {
   const totalPageNumbers = siblingCount * 2 + 5; // siblings + first + last + current + 2 ellipsis
 
   // If the number of pages is less than the page numbers we want to show
@@ -41,7 +41,7 @@ function generatePaginationRange(
     // Show more pages on the left
     const leftItemCount = 3 + 2 * siblingCount;
     const leftRange = Array.from({ length: leftItemCount }, (_, i) => i + 1);
-    return [...leftRange, "ellipsis", totalPages];
+    return [...leftRange, 'ellipsis', totalPages];
   }
 
   if (showLeftEllipsis && !showRightEllipsis) {
@@ -49,17 +49,17 @@ function generatePaginationRange(
     const rightItemCount = 3 + 2 * siblingCount;
     const rightRange = Array.from(
       { length: rightItemCount },
-      (_, i) => totalPages - rightItemCount + i + 1,
+      (_, i) => totalPages - rightItemCount + i + 1
     );
-    return [1, "ellipsis", ...rightRange];
+    return [1, 'ellipsis', ...rightRange];
   }
 
   // Show ellipsis on both sides
   const middleRange = Array.from(
     { length: rightSiblingIndex - leftSiblingIndex + 1 },
-    (_, i) => leftSiblingIndex + i,
+    (_, i) => leftSiblingIndex + i
   );
-  return [1, "ellipsis", ...middleRange, "ellipsis", totalPages];
+  return [1, 'ellipsis', ...middleRange, 'ellipsis', totalPages];
 }
 
 export default function AppPagination({
@@ -69,11 +69,7 @@ export default function AppPagination({
   siblingCount = 1,
   className,
 }: DynamicPaginationProps) {
-  const paginationRange = generatePaginationRange(
-    currentPage,
-    totalPages,
-    siblingCount,
-  );
+  const paginationRange = generatePaginationRange(currentPage, totalPages, siblingCount);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
@@ -96,16 +92,12 @@ export default function AppPagination({
               handlePageChange(currentPage - 1);
             }}
             aria-disabled={currentPage === 1}
-            className={
-              currentPage === 1
-                ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
-            }
+            className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
           />
         </PaginationItem>
 
         {paginationRange.map((page, index) => {
-          if (page === "ellipsis") {
+          if (page === 'ellipsis') {
             return (
               <PaginationItem key={`ellipsis-${index}`}>
                 <PaginationEllipsis />
@@ -122,7 +114,7 @@ export default function AppPagination({
                   e.preventDefault();
                   handlePageChange(page);
                 }}
-                className="cursor-pointer data-[active=true]:bg-yellow-500 data-[active=true]:text-dark data-[active=true]:font-medium rounded-sm"
+                className="data-[active=true]:text-dark cursor-pointer rounded-sm data-[active=true]:bg-yellow-500 data-[active=true]:font-medium"
               >
                 {page}
               </PaginationLink>
@@ -139,9 +131,7 @@ export default function AppPagination({
             }}
             aria-disabled={currentPage === totalPages}
             className={
-              currentPage === totalPages
-                ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
+              currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
             }
           />
         </PaginationItem>

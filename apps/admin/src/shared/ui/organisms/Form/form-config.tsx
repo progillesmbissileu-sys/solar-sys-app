@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
-import { withFieldContext } from "@/shared/ui/organisms/Form/withFieldContext"
+import { createFormHook, createFormHookContexts } from '@tanstack/react-form';
+import { withFieldContext } from '@/shared/ui/organisms/Form/withFieldContext';
 import {
   CheckboxInput,
   CheckboxInputProps,
@@ -13,11 +13,11 @@ import {
   SelectInputProps,
   TextInput,
   TextInputProps,
-} from "@/shared/ui/molecules/inputs"
-import { SubscribeButton } from "./SubmitButton"
+} from '@/shared/ui/molecules/inputs';
+import { SubscribeButton } from './SubmitButton';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
-  createFormHookContexts()
+  createFormHookContexts();
 
 export const { useAppForm } = createFormHook({
   fieldContext,
@@ -32,4 +32,4 @@ export const { useAppForm } = createFormHook({
     Select: withFieldContext<SelectInputProps>(SelectInput),
     Checkbox: withFieldContext<CheckboxInputProps>(CheckboxInput),
   },
-})
+});

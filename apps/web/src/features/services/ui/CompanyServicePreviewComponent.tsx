@@ -1,13 +1,13 @@
-import React from "react";
-import { Fade } from "react-awesome-reveal";
-import { ServiceType } from "../model/ServiceType";
-import { CompanyServiceCard } from "./CompanyServiceCard";
+import React from 'react';
+import { Fade } from 'react-awesome-reveal';
+import { ServiceType } from '../model/ServiceType';
+import { CompanyServiceCard } from './CompanyServiceCard';
 
 const thumbnails = [
-  "noun-solar-pannel.svg",
-  "noun-maintenance.svg",
-  "noun-advisor.svg",
-  "noun-sell.svg",
+  'noun-solar-pannel.svg',
+  'noun-maintenance.svg',
+  'noun-advisor.svg',
+  'noun-sell.svg',
 ];
 
 export function CompanyServicePreviewComponent(props: {
@@ -15,10 +15,10 @@ export function CompanyServicePreviewComponent(props: {
   path: string;
 }) {
   return (
-    <div className="w-full grid md:grid-cols-2 gap-6">
+    <div className="grid w-full gap-6 md:grid-cols-2">
       {props.previewList.map((service, index) => (
-        <div className="overflow-hidden aspect-[18/16]">
-          <Fade delay={index * 100} triggerOnce className="w-full h-full">
+        <div className="aspect-[18/16] overflow-hidden">
+          <Fade delay={index * 100} triggerOnce className="h-full w-full">
             <CompanyServiceCard
               {...service}
               thumbnail={thumbnails.at(index) as any}

@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { Button } from "@/shared/ui/atoms/Button"
-import { cx, focusRing } from "@/shared/lib/utils"
-import { ChevronsUpDown } from "lucide-react"
+import { Button } from '@/shared/ui/atoms/Button';
+import { cx, focusRing } from '@/shared/lib/utils';
+import { ChevronsUpDown } from 'lucide-react';
 
-import { DropdownUserProfile } from "./DropdownUserProfile"
+import { DropdownUserProfile } from './DropdownUserProfile';
 
 export function UserProfile() {
   return (
@@ -13,8 +13,8 @@ export function UserProfile() {
         aria-label="User settings"
         variant="ghost"
         className={cx(
-          "group flex w-full items-center justify-between rounded-md px-1 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200/50 data-[state=open]:bg-gray-200/50 hover:dark:bg-gray-800/50 data-[state=open]:dark:bg-gray-900",
-          focusRing,
+          'group flex w-full items-center justify-between rounded-md px-1 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200/50 data-[state=open]:bg-gray-200/50 hover:dark:bg-gray-800/50 data-[state=open]:dark:bg-gray-900',
+          focusRing
         )}
       >
         <span className="flex items-center gap-3">
@@ -32,5 +32,5 @@ export function UserProfile() {
         />
       </Button>
     </DropdownUserProfile>
-  )
+  );
 }

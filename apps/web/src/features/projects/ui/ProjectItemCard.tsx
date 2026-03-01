@@ -1,6 +1,6 @@
-import React from "react";
-import { ArrowUpRight } from "lucide-react";
-import { generateHundred } from "@/shared/lib";
+import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { generateHundred } from '@/shared/lib';
 
 export type ProjectItemType = {
   title: string;
@@ -15,36 +15,31 @@ export const ProjectItemCard = (props: ProjectItemType) => {
 
   return (
     <div className="relative w-full xl:h-[700px]">
-      <header className="relative w-full h-3/4">
-        <figure className="w-full h-full relative rounded-sm overflow-hidden">
+      <header className="relative h-3/4 w-full">
+        <figure className="relative h-full w-full overflow-hidden rounded-sm">
           <img
             src={`https://picsum.photos/${random}/${random}`}
             alt={props.title}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         </figure>
-        <div className="absolute w-full h-full top-0 left-0 z-20 bg-black/20 p-6">
+        <div className="absolute top-0 left-0 z-20 h-full w-full bg-black/20 p-6">
           {props.counter && (
-            <div className="size-10 content-center text-center bg-yellow-500 text-black font-medium text-xl">
+            <div className="size-10 content-center bg-yellow-500 text-center text-xl font-medium text-black">
               {props.counter}
             </div>
           )}
         </div>
-        <div className="absolute z-30 right-6 -bottom-6 h-12 flex justify-center items-center uppercase bg-dark text-yellow-500 px-6">
+        <div className="bg-dark absolute right-6 -bottom-6 z-30 flex h-12 items-center justify-center px-6 text-yellow-500 uppercase">
           {props.tag}
         </div>
       </header>
-      <footer className="h-1/4 relative border-b border-dark py-6">
-        <h4 className="text-2xl font-medium text-dark w-3/5">
-          {props.title.length > 45
-            ? `${props.title.substring(0, 45)}...`
-            : props.title}
+      <footer className="border-dark relative h-1/4 border-b py-6">
+        <h4 className="text-dark w-3/5 text-2xl font-medium">
+          {props.title.length > 45 ? `${props.title.substring(0, 45)}...` : props.title}
         </h4>
-        <div className="absolute right-6 bottom-6 text-sm hover:bg-dark/90 hover:text-yellow-400 transition-colors duration-200 font-medium  border border-dark w-fit px-2 py-1">
-          <a
-            href={`/projects/${props.slug}`}
-            className="hover:underline flex gap-x-1 items-center"
-          >
+        <div className="hover:bg-dark/90 border-dark absolute right-6 bottom-6 w-fit border px-2 py-1 text-sm font-medium transition-colors duration-200 hover:text-yellow-400">
+          <a href={`/projects/${props.slug}`} className="flex items-center gap-x-1 hover:underline">
             <span>Aller a</span>
             <ArrowUpRight size={18} />
           </a>

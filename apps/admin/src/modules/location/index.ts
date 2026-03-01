@@ -1,4 +1,4 @@
-export { default as LocationManagementView } from "./ui/views/LocationManagementView"
+export { default as LocationManagementView } from './ui/views/LocationManagementView';
 
 //configs
-export { locationModuleConfig } from "./config/module"
+export { locationModuleConfig } from './config/module';

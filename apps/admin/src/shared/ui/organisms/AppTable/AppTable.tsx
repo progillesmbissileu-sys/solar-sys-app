@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
   Table,
@@ -8,10 +8,10 @@ import {
   TableHeaderCell,
   TableRoot,
   TableRow,
-} from "@/shared/ui/atoms/Table"
-import { Fragment } from "react"
-import { AppTableProps } from "./types"
-import { extractRecordValue } from "./helpers"
+} from '@/shared/ui/atoms/Table';
+import { Fragment } from 'react';
+import { AppTableProps } from './types';
+import { extractRecordValue } from './helpers';
 
 export function AppTable<T>({
   columns,
@@ -33,14 +33,9 @@ export function AppTable<T>({
           <Fragment>
             {Array.isArray(dataSource) &&
               dataSource.map((item, index) => (
-                <TableRow
-                  key={`table-row-${index}`}
-                  onClick={() => onRowSelection?.(item)}
-                >
+                <TableRow key={`table-row-${index}`} onClick={() => onRowSelection?.(item)}>
                   {columns.map((col) => (
-                    <TableCell key={col.key}>
-                      {extractRecordValue(item, col)}
-                    </TableCell>
+                    <TableCell key={col.key}>{extractRecordValue(item, col)}</TableCell>
                   ))}
                 </TableRow>
               ))}
@@ -66,14 +61,9 @@ export function AppTable<T>({
                     </TableHeaderCell>
                   </TableRow>
                   {group.data.map((item, index) => (
-                    <TableRow
-                      key={`table-row-${index}`}
-                      onClick={() => onRowSelection?.(item)}
-                    >
+                    <TableRow key={`table-row-${index}`} onClick={() => onRowSelection?.(item)}>
                       {columns.map((col) => (
-                        <TableCell key={col.key}>
-                          {extractRecordValue(item, col)}
-                        </TableCell>
+                        <TableCell key={col.key}>{extractRecordValue(item, col)}</TableCell>
                       ))}
                     </TableRow>
                   ))}
@@ -83,5 +73,5 @@ export function AppTable<T>({
         </TableBody>
       </Table>
     </TableRoot>
-  )
+  );
 }

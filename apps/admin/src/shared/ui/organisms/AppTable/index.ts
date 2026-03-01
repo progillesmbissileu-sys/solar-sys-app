@@ -1,4 +1,4 @@
-export { AppTable } from "./AppTable"
+export { AppTable } from './AppTable';
 
 //TYPES
-export * from "./types"
+export * from './types';

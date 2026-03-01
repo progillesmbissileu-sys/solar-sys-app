@@ -1,21 +1,15 @@
-"use client"
+'use client';
 
-import {
-  FormField,
-  FormWrapper,
-  FormComponent,
-} from "@/shared/ui/organisms/Form"
-import loginAction from "../api/actions"
-import { formOpts } from "../config/shared"
+import { FormField, FormWrapper, FormComponent } from '@/shared/ui/organisms/Form';
+import loginAction from '../api/actions';
+import { formOpts } from '../config/shared';
 
 export default function LoginView() {
   return (
     <div className="h-screen w-screen content-center">
       <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md p-3 xl:w-1/3 dark:bg-dark">
         <div className="flex items-center justify-center">
-          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-100">
-            login.pageTitle
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-100">login.pageTitle</h1>
         </div>
         <div className="mx-auto w-4/5">
           <FormWrapper formOptions={formOpts} serverAction={loginAction}>
@@ -29,10 +23,7 @@ export default function LoginView() {
                   />
                 </div>
               </div>
-              <div
-                className="flex items-center space-x-2"
-                data-testid="password"
-              >
+              <div className="flex items-center space-x-2" data-testid="password">
                 <div className="w-full">
                   <FormField.Password
                     name="password"
@@ -44,14 +35,9 @@ export default function LoginView() {
               <div className="flex flex-col items-center gap-2 pt-3">
                 <div className="flex items-center gap-x-2">
                   <FormField.Checkbox name="remember" />
-                  <span className="text-sm text-gray-700 dark:text-gray-400">
-                    login.rememberMe
-                  </span>
+                  <span className="text-sm text-gray-700 dark:text-gray-400">login.rememberMe</span>
                 </div>
-                <FormComponent.SubmitButton
-                  label="action.submit"
-                  className="!h-12 w-full"
-                />
+                <FormComponent.SubmitButton label="action.submit" className="!h-12 w-full" />
               </div>
             </div>
           </FormWrapper>
@@ -65,5 +51,5 @@ export default function LoginView() {
         {/*</div>*/}
       </div>
     </div>
-  )
+  );
 }

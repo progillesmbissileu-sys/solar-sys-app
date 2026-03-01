@@ -1,46 +1,42 @@
-import React from "react";
-import { ProductType } from "../model/ProductType";
-import { cn } from "@/shared/lib/utils";
-import { generateHundred } from "@/shared/lib";
+import React from 'react';
+import { ProductType } from '../model/ProductType';
+import { cn } from '@/shared/lib/utils';
+import { generateHundred } from '@/shared/lib';
 
-export const ProductCard = (
-  props: ProductType & { color: "dark" | "primary" },
-) => {
+export const ProductCard = (props: ProductType & { color: 'dark' | 'primary' }) => {
   const random = generateHundred();
   return (
-    <div className=" cursor-pointer w-full h-full overflow-hidden">
-      <header className="w-full h-4/5">
-        <figure className="w-full h-full relative overflow-hidden rounded-md">
+    <div className="h-full w-full cursor-pointer overflow-hidden">
+      <header className="h-4/5 w-full">
+        <figure className="relative h-full w-full overflow-hidden rounded-md">
           <img
             src={`https://picsum.photos/${random}/${random}`}
             alt={props.description}
-            className="h-full aspect-video"
+            className="aspect-video h-full"
           />
           <div
             className={cn(
-              "absolute text-center content-center xl:w-3/4 xl:h-1/5 bottom-0 right-0 z-30 rounded-tl-[44px] opacity-100",
+              'absolute right-0 bottom-0 z-30 content-center rounded-tl-[44px] text-center opacity-100 xl:h-1/5 xl:w-3/4',
               {
-                "bg-yellow-500 text-dark": props.color === "primary",
-                "bg-dark text-white": props.color === "dark",
-              },
+                'text-dark bg-yellow-500': props.color === 'primary',
+                'bg-dark text-white': props.color === 'dark',
+              }
             )}
           >
-            <span className="text-lg font-bold font-mono">
-              {Number(props.price).toLocaleString("fr-FR", {
-                style: "currency",
-                currency: "XAF",
+            <span className="font-mono text-lg font-bold">
+              {Number(props.price).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'XAF',
                 minimumFractionDigits: 2,
               })}
             </span>
           </div>
-          <div className="absolute w-full h-full bg-black/5 z-20 top-0 left-0"></div>
+          <div className="absolute top-0 left-0 z-20 h-full w-full bg-black/5"></div>
         </figure>
       </header>
       <footer className="h-1/5 content-center">
         <div>
-          <h4 className="font-semibold leading-[120%] text-lg   text-dark">
-            {props.designation}
-          </h4>
+          <h4 className="text-dark text-lg leading-[120%] font-semibold">{props.designation}</h4>
         </div>
       </footer>
     </div>

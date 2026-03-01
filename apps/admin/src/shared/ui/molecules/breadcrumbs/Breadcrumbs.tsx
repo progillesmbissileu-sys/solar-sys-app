@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { cx } from "@/shared/lib/utils"
-import { useBreadcrumbs } from "@/widgets/container"
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
-import React from "react"
+import { cx } from '@/shared/lib/utils';
+import { useBreadcrumbs } from '@/widgets/container';
+import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
 
 export function Breadcrumbs() {
-  const { breadcrumbs } = useBreadcrumbs("page-header")
+  const { breadcrumbs } = useBreadcrumbs('page-header');
 
   return (
     <>
@@ -19,11 +19,11 @@ export function Breadcrumbs() {
                 <Link
                   href={segment.href as string}
                   className={cx(
-                    "text-gray-500 transition dark:text-gray-400 hover:dark:text-gray-300",
+                    'text-gray-500 transition dark:text-gray-400 hover:dark:text-gray-300',
                     {
-                      "text-gray-900 hover:text-gray-900":
+                      'text-gray-900 hover:text-gray-900':
                         index === (breadcrumbs?.segments ?? []).length - 1,
-                    },
+                    }
                   )}
                 >
                   {segment.label}
@@ -40,5 +40,5 @@ export function Breadcrumbs() {
         </ol>
       </nav>
     </>
-  )
+  );
 }

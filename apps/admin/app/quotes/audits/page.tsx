@@ -1,41 +1,32 @@
-"use client"
+'use client';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/shared/ui/atoms/Accordion"
-import { Button } from "@/shared/ui/atoms/Button"
-import { Input } from "@/shared/ui/atoms/Input"
-import { sections } from "../../../data/data"
-import { RiCheckboxCircleFill, RiErrorWarningFill } from "@remixicon/react"
-import { Link, SlidersHorizontal } from "lucide-react"
+} from '@/shared/ui/atoms/Accordion';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Input } from '@/shared/ui/atoms/Input';
+import { sections } from '../../../data/data';
+import { RiCheckboxCircleFill, RiErrorWarningFill } from '@remixicon/react';
+import { Link, SlidersHorizontal } from 'lucide-react';
 
 const getStatusIcon = (status: string) => {
-  if (status === "complete") {
+  if (status === 'complete') {
     return (
       <RiCheckboxCircleFill className="size-[18px] shrink-0 text-emerald-600 dark:text-emerald-400" />
-    )
+    );
   }
-  return (
-    <RiErrorWarningFill className="size-[18px] shrink-0 text-red-600 dark:text-red-400" />
-  )
-}
+  return <RiErrorWarningFill className="size-[18px] shrink-0 text-red-600 dark:text-red-400" />;
+};
 
 export default function Audits() {
   return (
     <section aria-label="Audits overview">
       <div className="flex flex-col items-center justify-between gap-2 p-6 sm:flex-row">
-        <Input
-          type="search"
-          placeholder="Search audits..."
-          className="sm:w-64 [&>input]:py-1.5"
-        />
-        <Button
-          variant="secondary"
-          className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm"
-        >
+        <Input type="search" placeholder="Search audits..." className="sm:w-64 [&>input]:py-1.5" />
+        <Button variant="secondary" className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm">
           <SlidersHorizontal
             className="-ml-0.5 size-4 shrink-0 text-gray-400 dark:text-gray-600"
             aria-hidden="true"
@@ -70,10 +61,7 @@ export default function Audits() {
                     </p>
                     <ul className="mt-1 divide-y divide-gray-200 text-sm text-gray-600 dark:divide-gray-800 dark:text-gray-400">
                       {section.auditDates.map((audit, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center justify-between py-2.5"
-                        >
+                        <li key={index} className="flex items-center justify-between py-2.5">
                           <span>{audit.date}</span>
                           <span>{audit.auditor}</span>
                         </li>
@@ -95,10 +83,7 @@ export default function Audits() {
                             href="#"
                             className="flex items-center gap-2 text-blue-500 hover:underline hover:underline-offset-4 dark:text-blue-500"
                           >
-                            <Link
-                              className="size-4 shrink-0"
-                              aria-hidden="true"
-                            />
+                            <Link className="size-4 shrink-0" aria-hidden="true" />
                             {doc.name}
                           </a>
                           <div className="flex items-center gap-2">
@@ -130,5 +115,5 @@ export default function Audits() {
         </Accordion>
       </div>
     </section>
-  )
+  );
 }

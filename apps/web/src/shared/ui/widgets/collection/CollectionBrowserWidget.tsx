@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Select,
   SelectContent,
@@ -6,35 +6,33 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../core/select";
-import { Input } from "../../core/input";
-import { CollectionBrowserWidgetProps } from "./types";
-import { CollectionFilterGroup } from "./CollectionFilterGroup";
-import { cn } from "@/shared/lib/utils";
-import { products } from "@/shared/assets/data/products";
-import AppPagination from "@/shared/ui/core/AppPagination";
+} from '../../core/select';
+import { Input } from '../../core/input';
+import { CollectionBrowserWidgetProps } from './types';
+import { CollectionFilterGroup } from './CollectionFilterGroup';
+import { cn } from '@/shared/lib/utils';
+import { products } from '@/shared/assets/data/products';
+import AppPagination from '@/shared/ui/core/AppPagination';
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function CollectionBrowserWidget<T>(
-  props: CollectionBrowserWidgetProps<T>,
-) {
+export function CollectionBrowserWidget<T>(props: CollectionBrowserWidgetProps<T>) {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      <aside className="xl:col-span-1 space-y-6">
+      <aside className="space-y-6 xl:col-span-1">
         {props.groupFilters?.map((filter, index) => (
           <div className="space-y-6" key={index}>
-            <h3 className="text-xl font-medium relative h-14 content-center">
+            <h3 className="relative h-14 content-center text-xl font-medium">
               {filter.groupTitle}
-              <div className="h-1 w-10 absolute left-0 bottom-0 bg-dark"></div>
+              <div className="bg-dark absolute bottom-0 left-0 h-1 w-10"></div>
             </h3>
             <div className="xl:pr-6">
               {filter.groupItems.map((item, index) => (
                 <div
-                  className={cn("border-b border-gray-200 pb-3", {
-                    "pt-3": index != 0,
+                  className={cn('border-b border-gray-200 pb-3', {
+                    'pt-3': index != 0,
                   })}
                   key={index}
                 >
@@ -50,19 +48,16 @@ export function CollectionBrowserWidget<T>(
         ))}
       </aside>
       <aside className="xl:col-span-3">
-        <header className="grid grid-cols-4 gap-4 h-14">
+        <header className="grid h-14 grid-cols-4 gap-4">
           <div className="flex items-center">Afficher 10 sur 10 resultats</div>
           <div className="col-span-2 flex items-center gap-x-2">
             <div>Rechercher: </div>
-            <Input
-              placeholder="Type something ..."
-              className="!h-12 rounded-sm"
-            />
+            <Input placeholder="Type something ..." className="!h-12 rounded-sm" />
           </div>
-          <div className="flex gap-x-2 items-center">
+          <div className="flex items-center gap-x-2">
             <div>Filtres: </div>
             <Select>
-              <SelectTrigger className="w-[200px] !h-12 rounded-sm">
+              <SelectTrigger className="!h-12 w-[200px] rounded-sm">
                 <SelectValue placeholder="Afficher 16 par page" />
               </SelectTrigger>
               <SelectContent className="rounded-sm shadow-none">
@@ -76,8 +71,8 @@ export function CollectionBrowserWidget<T>(
           </div>
         </header>
         <main className="pt-3">
-          <div className="border-gray-200 border-t mb-6"></div>
-          <div className=" grid xl:grid-cols-4 xl:gap-9">
+          <div className="mb-6 border-t border-gray-200"></div>
+          <div className="grid xl:grid-cols-4 xl:gap-9">
             {products.map((item: any, index: number) => (
               <div key={index}>{props.renderItem(item, index)}</div>
             ))}

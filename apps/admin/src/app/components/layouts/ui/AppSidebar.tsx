@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Divider } from "@/shared/ui/atoms/Divider"
-import { Input } from "@/shared/ui/atoms/Input"
+import { Divider } from '@/shared/ui/atoms/Divider';
+import { Input } from '@/shared/ui/atoms/Input';
 import {
   Sidebar,
   SidebarContent,
@@ -14,37 +14,32 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarSubLink,
-} from "@/shared/ui/molecules/sidebar/Sidebar"
-import { cx, focusRing } from "@/shared/lib/utils"
-import { RiArrowDownSFill } from "@remixicon/react"
-import * as React from "react"
-import { UserProfile } from "@/shared/ui/molecules/userProfile/UserProfile"
-import { companyConfig } from "@/shared/config"
-import Image from "next/image"
-import { productModuleConfig } from "@/modules/product/config/module"
-import { dashboardModuleConfig } from "@/modules/dashboard"
-import { locationModuleConfig } from "@/modules/location"
-import { useLayout } from "@/app/components/layouts/lib/use-layout"
+} from '@/shared/ui/molecules/sidebar/Sidebar';
+import { cx, focusRing } from '@/shared/lib/utils';
+import { RiArrowDownSFill } from '@remixicon/react';
+import * as React from 'react';
+import { UserProfile } from '@/shared/ui/molecules/userProfile/UserProfile';
+import { companyConfig } from '@/shared/config';
+import Image from 'next/image';
+import { productModuleConfig } from '@/modules/product/config/module';
+import { dashboardModuleConfig } from '@/modules/dashboard';
+import { locationModuleConfig } from '@/modules/location';
+import { useLayout } from '@/app/components/layouts/lib/use-layout';
 
-const navigation = [dashboardModuleConfig, locationModuleConfig]
+const navigation = [dashboardModuleConfig, locationModuleConfig];
 
-const navigation2 = [productModuleConfig]
+const navigation2 = [productModuleConfig];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const context = useLayout()
-  const [openMenus, setOpenMenus] = React.useState<string[]>([])
+  const context = useLayout();
+  const [openMenus, setOpenMenus] = React.useState<string[]>([]);
 
   return (
-    <Sidebar {...props} className="dark:bg-foreground-dark bg-gray-50">
+    <Sidebar {...props} className="bg-gray-50 dark:bg-foreground-dark">
       <SidebarHeader className="px-3 py-4">
         <div className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-md bg-white p-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-gray-900 dark:ring-gray-800">
-            <Image
-              src={companyConfig.logo}
-              alt="company logo"
-              width={24}
-              height={24}
-            />
+            <Image src={companyConfig.logo} alt="company logo" width={24} height={24} />
           </span>
           <div>
             <span className="block text-sm font-semibold text-gray-900 dark:text-gray-50">
@@ -59,21 +54,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <Input
-              type="search"
-              placeholder="Search items..."
-              className="[&>input]:sm:py-1.5"
-            />
+            <Input type="search" placeholder="Search items..." className="[&>input]:sm:py-1.5" />
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup className="pt-0">
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
               {navigation.map((item) => (
-                <SidebarMenuItem
-                  key={item.key}
-                  onClick={() => context.toggleMenu(item.key)}
-                >
+                <SidebarMenuItem key={item.key} onClick={() => context.toggleMenu(item.key)}>
                   <SidebarLink
                     href={item.path}
                     isActive={context.activeMenu === item.key}
@@ -101,27 +89,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       setOpenMenus((prev) =>
                         prev.includes(item.key)
                           ? prev.filter((key) => key !== item.key)
-                          : [...prev, item.key],
+                          : [...prev, item.key]
                       )
                     }
                     className={cx(
-                      "flex w-full items-center justify-between gap-x-2.5 rounded-md p-2 text-base text-gray-900 transition hover:bg-gray-200/50 sm:text-sm dark:text-gray-400 hover:dark:bg-gray-900 hover:dark:text-gray-50",
-                      focusRing,
+                      'flex w-full items-center justify-between gap-x-2.5 rounded-md p-2 text-base text-gray-900 transition hover:bg-gray-200/50 sm:text-sm dark:text-gray-400 hover:dark:bg-gray-900 hover:dark:text-gray-50',
+                      focusRing
                     )}
                   >
                     <div className="flex items-center gap-2.5">
-                      <item.icon
-                        className="size-[18px] shrink-0"
-                        aria-hidden="true"
-                      />
+                      <item.icon className="size-[18px] shrink-0" aria-hidden="true" />
                       {item.title}
                     </div>
                     <RiArrowDownSFill
                       className={cx(
-                        openMenus.includes(item.key)
-                          ? "rotate-0"
-                          : "-rotate-90",
-                        "size-5 shrink-0 transform text-gray-400 transition-transform duration-150 ease-in-out dark:text-gray-600",
+                        openMenus.includes(item.key) ? 'rotate-0' : '-rotate-90',
+                        'size-5 shrink-0 transform text-gray-400 transition-transform duration-150 ease-in-out dark:text-gray-600'
                       )}
                       aria-hidden="true"
                     />
@@ -130,10 +113,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenuSub>
                       <div className="absolute inset-y-0 left-4 w-px bg-gray-300 dark:bg-gray-800" />
                       {item.children.map((child) => (
-                        <div
-                          key={child.key}
-                          onClick={() => context.toggleMenu(child.key)}
-                        >
+                        <div key={child.key} onClick={() => context.toggleMenu(child.key)}>
                           <SidebarMenuItem>
                             <SidebarSubLink
                               href={child.path}
@@ -157,5 +137,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <UserProfile />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

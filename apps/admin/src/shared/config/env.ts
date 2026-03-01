@@ -4,9 +4,9 @@ const envSchema = {
     ? parseInt(process.env.NEXT_PUBLIC_COOKIE_MAX_AGE)
     : undefined,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-}
+};
 
 Object.entries(envSchema).forEach(([key, value]) => {
-  if (!value) throw new Error(`Missing env variable: ${key}`)
-})
-export const env = envSchema
+  if (!value) throw new Error(`Missing env variable: ${key}`);
+});
+export const env = envSchema;

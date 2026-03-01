@@ -1,11 +1,10 @@
 export const changeSidebarState = () => {
-  const sidebarState = localStorage.getItem("isSidebarOpen") || "true"
-  const state = sidebarState !== "true"
-  localStorage.setItem("isSidebarOpen", state.toString())
-}
+  const sidebarState = localStorage.getItem('isSidebarOpen') || 'true';
+  const state = sidebarState !== 'true';
+  localStorage.setItem('isSidebarOpen', state.toString());
+};
 
 export const activateNavigationItem = (key: string) =>
-  localStorage.setItem("activeNavbarItem", key)
+  localStorage.setItem('activeNavbarItem', key);
 
-export const getActivateNavigationItem = () =>
-  localStorage.getItem("activeNavbarItem")
+export const getActivateNavigationItem = () => localStorage.getItem('activeNavbarItem');

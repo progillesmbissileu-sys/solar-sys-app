@@ -1,29 +1,24 @@
-"use client"
-import { BarChart } from "@/shared/ui/atoms/BarChart"
-import { Button } from "@/shared/ui/atoms/Button"
-import { ComboChart } from "@/shared/ui/molecules/ComboChart"
-import { ConditionalBarChart } from "@/shared/ui/molecules/ConditionalBarChart"
+'use client';
+import { BarChart } from '@/shared/ui/atoms/BarChart';
+import { Button } from '@/shared/ui/atoms/Button';
+import { ComboChart } from '@/shared/ui/molecules/ComboChart';
+import { ConditionalBarChart } from '@/shared/ui/molecules/ConditionalBarChart';
 import {
   CustomTooltip,
   CustomTooltip2,
   CustomTooltip3,
   CustomTooltip4,
-} from "@/shared/ui/molecules/CustomTooltips"
+} from '@/shared/ui/molecules/CustomTooltips';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/atoms/Select"
-import {
-  dataChart,
-  dataChart2,
-  dataChart3,
-  dataChart4,
-} from "../../../data/data"
-import { formatters } from "@/shared/lib/utils"
-import { SlidersHorizontal } from "lucide-react"
+} from '@/shared/ui/atoms/Select';
+import { dataChart, dataChart2, dataChart3, dataChart4 } from '../../../data/data';
+import { formatters } from '@/shared/lib/utils';
+import { SlidersHorizontal } from 'lucide-react';
 
 export default function Monitoring() {
   return (
@@ -40,10 +35,7 @@ export default function Monitoring() {
             <SelectItem value="365-days">Last 365 days</SelectItem>
           </SelectContent>
         </Select>
-        <Button
-          variant="secondary"
-          className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm"
-        >
+        <Button variant="secondary" className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm">
           <SlidersHorizontal
             className="-ml-0.5 size-4 shrink-0 text-gray-400 dark:text-gray-600"
             aria-hidden="true"
@@ -54,9 +46,7 @@ export default function Monitoring() {
       <dl className="grid grid-cols-1 gap-x-14 gap-y-10 border-t border-gray-200 p-6 md:grid-cols-2 dark:border-gray-800">
         <div className="flex flex-col justify-between p-0">
           <div>
-            <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-              Inherent risk
-            </dt>
+            <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">Inherent risk</dt>
             <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
               Risk scenarios over time grouped by risk level
             </dd>
@@ -64,8 +54,8 @@ export default function Monitoring() {
           <BarChart
             data={dataChart}
             index="date"
-            categories={["Current year", "Same period last year"]}
-            colors={["blue", "lightGray"]}
+            categories={['Current year', 'Same period last year']}
+            colors={['blue', 'lightGray']}
             yAxisWidth={45}
             customTooltip={CustomTooltip}
             yAxisLabel="Number of inherent risks"
@@ -76,8 +66,8 @@ export default function Monitoring() {
           <BarChart
             data={dataChart}
             index="date"
-            categories={["Current year", "Same period last year"]}
-            colors={["blue", "lightGray"]}
+            categories={['Current year', 'Same period last year']}
+            colors={['blue', 'lightGray']}
             showYAxis={false}
             customTooltip={CustomTooltip}
             barCategoryGap="20%"
@@ -98,14 +88,14 @@ export default function Monitoring() {
             index="date"
             enableBiaxial={true}
             barSeries={{
-              categories: ["Quotes"],
-              yAxisLabel: "Number of quotes / Deal size ($)",
+              categories: ['Quotes'],
+              yAxisLabel: 'Number of quotes / Deal size ($)',
               valueFormatter: (value) =>
                 formatters.currency({ number: value, maxFractionDigits: 0 }),
             }}
             lineSeries={{
-              categories: ["Total deal size"],
-              colors: ["lightGray"],
+              categories: ['Total deal size'],
+              colors: ['lightGray'],
               showYAxis: false,
             }}
             customTooltip={CustomTooltip2}
@@ -116,12 +106,12 @@ export default function Monitoring() {
             index="date"
             enableBiaxial={true}
             barSeries={{
-              categories: ["Quotes"],
+              categories: ['Quotes'],
               showYAxis: false,
             }}
             lineSeries={{
-              categories: ["Total deal size"],
-              colors: ["lightGray"],
+              categories: ['Total deal size'],
+              colors: ['lightGray'],
               showYAxis: false,
             }}
             customTooltip={CustomTooltip2}
@@ -130,9 +120,7 @@ export default function Monitoring() {
         </div>
         <div className="flex flex-col justify-between">
           <div>
-            <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-              ESG impact
-            </dt>
+            <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">ESG impact</dt>
             <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
               Evaluation of addressed ESG criteria in biddings over time
             </dd>
@@ -140,8 +128,8 @@ export default function Monitoring() {
           <BarChart
             data={dataChart3}
             index="date"
-            categories={["Addressed", "Unrealized"]}
-            colors={["emerald", "lightEmerald"]}
+            categories={['Addressed', 'Unrealized']}
+            colors={['emerald', 'lightEmerald']}
             customTooltip={CustomTooltip3}
             type="percent"
             yAxisWidth={55}
@@ -152,8 +140,8 @@ export default function Monitoring() {
           <BarChart
             data={dataChart3}
             index="date"
-            categories={["Addressed", "Unrealized"]}
-            colors={["emerald", "lightEmerald"]}
+            categories={['Addressed', 'Unrealized']}
+            colors={['emerald', 'lightEmerald']}
             customTooltip={CustomTooltip3}
             showYAxis={false}
             type="percent"
@@ -173,12 +161,10 @@ export default function Monitoring() {
           <ConditionalBarChart
             data={dataChart4}
             index="date"
-            categories={["Density"]}
-            colors={["orange"]}
+            categories={['Density']}
+            colors={['orange']}
             customTooltip={CustomTooltip4}
-            valueFormatter={(value) =>
-              formatters.percentage({ number: value, decimals: 0 })
-            }
+            valueFormatter={(value) => formatters.percentage({ number: value, decimals: 0 })}
             yAxisWidth={55}
             yAxisLabel="Competition density (%)"
             barCategoryGap="30%"
@@ -187,12 +173,10 @@ export default function Monitoring() {
           <ConditionalBarChart
             data={dataChart4}
             index="date"
-            categories={["Density"]}
-            colors={["orange"]}
+            categories={['Density']}
+            colors={['orange']}
             customTooltip={CustomTooltip4}
-            valueFormatter={(value) =>
-              formatters.percentage({ number: value, decimals: 0 })
-            }
+            valueFormatter={(value) => formatters.percentage({ number: value, decimals: 0 })}
             showYAxis={false}
             barCategoryGap="30%"
             className="mt-4 h-60 md:hidden"
@@ -200,5 +184,5 @@ export default function Monitoring() {
         </div>
       </dl>
     </section>
-  )
+  );
 }

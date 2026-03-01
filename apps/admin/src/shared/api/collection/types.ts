@@ -1,26 +1,24 @@
 export type CollectionResponseType<TData> = {
-  data: TData[]
+  data: TData[];
   meta: {
-    pagination?: Pagination
-    filter?: FilterParams
-    sort?: SortParams
-  }
-}
+    pagination?: Pagination;
+    filter?: FilterParams;
+    sort?: SortParams;
+  };
+};
 
 export type Pagination = {
-  total?: number
-  page: number
-  limit: number
-}
+  total?: number;
+  page: number;
+  limit: number;
+};
 
 export type FilterParams = {
-  [key: string]: string | number | boolean | string[] | number[] | boolean[]
-}
+  [key: string]: string | number | boolean | string[] | number[] | boolean[];
+};
 
 export type SortParams = {
-  [key: string]: "asc" | "desc"
-}
+  [key: string]: 'asc' | 'desc';
+};
 
-export type CollectionQueryParams = Pagination &
-  FilterParams &
-  SortParams & { q?: string }
+export type CollectionQueryParams = Pagination & FilterParams & SortParams & { q?: string };

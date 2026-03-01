@@ -1,7 +1,4 @@
-import {
-  REFRESH_TOKEN_COOKIE_NAME,
-  TOKEN_COOKIE_NAME,
-} from "@/shared/lib/auth/constant"
+import { REFRESH_TOKEN_COOKIE_NAME, TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
 
 /**
  * Login function - call your API and store tokens in cookies
@@ -12,19 +9,19 @@ import {
  */
 
 export function getClientAccessToken(): string | null {
-  if (typeof window === "undefined") return null
+  if (typeof window === 'undefined') return null;
 
-  const name = TOKEN_COOKIE_NAME + "="
-  const decodedCookie = decodeURIComponent(document.cookie)
-  const cookieArray = decodedCookie.split(";")
+  const name = TOKEN_COOKIE_NAME + '=';
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(';');
 
   for (let cookie of cookieArray) {
-    cookie = cookie.trim()
+    cookie = cookie.trim();
     if (cookie.indexOf(name) === 0) {
-      return cookie.substring(name.length)
+      return cookie.substring(name.length);
     }
   }
-  return null
+  return null;
 }
 
 /**
@@ -35,19 +32,19 @@ export function getClientAccessToken(): string | null {
  * Client-side function to get refresh token from cookies
  */
 export function getClientRefreshToken(): string | null {
-  if (typeof window === "undefined") return null
+  if (typeof window === 'undefined') return null;
 
-  const name = REFRESH_TOKEN_COOKIE_NAME + "="
-  const decodedCookie = decodeURIComponent(document.cookie)
-  const cookieArray = decodedCookie.split(";")
+  const name = REFRESH_TOKEN_COOKIE_NAME + '=';
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(';');
 
   for (let cookie of cookieArray) {
-    cookie = cookie.trim()
+    cookie = cookie.trim();
     if (cookie.indexOf(name) === 0) {
-      return cookie.substring(name.length)
+      return cookie.substring(name.length);
     }
   }
-  return null
+  return null;
 }
 
 /**

@@ -1,19 +1,19 @@
-import { CalendarCheck, MapPin, Phone } from "lucide-react";
-import Image from "next/image";
-import { APP_ROUTES } from "@/shared/config/app-routes";
-import Link from "next/link";
+import { CalendarCheck, MapPin, Phone } from 'lucide-react';
+import Image from 'next/image';
+import { APP_ROUTES } from '@/shared/config/app-routes';
+import Link from 'next/link';
 
 const menu = [
   {
-    title: "Accueil",
+    title: 'Accueil',
     url: APP_ROUTES.HOME,
   },
   {
-    title: "Boutique",
+    title: 'Boutique',
     url: APP_ROUTES.IN_STORE,
   },
   {
-    title: "Services",
+    title: 'Services',
     url: APP_ROUTES.SERVICES,
   },
   {
@@ -25,30 +25,26 @@ const menu = [
 export function AppHeader() {
   return (
     <div>
-      <section className="w-full  lg:h-14 ">
-        <div className="relative h-full flex justify-between">
+      <section className="w-full lg:h-14">
+        <div className="relative flex h-full justify-between">
           <aside className="bg-dark w-full xl:[clip-path:polygon(0_0,60%_0,70%_100%,0_100%)]">
-            <div className="container content-center h-full">
+            <div className="container h-full content-center">
               <ul className="flex gap-x-12">
-                <li className="text-yellow-500 flex gap-x-2 font-montserrat-sans">
+                <li className="font-montserrat-sans flex gap-x-2 text-yellow-500">
                   <CalendarCheck size={17} />
-                  <span className="text-[15px]">
-                    Ouvert Lun - Dim / 07h-19h
-                  </span>
+                  <span className="text-[15px]">Ouvert Lun - Dim / 07h-19h</span>
                 </li>
-                <li className="text-yellow-500 flex gap-x-2 font-montserrat-sans">
+                <li className="font-montserrat-sans flex gap-x-2 text-yellow-500">
                   <MapPin size={17} />
-                  <span className="text-[15px]">
-                    Yaounde, Lycee Bilingue Essos
-                  </span>
+                  <span className="text-[15px]">Yaounde, Lycee Bilingue Essos</span>
                 </li>
               </ul>
             </div>
           </aside>
-          <aside className="bg-yellow-500 absolute w-full h-full top-0 right-0 [clip-path:polygon(60%_0,100%_0,100%_100%,70%_100%)]">
-            <div className="container content-center h-full">
-              <ul className="flex gap-x-12 justify-end">
-                <li className="text-dark flex gap-x-2 font-sans items-center">
+          <aside className="absolute top-0 right-0 h-full w-full bg-yellow-500 [clip-path:polygon(60%_0,100%_0,100%_100%,70%_100%)]">
+            <div className="container h-full content-center">
+              <ul className="flex justify-end gap-x-12">
+                <li className="text-dark flex items-center gap-x-2 font-sans">
                   <Phone size={17} />
                   <span className="text-[15px] font-medium">
                     (+237) 655 55 55 90 - 675 75 75 30
@@ -59,21 +55,16 @@ export function AppHeader() {
           </aside>
         </div>
       </section>
-      <section className="container h-20 flex overflow-hidden items-center justify-between">
+      <section className="container flex h-20 items-center justify-between overflow-hidden">
         <div className="xl:basis-1/3">
           <a href="/apps/web/public">
             <figure>
-              <Image
-                src="logo.svg"
-                alt="Logo de l'entreprise"
-                width={56}
-                height={100}
-              />
+              <Image src="logo.svg" alt="Logo de l'entreprise" width={56} height={100} />
             </figure>
           </a>
         </div>
         <nav className="xl:basis-1/3">
-          <ul className="flex justify-between gap-x-3 lg:gap-x-6 xl:gap-x-12 font-family-sans font-medium">
+          <ul className="font-family-sans flex justify-between gap-x-3 font-medium lg:gap-x-6 xl:gap-x-12">
             {menu.map((item) => (
               <li>
                 <Link prefetch href={item.url}>
@@ -83,12 +74,12 @@ export function AppHeader() {
             ))}
           </ul>
         </nav>
-        <div className="flex items-center gap-x-3 xl:gap-x-8 xl:basis-1/3 justify-end">
+        <div className="flex items-center justify-end gap-x-3 xl:basis-1/3 xl:gap-x-8">
           <div>
             <div>
               <label>
                 <input
-                  className="rounded-full lg:w-64 py-2.5 px-3 border text-sm border-gray-300"
+                  className="rounded-full border border-gray-300 px-3 py-2.5 text-sm lg:w-64"
                   type="search"
                   placeholder="Rechercher"
                 />

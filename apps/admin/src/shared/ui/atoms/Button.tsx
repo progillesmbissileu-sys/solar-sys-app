@@ -1,18 +1,18 @@
 // Tremor Button [v0.2.0]
 
-import React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { RiLoader2Fill } from "@remixicon/react"
-import { tv, type VariantProps } from "tailwind-variants"
+import React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { RiLoader2Fill } from '@remixicon/react';
+import { tv, type VariantProps } from 'tailwind-variants';
 
-import { cx, focusRing } from "@/shared/lib/utils"
+import { cx, focusRing } from '@/shared/lib/utils';
 
 const buttonVariants = tv({
   base: [
     // base
-    "relative inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border px-3 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out",
+    'relative inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border px-3 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out',
     // disabled
-    "disabled:pointer-events-none disabled:shadow-none",
+    'disabled:pointer-events-none disabled:shadow-none',
     // focus
     focusRing,
   ],
@@ -20,85 +20,83 @@ const buttonVariants = tv({
     variant: {
       primary: [
         // border
-        "border-transparent",
+        'border-transparent',
         // text color
-        "text-white dark:text-white",
+        'text-white dark:text-white',
         // background color
-        "bg-primary dark:bg-primary-dark",
+        'bg-primary dark:bg-primary-dark',
         // hover color
-        "hover:bg-primary/90 dark:hover:bg-primary",
+        'hover:bg-primary/90 dark:hover:bg-primary',
         // disabled
-        "disabled:bg-blue-300 disabled:text-white",
-        "disabled:dark:bg-blue-800 disabled:dark:text-blue-400",
+        'disabled:bg-blue-300 disabled:text-white',
+        'disabled:dark:bg-blue-800 disabled:dark:text-blue-400',
       ],
       secondary: [
         // border
-        "border-gray-300 dark:border-gray-800",
+        'border-gray-300 dark:border-gray-800',
         // text color
-        "text-gray-900 dark:text-gray-50",
+        'text-gray-900 dark:text-gray-50',
         // background color
-        "bg-white dark:bg-gray-950",
+        'bg-white dark:bg-gray-950',
         //hover color
-        "hover:bg-gray-50 dark:hover:bg-gray-900/60",
+        'hover:bg-gray-50 dark:hover:bg-gray-900/60',
         // disabled
-        "disabled:text-gray-400",
-        "disabled:dark:text-gray-600",
+        'disabled:text-gray-400',
+        'disabled:dark:text-gray-600',
       ],
       light: [
         // base
-        "shadow-none",
+        'shadow-none',
         // border
-        "border-transparent",
+        'border-transparent',
         // text color
-        "text-gray-900 dark:text-gray-50",
+        'text-gray-900 dark:text-gray-50',
         // background color
-        "bg-gray-200 dark:bg-gray-900",
+        'bg-gray-200 dark:bg-gray-900',
         // hover color
-        "hover:bg-gray-300/70 dark:hover:bg-gray-800/80",
+        'hover:bg-gray-300/70 dark:hover:bg-gray-800/80',
         // disabled
-        "disabled:bg-gray-100 disabled:text-gray-400",
-        "disabled:dark:bg-gray-800 disabled:dark:text-gray-600",
+        'disabled:bg-gray-100 disabled:text-gray-400',
+        'disabled:dark:bg-gray-800 disabled:dark:text-gray-600',
       ],
       ghost: [
         // base
-        "shadow-none",
+        'shadow-none',
         // border
-        "border-transparent",
+        'border-transparent',
         // text color
-        "text-gray-900 dark:text-gray-50",
+        'text-gray-900 dark:text-gray-50',
         // hover color
-        "bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800/80",
+        'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800/80',
         // disabled
-        "disabled:text-gray-400",
-        "disabled:dark:text-gray-600",
+        'disabled:text-gray-400',
+        'disabled:dark:text-gray-600',
       ],
       destructive: [
         // text color
-        "text-white",
+        'text-white',
         // border
-        "border-transparent",
+        'border-transparent',
         // background color
-        "bg-red-600 dark:bg-red-700",
+        'bg-red-600 dark:bg-red-700',
         // hover color
-        "hover:bg-red-700 dark:hover:bg-red-600",
+        'hover:bg-red-700 dark:hover:bg-red-600',
         // disabled
-        "disabled:bg-red-300 disabled:text-white",
-        "disabled:dark:bg-red-950 disabled:dark:text-red-400",
+        'disabled:bg-red-300 disabled:text-white',
+        'disabled:dark:bg-red-950 disabled:dark:text-red-400',
       ],
     },
   },
   defaultVariants: {
-    variant: "primary",
+    variant: 'primary',
   },
-})
+});
 
 interface ButtonProps
-  extends
-    React.ComponentPropsWithoutRef<"button">,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  isLoading?: boolean
-  loadingText?: string
+  extends React.ComponentPropsWithoutRef<'button'>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -113,9 +111,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       ...props
     }: ButtonProps,
-    forwardedRef,
+    forwardedRef
   ) => {
-    const Component = asChild ? Slot : "button"
+    const Component = asChild ? Slot : 'button';
     return (
       <Component
         ref={forwardedRef}
@@ -126,23 +124,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {isLoading ? (
           <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
-            <RiLoader2Fill
-              className="size-4 shrink-0 animate-spin"
-              aria-hidden="true"
-            />
-            <span className="sr-only">
-              {loadingText ? loadingText : "Loading"}
-            </span>
+            <RiLoader2Fill className="size-4 shrink-0 animate-spin" aria-hidden="true" />
+            <span className="sr-only">{loadingText ? loadingText : 'Loading'}</span>
             {loadingText ? loadingText : children}
           </span>
         ) : (
           children
         )}
       </Component>
-    )
-  },
-)
+    );
+  }
+);
 
-Button.displayName = "Button"
+Button.displayName = 'Button';
 
-export { Button, buttonVariants, type ButtonProps }
+export { Button, buttonVariants, type ButtonProps };

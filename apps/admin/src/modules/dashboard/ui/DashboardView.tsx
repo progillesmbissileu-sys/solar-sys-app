@@ -1,3 +1,3 @@
 export default function DashboardView() {
-  return <>WELCOME DASHBOARD VIEW</>
+  return <>WELCOME DASHBOARD VIEW</>;
 }

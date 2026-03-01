@@ -1,14 +1,14 @@
-"use client"
-import { Badge } from "@/shared/ui/atoms/Badge"
-import { Button } from "@/shared/ui/atoms/Button"
-import { Input } from "@/shared/ui/atoms/Input"
+'use client';
+import { Badge } from '@/shared/ui/atoms/Badge';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Input } from '@/shared/ui/atoms/Input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/atoms/Select"
+} from '@/shared/ui/atoms/Select';
 import {
   Table,
   TableBody,
@@ -17,36 +17,30 @@ import {
   TableHeaderCell,
   TableRoot,
   TableRow,
-} from "@/shared/ui/atoms/Table"
-import { cx } from "@/shared/lib/utils"
-import { Download } from "lucide-react"
-import { Fragment } from "react"
-import { quotes } from "../../../data/data"
+} from '@/shared/ui/atoms/Table';
+import { cx } from '@/shared/lib/utils';
+import { Download } from 'lucide-react';
+import { Fragment } from 'react';
+import { quotes } from '../../../data/data';
 
 const colorClasses = [
-  "bg-blue-500 dark:bg-blue-500",
-  "bg-purple-500 dark:bg-purple-500",
-  "bg-emerald-500 dark:bg-emerald-500",
-  "bg-cyan-500 dark:bg-cyan-500",
-  "bg-rose-500 dark:bg-rose-500",
-  "bg-indigo-500 dark:bg-indigo-500",
-]
+  'bg-blue-500 dark:bg-blue-500',
+  'bg-purple-500 dark:bg-purple-500',
+  'bg-emerald-500 dark:bg-emerald-500',
+  'bg-cyan-500 dark:bg-cyan-500',
+  'bg-rose-500 dark:bg-rose-500',
+  'bg-indigo-500 dark:bg-indigo-500',
+];
 
 const getRandomColor = (initials: string) => {
-  const seed = initials
-    .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), 0)
-  return colorClasses[seed % colorClasses.length]
-}
+  const seed = initials.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return colorClasses[seed % colorClasses.length];
+};
 export default function Overview() {
   return (
     <section aria-label="Overview Table">
       <div className="flex flex-col justify-between gap-2 px-4 py-6 sm:flex-row sm:items-center sm:p-6">
-        <Input
-          type="search"
-          placeholder="Search quotes..."
-          className="sm:w-64 [&>input]:py-1.5"
-        />
+        <Input type="search" placeholder="Search quotes..." className="sm:w-64 [&>input]:py-1.5" />
         <div className="flex flex-col items-center gap-2 sm:flex-row">
           <Select>
             <SelectTrigger className="w-full py-1.5 sm:w-44">
@@ -58,10 +52,7 @@ export default function Overview() {
               <SelectItem value="3">Emma Stone</SelectItem>
             </SelectContent>
           </Select>
-          <Button
-            variant="secondary"
-            className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm"
-          >
+          <Button variant="secondary" className="w-full gap-2 py-1.5 text-base sm:w-fit sm:text-sm">
             <Download
               className="-ml-0.5 size-4 shrink-0 text-gray-400 dark:text-gray-600"
               aria-hidden="true"
@@ -110,7 +101,7 @@ export default function Overview() {
                             key={nameIndex}
                             className={cx(
                               getRandomColor(name.initials),
-                              "inline-flex size-5 items-center justify-center rounded-full text-xs font-medium text-white ring-2 ring-white dark:text-white dark:ring-[#090E1A]",
+                              'inline-flex size-5 items-center justify-center rounded-full text-xs font-medium text-white ring-2 ring-white dark:text-white dark:ring-[#090E1A]'
                             )}
                           >
                             {name.initials}
@@ -121,32 +112,29 @@ export default function Overview() {
                     <TableCell>
                       <Badge
                         variant={
-                          item.status === "Closed"
-                            ? "success"
-                            : item.status === "Drafted"
-                              ? "neutral"
-                              : item.status === "Sent"
-                                ? "default"
-                                : "default"
+                          item.status === 'Closed'
+                            ? 'success'
+                            : item.status === 'Drafted'
+                              ? 'neutral'
+                              : item.status === 'Sent'
+                                ? 'default'
+                                : 'default'
                         }
                         className="rounded-full"
                       >
                         <span
                           className={cx(
-                            "size-1.5 shrink-0 rounded-full",
-                            "bg-gray-500 dark:bg-gray-500",
+                            'size-1.5 shrink-0 rounded-full',
+                            'bg-gray-500 dark:bg-gray-500',
                             {
-                              "bg-emerald-600 dark:bg-emerald-400":
-                                item.status === "Closed",
+                              'bg-emerald-600 dark:bg-emerald-400': item.status === 'Closed',
                             },
                             {
-                              "bg-gray-500 dark:bg-gray-500":
-                                item.status === "Drafted",
+                              'bg-gray-500 dark:bg-gray-500': item.status === 'Drafted',
                             },
                             {
-                              "bg-blue-500 dark:bg-blue-500":
-                                item.status === "Sent",
-                            },
+                              'bg-blue-500 dark:bg-blue-500': item.status === 'Sent',
+                            }
                           )}
                           aria-hidden="true"
                         />
@@ -161,5 +149,5 @@ export default function Overview() {
         </Table>
       </TableRoot>
     </section>
-  )
+  );
 }

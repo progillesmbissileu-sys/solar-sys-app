@@ -1,7 +1,7 @@
-import { Fragment } from "react"
-import { AppSidebar } from "@/app/components/layouts/ui/AppSidebar"
-import { SidebarTrigger } from "@/shared/ui/molecules/sidebar/Sidebar"
-import { Breadcrumbs } from "@/shared/ui/molecules/breadcrumbs/Breadcrumbs"
+import { Fragment } from 'react';
+import { AppSidebar } from '@/app/components/layouts/ui/AppSidebar';
+import { SidebarTrigger } from '@/shared/ui/molecules/sidebar/Sidebar';
+import { Breadcrumbs } from '@/shared/ui/molecules/breadcrumbs/Breadcrumbs';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,5 +16,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="xl:h-[calc(100%-64px)]">{children}</main>
       </div>
     </Fragment>
-  )
+  );
 }

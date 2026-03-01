@@ -1,32 +1,30 @@
-"use client"
+'use client';
 
-import { cx } from "@/shared/lib/utils"
-import { useFieldContext } from "./form-config"
-import { Label } from "@/shared/ui/atoms/Label"
-import React from "react"
+import { cx } from '@/shared/lib/utils';
+import { useFieldContext } from './form-config';
+import { Label } from '@/shared/ui/atoms/Label';
+import React from 'react';
 
 type WithFormFieldProps = {
-  name: string
-  label?: string
-  className?: string
-}
+  name: string;
+  label?: string;
+  className?: string;
+};
 
-type InputValue = string | number | boolean
+type InputValue = string | number | boolean;
 
-export function withFieldContext<TProps extends object>(
-  Component: React.ComponentType<TProps>,
-) {
+export function withFieldContext<TProps extends object>(Component: React.ComponentType<TProps>) {
   return function Field(props: TProps & WithFormFieldProps) {
-    const { label, className, name, ...componentProps } = props
-    const field = useFieldContext<InputValue>()
+    const { label, className, name, ...componentProps } = props;
+    const field = useFieldContext<InputValue>();
 
-    const isFieldValid = field.state.meta.isValid
+    const isFieldValid = field.state.meta.isValid;
 
     return (
-      <div className={cx("relative", className)}>
+      <div className={cx('relative', className)}>
         <div
-          className={cx("mb-0 transition-all duration-200 ease-linear", {
-            "pb-3": !isFieldValid,
+          className={cx('mb-0 transition-all duration-200 ease-linear', {
+            'pb-3': !isFieldValid,
           })}
         >
           {label && <Label>{label}</Label>}
@@ -39,16 +37,15 @@ export function withFieldContext<TProps extends object>(
         </div>
         <div
           className={cx(
-            "absolute bottom-0 text-transparent transition-all delay-200 duration-200 ease-linear",
-            { "-bottom-4 text-green-600": !isFieldValid },
+            'absolute bottom-0 text-transparent transition-all delay-200 duration-200 ease-linear',
+            { '-bottom-4 text-green-600': !isFieldValid }
           )}
         >
           <span className="font-montserrat-sans block text-sm">
-            {!isFieldValid &&
-              field.state.meta.errors.map((err: any) => err?.message)?.at(0)}
+            {!isFieldValid && field.state.meta.errors.map((err: any) => err?.message)?.at(0)}
           </span>
         </div>
       </div>
-    )
-  }
+    );
+  };
 }

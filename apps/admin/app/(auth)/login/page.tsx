@@ -1,5 +1,5 @@
-import { LoginView } from "@/modules/auth"
+import { LoginView } from '@/modules/auth';
 
 export default function Page() {
-  return <LoginView />
+  return <LoginView />;
 }

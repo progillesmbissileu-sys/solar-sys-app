@@ -1,1 +1,1 @@
-export { useNavigator } from "./use-navigator"
+export { useNavigator } from './use-navigator';

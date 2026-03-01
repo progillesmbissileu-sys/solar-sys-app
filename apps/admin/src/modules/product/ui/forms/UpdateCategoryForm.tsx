@@ -1,29 +1,22 @@
-"use client"
+'use client';
 
 import {
   FormField,
   FormWrapper,
   FormComponent,
   parseEnumOptions,
-} from "@/shared/ui/organisms/Form"
-import { formOptions } from "@tanstack/react-form"
-import z from "zod"
-import {
-  createProductCategoryAction,
-  updateProductCategoryAction,
-} from "../../api/actions"
-import {
-  CategoryUpdatePayload,
-  ProductCategory,
-  ProductCategoryType,
-} from "@/entities/product"
+} from '@/shared/ui/organisms/Form';
+import { formOptions } from '@tanstack/react-form';
+import z from 'zod';
+import { createProductCategoryAction, updateProductCategoryAction } from '../../api/actions';
+import { CategoryUpdatePayload, ProductCategory, ProductCategoryType } from '@/entities/product';
 
 export default function UpdateCategoryForm({
   initialValues,
   categories,
 }: {
-  initialValues?: CategoryUpdatePayload
-  categories: ProductCategory[]
+  initialValues?: CategoryUpdatePayload;
+  categories: ProductCategory[];
 }) {
   const formOpts = formOptions({
     validators: {
@@ -35,16 +28,12 @@ export default function UpdateCategoryForm({
       }),
     },
     defaultValues: initialValues,
-  })
+  });
 
   return (
     <FormWrapper
       formOptions={formOpts}
-      serverAction={
-        !initialValues?.id
-          ? createProductCategoryAction
-          : updateProductCategoryAction
-      }
+      serverAction={!initialValues?.id ? createProductCategoryAction : updateProductCategoryAction}
     >
       <div data-testid="id">
         <FormField.Text name="id" className="h-0" />
@@ -62,7 +51,7 @@ export default function UpdateCategoryForm({
             name="type"
             placeholder="common.categoryType"
             options={parseEnumOptions(ProductCategoryType)}
-            classNames={{ trigger: "h-12" }}
+            classNames={{ trigger: 'h-12' }}
           />
         </div>
 
@@ -74,17 +63,14 @@ export default function UpdateCategoryForm({
               value: category.id as string,
               label: category.designation,
             }))}
-            classNames={{ trigger: "h-12" }}
+            classNames={{ trigger: 'h-12' }}
           />
         </div>
 
         <div className="flex flex-col items-center gap-2 pt-3">
-          <FormComponent.SubmitButton
-            label="actions.submit"
-            className="h-12 w-full"
-          />
+          <FormComponent.SubmitButton label="actions.submit" className="h-12 w-full" />
         </div>
       </div>
     </FormWrapper>
-  )
+  );
 }

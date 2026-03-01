@@ -4,14 +4,25 @@ import tseslint from "typescript-eslint";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
-import { config as baseConfig } from "./base.js";
+
+const baseRules = {
+  "turbo/no-undeclared-env-vars": "off",
+  "react/no-children-prop": "off",
+  "@typescript-eslint/no-explicit-any": "off",
+  "@typescript-eslint/no-unused-vars": "off",
+  "@typescript-eslint/no-unused-expressions": "off",
+  "prefer-const": "off",
+  "@typescript-eslint/no-empty-object-type": "off",
+  "react/no-unknown-property": "off",
+  "react/prop-types": "off",
+  "react-hooks/exhaustive-deps": "off",
+};
 
 /**
  * A custom ESLint configuration for libraries that use React.
  *
  * @type {import("eslint").Linter.Config[]} */
 export const config = [
-  ...baseConfig,
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
@@ -32,8 +43,10 @@ export const config = [
     settings: { react: { version: "detect" } },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
-      // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
     },
+  },
+  {
+    rules: baseRules,
   },
 ];

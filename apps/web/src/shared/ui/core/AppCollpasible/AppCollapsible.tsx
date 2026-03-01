@@ -1,11 +1,7 @@
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../collapsible";
-import React from "react";
-import { Button } from "../button";
-import { Minus, Plus } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../collapsible';
+import React from 'react';
+import { Button } from '../button';
+import { Minus, Plus } from 'lucide-react';
 
 export type AppCollapsibleProps = {
   label: React.ReactNode | string;
@@ -18,9 +14,9 @@ export const AppCollapsible = (props: AppCollapsibleProps) => {
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex justify-between items-center hover:text-yellow-600 transition-colors duration-300">
-        {typeof props.label == "string" ? (
-          <h4 className="font-medium text-dark">{props.label}</h4>
+      <div className="flex items-center justify-between transition-colors duration-300 hover:text-yellow-600">
+        {typeof props.label == 'string' ? (
+          <h4 className="text-dark font-medium">{props.label}</h4>
         ) : (
           props.label
         )}

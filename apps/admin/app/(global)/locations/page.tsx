@@ -1,5 +1,5 @@
-import { LocationManagementView } from "@/modules/location"
+import { LocationManagementView } from '@/modules/location';
 
 export default function Page() {
-  return <LocationManagementView />
+  return <LocationManagementView />;
 }

@@ -1,32 +1,29 @@
-"use client"
+'use client';
 
-import { routePaths } from "@/shared/routes"
-import { redirect } from "next/navigation"
-import { useEffect } from "react"
+import { routePaths } from '@/shared/routes';
+import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Page() {
   useEffect(() => {
-    ;(async () => {
-      let canRedirect = false
+    (async () => {
+      let canRedirect = false;
 
       try {
-        let response = await fetch(
-          `${process.env.NEXT_PUBLIC_APP_URL}/api/session/logout`,
-          {
-            method: "DELETE",
-          },
-        )
+        let response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/session/logout`, {
+          method: 'DELETE',
+        });
 
-        canRedirect = !!response.ok
+        canRedirect = !!response.ok;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
 
       if (canRedirect) {
-        redirect(routePaths.LOGIN)
+        redirect(routePaths.LOGIN);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
-  return <div className="h-screen w-screen text-white">Logout ...</div>
+  return <div className="h-screen w-screen text-white">Logout ...</div>;
 }

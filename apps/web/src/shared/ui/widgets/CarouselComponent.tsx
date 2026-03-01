@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Options as CarouselConfigType } from "@splidejs/splide";
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
-import { useViewPort } from "@/shared/hooks/use-view-port";
+import React from 'react';
+import { Options as CarouselConfigType } from '@splidejs/splide';
+import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
+import { useViewPort } from '@/shared/hooks/use-view-port';
 
 interface CarouselComponentProps<T> {
   items: Array<T & { key: string | number }>;
@@ -17,19 +17,16 @@ export function CarouselComponent<T>(props: CarouselComponentProps<T>) {
 
   return (
     <div
-      className="w-full relative"
+      className="relative w-full"
       style={{
-        height:
-          props.config?.height ?? (viewPort?.isDesktop ? "320px" : "200px"),
+        height: props.config?.height ?? (viewPort?.isDesktop ? '320px' : '200px'),
       }}
     >
-      <Splide options={props.config} hasTrack={false} className="w-full h-full">
+      <Splide options={props.config} hasTrack={false} className="h-full w-full">
         <div className="relative">
           <SplideTrack>
             {props.items.map((item, index) => (
-              <SplideSlide key={item.key}>
-                {props.renderItem(item, index)}
-              </SplideSlide>
+              <SplideSlide key={item.key}>{props.renderItem(item, index)}</SplideSlide>
             ))}
           </SplideTrack>
           <div className="splide__arrows">
