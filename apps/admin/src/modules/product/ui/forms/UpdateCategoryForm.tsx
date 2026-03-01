@@ -16,7 +16,7 @@ export default function UpdateCategoryForm({
   categories,
 }: {
   initialValues?: CategoryUpdatePayload;
-  categories: ProductCategory[];
+  categories?: ProductCategory[];
 }) {
   const formOpts = formOptions({
     validators: {
@@ -55,7 +55,7 @@ export default function UpdateCategoryForm({
           />
         </div>
 
-        <div className="w-full" data-testid="designation">
+        {/*<div className="w-full" data-testid="designation">
           <FormField.Select
             name="parentId"
             placeholder="common.parentCategory"
@@ -65,7 +65,7 @@ export default function UpdateCategoryForm({
             }))}
             classNames={{ trigger: 'h-12' }}
           />
-        </div>
+        </div>*/}
 
         <div className="flex flex-col items-center gap-2 pt-3">
           <FormComponent.SubmitButton label="actions.submit" className="w-full" />

@@ -3,6 +3,7 @@ import { RightPanelType } from '../model/right-panel-store';
 
 export type PageContainerProps = {
   children: React.ReactNode;
+
   pageHeader?: {
     title: string;
     actions?: React.ReactNode;
@@ -10,8 +11,9 @@ export type PageContainerProps = {
   breadcrumbs?: BreadcrumbSegment[];
   rightPanel?: {
     panelType?: RightPanelType;
-    panelProps?: Record<string, unknown>;
+    panelProps?: { title: string };
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
+    panelContent?: React.ReactNode;
   };
 };

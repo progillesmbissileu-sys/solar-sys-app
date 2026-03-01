@@ -15,6 +15,7 @@ import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
 import { PANEL_TYPES, panelRegistry } from '../../config/registry';
+import UpdateCategoryForm from '../forms/UpdateCategoryForm';
 
 export default function ProductCategoriesView({
   collection,
@@ -45,6 +46,10 @@ export default function ProductCategoriesView({
               </Button>
             </div>
           ),
+        }}
+        rightPanel={{
+          panelContent: <UpdateCategoryForm />,
+          panelProps: { title: 'Modifier categorie' },
         }}
       >
         <CollectionManager<ProductCategoryPreview>

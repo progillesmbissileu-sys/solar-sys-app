@@ -23,7 +23,12 @@ function RightPanelContent() {
   return <PanelComponent panelProps={panelProps} />;
 }
 
-function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageContainerProps) {
+function DesktopPageContainerInner({
+  children,
+  breadcrumbs,
+  pageHeader,
+  rightPanel,
+}: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
   const rightPanelOpen = useRightPanelStore((state) => state.open);
   const closePanel = useRightPanelStore((state) => state.closePanel);
@@ -102,7 +107,18 @@ function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageCo
       >
         {shouldRender && (
           <div className="h-full overflow-auto p-5" ref={rightPanelRef}>
-            <RightPanelContent />
+            <div className="h-full">
+              <header className="border-b border-dashed xl:pb-2.5">
+                <h1 className="font-semibold text-dark/60 xl:text-xl">
+                  {rightPanel?.panelProps?.title || 'Default Title'}
+                </h1>
+              </header>
+              <main className="content-center xl:py-[30px]">
+                <div className="mx-auto my-auto xl:w-full">
+                  {rightPanel?.panelContent || 'No content'}
+                </div>
+              </main>
+            </div>
           </div>
         )}
       </div>
