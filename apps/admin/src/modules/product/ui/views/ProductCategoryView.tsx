@@ -14,7 +14,7 @@ import { Label } from '@/shared/ui/atoms/Label';
 import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
-import { PANEL_TYPES, panelRegistry } from '../../config/registry';
+import { panelRegistry } from '../../config/registry';
 import UpdateCategoryForm from '../forms/UpdateCategoryForm';
 
 export default function ProductCategoriesView({
@@ -26,7 +26,7 @@ export default function ProductCategoriesView({
   const openPanel = useRightPanelStore((state) => state.openPanel);
 
   const handleOpenCategoryForm = () => {
-    openPanel(PANEL_TYPES.CATEGORY_FORM);
+    openPanel();
   };
 
   return (
