@@ -76,9 +76,8 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
             <FormField.Images
               label="common.picture"
               name="picture"
-              multiple={false}
-              onChange={(v) => console.log(v)}
-              // maxFiles={3}
+              maxFiles={2}
+              // multiple={true}
               // disabled={isResolvingImageId}
               // defaultValue={imageItems}
             />

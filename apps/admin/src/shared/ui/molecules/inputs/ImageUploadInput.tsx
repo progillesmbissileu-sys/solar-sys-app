@@ -93,6 +93,8 @@ export function ImageUploadInput({
       const capped =
         typeof effectiveMaxFiles === 'number' ? normalized.slice(0, effectiveMaxFiles) : normalized;
 
+      console.log('normalized', normalized, 'capped', capped);
+
       setItems(capped);
       onChange?.(capped);
     },
@@ -155,7 +157,7 @@ export function ImageUploadInput({
     async (evt: React.ChangeEvent<HTMLInputElement>) => {
       const selected = Array.from(evt.target.files ?? []);
       // allow re-selecting the same file(s)
-      evt.target.value = '';
+      // evt.target.value = '';
       await addFiles(selected);
     },
     [addFiles]

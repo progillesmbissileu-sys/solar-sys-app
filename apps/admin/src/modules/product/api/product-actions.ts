@@ -9,23 +9,17 @@ import { ProductUpdateInput } from '@/entities/product/model/product';
 export type ProductCreatePayload = Omit<ProductUpdateInput, 'isDeleted' | 'isAvailable'>;
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
-  console.log('FORM DATA', formData.get('picture'), _prev);
-  const payload = extractFormPayload<
-    ProductCreatePayload & {
-      picture: File[];
-      pictureTile: string;
-      pictureAlt: string;
-    }
-  >(formData);
+  const payload = extractFormPayload<ProductCreatePayload>(formData);
 
   const uploadDataObject = new FormData();
-  uploadDataObject.append('image', payload.picture?.[0]);
-  uploadDataObject.append('title', payload.pictureTile);
-  uploadDataObject.append('alt', payload.pictureAlt);
+  uploadDataObject.append('image', formData.get('picture') as File);
+  uploadDataObject.append('title', formData.get('pictureTitle') as string);
+  uploadDataObject.append('alt', formData.get('pictureAlt') as string);
 
+  console.log(uploadDataObject, formData);
   const uploadedPicture = await uploadImageAction(uploadDataObject);
 
-  // console.log(uploadedPicture);
+  console.log(uploadedPicture);
 
   if (uploadedPicture.id) {
     const resp = await callAction<ProductCreatePayload, void | { error?: string; errors?: any[] }>(

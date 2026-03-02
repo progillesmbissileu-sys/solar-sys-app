@@ -32,7 +32,10 @@ export function withFieldContext<TProps extends object>(Component: React.Compone
             {...(componentProps as TProps)}
             name={name}
             defaultValue={field.state.value}
-            onChange={(e: any) => field.handleChange(e.target?.value || e)}
+            onChange={(e: any) => {
+              console.log('e', e);
+              field.handleChange(e.target?.value || e);
+            }}
           />
         </div>
         <div
