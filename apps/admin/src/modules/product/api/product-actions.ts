@@ -1,6 +1,6 @@
 'use server';
 
-import { callAction, uploadImageAction } from '@/shared/api';
+import { callAction, deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
 import { extractFormPayload } from '@/shared/ui/organisms/Form';
 import { redirect } from 'next/navigation';
@@ -16,10 +16,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
   uploadDataObject.append('title', formData.get('pictureTitle') as string);
   uploadDataObject.append('alt', formData.get('pictureAlt') as string);
 
-  console.log(uploadDataObject, formData);
   const uploadedPicture = await uploadImageAction(uploadDataObject);
-
-  console.log(uploadedPicture);
 
   if (uploadedPicture.id) {
     const resp = await callAction<ProductCreatePayload, void | { error?: string; errors?: any[] }>(
@@ -34,8 +31,8 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       brand: payload.brand,
     });
 
-    console.error(resp);
-    !resp && redirect(routePaths.PRODUCTS);
+    console.error('RESULT', resp);
+    !resp ? redirect(routePaths.PRODUCTS) : await deleteImageMediaAction(uploadedPicture.id);
   }
 };
 

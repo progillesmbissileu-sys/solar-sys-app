@@ -93,8 +93,6 @@ export function ImageUploadInput({
       const capped =
         typeof effectiveMaxFiles === 'number' ? normalized.slice(0, effectiveMaxFiles) : normalized;
 
-      console.log('normalized', normalized, 'capped', capped);
-
       setItems(capped);
       onChange?.(capped);
     },
