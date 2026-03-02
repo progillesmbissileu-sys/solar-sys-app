@@ -8,15 +8,11 @@ import { FormComponent, FormField, FormWrapper } from '@/shared/ui/organisms/For
 import { ImageItem } from '@/shared/ui/molecules/inputs';
 import { Product, ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-form';
+import { createProductAction, updateProductAction } from '../../api/product-actions';
 
 type ProductFormProps = {
   initialValues?: Partial<ProductFormValues>;
   categories: ProductCategory[];
-  serverAction: any;
-  /**
-   * Called when the user removes an already uploaded image (value is an imageId string).
-   * The actual API implementation is intentionally left to the caller.
-   */
 };
 
 function toDefaultImageItems(product?: Partial<Product> | Partial<ProductFormValues>): ImageItem[] {
@@ -28,7 +24,7 @@ function toDefaultImageItems(product?: Partial<Product> | Partial<ProductFormVal
   return [];
 }
 
-export default function ProductForm({ initialValues, categories, serverAction }: ProductFormProps) {
+export default function ProductForm({ initialValues, categories }: ProductFormProps) {
   const formOpts = formOptions({
     validators: {
       onSubmit: productFormSchema,
@@ -36,13 +32,11 @@ export default function ProductForm({ initialValues, categories, serverAction }:
     defaultValues: initialValues,
   });
 
-  // const [imageItems, setImageItems] = React.useState<ImageItem[]>(() =>
-  //   toDefaultImageItems(initialValues)
-  // );
-  // const [isResolvingImageId, setIsResolvingImageId] = React.useState(false);
-
   return (
-    <FormWrapper formOptions={formOpts} serverAction={serverAction}>
+    <FormWrapper
+      formOptions={formOpts}
+      serverAction={!initialValues?.id ? createProductAction : updateProductAction}
+    >
       {/* hidden id for update */}
       <div data-testid="id">
         <FormField.Text name="id" className="h-0" />
@@ -83,7 +77,8 @@ export default function ProductForm({ initialValues, categories, serverAction }:
               label="common.picture"
               name="picture"
               multiple={false}
-              maxFiles={1}
+              onChange={(v) => console.log(v)}
+              // maxFiles={3}
               // disabled={isResolvingImageId}
               // defaultValue={imageItems}
             />

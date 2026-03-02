@@ -2,9 +2,7 @@
 
 import { callAction } from '../client/helpers';
 
-type UploadImageActionResponse =
-  | { url: string; id: string; signedUrl: string }
-  | { error?: string; errors?: any[] };
+type UploadImageActionResponse = { url: string; id: string; signedUrl: string };
 
 export async function uploadImageAction(formData: FormData): Promise<UploadImageActionResponse> {
   const response = await callAction<FormData, UploadImageActionResponse>(

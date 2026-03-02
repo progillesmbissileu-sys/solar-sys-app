@@ -35,6 +35,7 @@ export type ImageUploadInputProps = {
    */
   upload?: (files: File[]) => Promise<string[]>;
   autoUpload?: boolean;
+  value?: any;
 };
 
 function isFile(item: ImageItem): item is File {
