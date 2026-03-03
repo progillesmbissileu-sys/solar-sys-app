@@ -1,6 +1,6 @@
 'use client';
 
-import { FormField, FormWrapper, FormComponent } from '@/shared/ui/organisms/Form';
+import { FormField, FormWrapper, FormComponent } from '@/shared/ui';
 import loginAction from '../api/actions';
 import { formOpts } from '../config/shared';
 

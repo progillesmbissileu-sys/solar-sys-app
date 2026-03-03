@@ -2,7 +2,7 @@
 
 import { cx } from '@/shared/lib/utils';
 import { useFieldContext } from './form-config';
-import { Label } from '@/shared/ui/atoms/Label';
+import { Label } from '../../atoms/Label';
 import React from 'react';
 
 type WithFormFieldProps = {

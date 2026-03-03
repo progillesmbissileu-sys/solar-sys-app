@@ -1,7 +1,7 @@
 'use client';
 
 import { useFormContext } from './form-config';
-import { Button, ButtonProps } from '@/shared/ui/atoms/Button';
+import { Button, ButtonProps } from '../../atoms/Button';
 import { cx } from '@/shared/lib/utils';
 
 export function SubscribeButton({ label, className, ...props }: ButtonProps & { label: string }) {

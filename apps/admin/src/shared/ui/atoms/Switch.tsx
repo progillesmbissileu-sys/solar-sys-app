@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Switch [v0.0.0]
 
 import * as SwitchPrimitives from '@radix-ui/react-switch';

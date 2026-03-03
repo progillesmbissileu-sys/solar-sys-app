@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Drawer [v0.0.1]
 
 import * as DrawerPrimitives from '@radix-ui/react-dialog';

@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Select [v0.0.3]
 
 import React from 'react';

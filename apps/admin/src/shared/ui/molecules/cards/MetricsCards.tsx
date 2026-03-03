@@ -1,3 +1,5 @@
+"use client";
+
 type Category = 'red' | 'orange' | 'emerald' | 'gray';
 type Metric = {
   label: string;

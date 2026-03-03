@@ -1,5 +1,5 @@
 import { RightPanelState, RightPanelType, useRightPanelStore } from '@/widgets/container';
-import { useSidebar } from '@/shared/lib/layout/useSidebar';
+import { useSidebar } from '@/shared/lib';
 
 export const useRightPanel = () => {
   const open = useRightPanelStore((state) => state.openPanel);

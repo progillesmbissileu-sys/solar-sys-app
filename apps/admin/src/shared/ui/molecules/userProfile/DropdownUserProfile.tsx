@@ -13,7 +13,7 @@ import {
   DropdownMenuSubMenuContent,
   DropdownMenuSubMenuTrigger,
   DropdownMenuTrigger,
-} from '@/shared/ui/atoms/DropdownMenu';
+} from '../../atoms/DropdownMenu';
 import { ArrowUpRight, Monitor, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import * as React from 'react';

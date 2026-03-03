@@ -4,8 +4,7 @@ import React from 'react';
 import z from 'zod';
 import { formOptions } from '@tanstack/react-form';
 
-import { FormComponent, FormField, FormWrapper } from '@/shared/ui/organisms/Form';
-import { ImageItem } from '@/shared/ui/molecules/inputs';
+import { FormComponent, FormField, FormWrapper, ImageItem } from '@/shared/ui';
 import { Product, ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-form';
 import { createProductAction, updateProductAction } from '../../api/product-actions';

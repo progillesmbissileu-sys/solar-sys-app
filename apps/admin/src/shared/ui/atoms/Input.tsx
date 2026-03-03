@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Input [v1.0.5]
 
 import React from 'react';

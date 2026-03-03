@@ -3,7 +3,7 @@
 import { CategoryCreatePayload, CategoryUpdatePayload } from '@/entities/product';
 import { callAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
-import { extractFormPayload } from '@/shared/ui/organisms/Form';
+import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
 
 export const createProductCategoryAction = async (_prev: unknown, formData: FormData) => {

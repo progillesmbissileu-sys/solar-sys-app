@@ -1,4 +1,6 @@
-import { Input, InputProps } from '@/shared/ui/atoms/Input';
+"use client";
+
+import { Input, InputProps } from '../../atoms/Input';
 
 export type TextInputProps = InputProps & {
   onChange?: (value: string) => void;

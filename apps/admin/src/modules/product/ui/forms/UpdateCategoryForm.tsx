@@ -5,7 +5,7 @@ import {
   FormWrapper,
   FormComponent,
   parseEnumOptions,
-} from '@/shared/ui/organisms/Form';
+} from '@/shared/ui';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
 import {

@@ -1,19 +1,14 @@
 'use client';
 
 import { ProductCategory, ProductPreview } from '@/entities/product';
-import { PriceDisplay } from '@/shared/ui/molecules';
-import DateDisplay from '@/shared/ui/molecules/DateDisplay';
+import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
-import { DesktopPageContainer, PanelRegistryProvider } from '@/widgets/container';
-import { Button } from '@/shared/ui/atoms/Button';
-import { Label } from '@/shared/ui/atoms/Label';
+import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { panelRegistry, PANEL_TYPES } from '../../config/registry';
 import { use } from 'react';
-import { useRightPanel } from '@/widgets/container/lib/use-right-panel';
 import Image from 'next/image';
-import { AppImage } from '@/shared/ui/atoms/Image';
 
 export default function ProductManagementView({
   collection,

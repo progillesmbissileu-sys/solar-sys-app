@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Divider [v0.0.2]
 
 import React from 'react';

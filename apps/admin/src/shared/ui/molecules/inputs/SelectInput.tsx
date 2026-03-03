@@ -1,3 +1,5 @@
+"use client";
+
 import { SelectProps } from '@radix-ui/react-select';
 import {
   Select,
@@ -5,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/ui/atoms/Select';
+} from '../../atoms/Select';
 import { cx } from '@/shared/lib/utils';
 
 export type SelectInputProps = SelectProps & {

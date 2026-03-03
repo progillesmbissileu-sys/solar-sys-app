@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SidebarContext } from '@/shared/ui/molecules/sidebar/SidebarProvider';
+import { SidebarContext } from '@/shared/ui';
 
 function useSidebar() {
   const context = React.useContext(SidebarContext);

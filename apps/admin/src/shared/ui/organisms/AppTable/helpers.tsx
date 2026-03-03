@@ -1,3 +1,5 @@
+"use client";
+
 import { ColumnType } from './types';
 
 export function extractRecordValue<T>(item: any, column?: ColumnType<T>) {

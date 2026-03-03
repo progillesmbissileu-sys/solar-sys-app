@@ -1,17 +1,14 @@
 'use client';
 
 import { ProductCategoryPreview } from '@/entities/product';
-import DateDisplay from '@/shared/ui/molecules/DateDisplay';
+import { Button, DateDisplay, Label } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
-import { DesktopPageContainer, PanelRegistryProvider } from '@/widgets/container';
-import { Button } from '@/shared/ui/atoms/Button';
-import { Label } from '@/shared/ui/atoms/Label';
+import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
-import { useNavigator } from '@/shared/lib/router';
+import { useNavigator } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
 import { panelRegistry } from '@/modules/product/config/registry';
-import { useRightPanel } from '@/widgets/container';
 
 export const PANEL_TYPES = {
   CATEGORY_FORM: 'category-form',

@@ -1,4 +1,4 @@
-import { SidebarProvider } from '@/shared/ui/molecules/sidebar/SidebarProvider';
+import { SidebarProvider } from '@/shared/ui';
 import { ThemeProvider } from 'next-themes';
 import { cookies } from 'next/headers';
 import { Layout } from '@/app/components/layouts';

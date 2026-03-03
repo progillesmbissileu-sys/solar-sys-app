@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { AppTable } from '@/shared/ui/organisms/AppTable';
+import { AppTable } from '@/shared/ui';
 
 const data = [
   {

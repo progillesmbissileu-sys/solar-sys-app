@@ -1,3 +1,5 @@
+"use client";
+
 import { cx } from '@/shared/lib/utils';
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

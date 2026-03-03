@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor TabNavigation [v0.1.0]
 
 import * as NavigationMenuPrimitives from '@radix-ui/react-navigation-menu';

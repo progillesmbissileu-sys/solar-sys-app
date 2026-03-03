@@ -1,4 +1,6 @@
-import { Textarea, TextareaProps } from '@/shared/ui/atoms/Textarea';
+"use client";
+
+import { Textarea, TextareaProps } from '../../atoms/Textarea';
 
 export type TextareaInputProps = TextareaProps & {
   onChange?: (value: string) => void;

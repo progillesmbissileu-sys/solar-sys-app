@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Card [v0.0.1]
 
 import { Slot } from '@radix-ui/react-slot';

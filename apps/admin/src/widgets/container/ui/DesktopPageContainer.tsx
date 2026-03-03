@@ -8,7 +8,7 @@ import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
 import { useClickAway } from '@uidotdev/usehooks';
 import { CrossIcon, PanelTopCloseIcon, XIcon } from 'lucide-react';
-import { useSidebar } from '@/shared/lib/layout/useSidebar';
+import { useSidebar } from '@/shared/lib';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms

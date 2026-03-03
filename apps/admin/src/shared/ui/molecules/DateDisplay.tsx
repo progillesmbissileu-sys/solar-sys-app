@@ -1,3 +1,5 @@
+"use client";
+
 import { format, formatDistanceToNow, isValid } from 'date-fns';
 import { enUS, fr } from 'date-fns/locale';
 

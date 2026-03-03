@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Dialog [v0.0.0]
 
 import * as DialogPrimitives from '@radix-ui/react-dialog';

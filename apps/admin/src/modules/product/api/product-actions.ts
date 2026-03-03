@@ -2,9 +2,9 @@
 
 import { callAction, deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
-import { extractFormPayload } from '@/shared/ui/organisms/Form';
+import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
-import { ProductUpdateInput } from '@/entities/product/model/product';
+import { ProductUpdateInput } from '@/entities/product';
 
 export type ProductCreatePayload = Omit<ProductUpdateInput, 'isDeleted' | 'isAvailable'>;
 

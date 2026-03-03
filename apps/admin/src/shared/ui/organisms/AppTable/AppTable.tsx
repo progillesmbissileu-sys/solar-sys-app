@@ -8,7 +8,7 @@ import {
   TableHeaderCell,
   TableRoot,
   TableRow,
-} from '@/shared/ui/atoms/Table';
+} from '../../atoms/Table';
 import { Fragment } from 'react';
 import { AppTableProps } from './types';
 import { extractRecordValue } from './helpers';

@@ -1,3 +1,5 @@
+"use client";
+
 import { RiImageLine } from "@remixicon/react"
 import Image, { ImageProps } from "next/image"
 

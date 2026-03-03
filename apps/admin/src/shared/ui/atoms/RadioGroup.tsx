@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw RadioGroup [v0.0.1]
 
 import * as RadioGroupPrimitives from '@radix-ui/react-radio-group';

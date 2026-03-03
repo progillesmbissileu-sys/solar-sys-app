@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw ProgressBar [v0.0.1]
 
 import React from 'react';

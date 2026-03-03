@@ -1,8 +1,8 @@
 'use client';
 
-import { Divider } from '@/shared/ui/atoms/Divider';
-import { Input } from '@/shared/ui/atoms/Input';
 import {
+  Divider,
+  Input,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -14,11 +14,11 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarSubLink,
-} from '@/shared/ui/molecules/sidebar/Sidebar';
+  UserProfile,
+} from '@/shared/ui';
 import { cx, focusRing } from '@/shared/lib/utils';
 import { RiArrowDownSFill } from '@remixicon/react';
 import * as React from 'react';
-import { UserProfile } from '@/shared/ui/molecules/userProfile/UserProfile';
 import { companyConfig } from '@/shared/config';
 import Image from 'next/image';
 import { productModuleConfig } from '@/modules/product/config/module';

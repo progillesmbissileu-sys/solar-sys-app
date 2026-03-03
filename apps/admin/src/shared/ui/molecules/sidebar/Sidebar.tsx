@@ -1,13 +1,13 @@
 'use client';
 
-import { Drawer, DrawerClose, DrawerContent, DrawerTitle } from '@/shared/ui/molecules/Drawer';
+import { Drawer, DrawerClose, DrawerContent, DrawerTitle } from '../Drawer';
 import { cx, focusRing } from '@/shared/lib/utils';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { RiCloseLine } from '@remixicon/react';
 import { PanelLeft } from 'lucide-react';
 import * as React from 'react';
 import { Button } from '../../atoms/Button';
-import { useSidebar } from '@/shared/lib/layout/useSidebar';
+import { useSidebar } from '@/shared/lib';
 import Link from 'next/link';
 
 const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(

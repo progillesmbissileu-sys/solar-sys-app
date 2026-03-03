@@ -3,14 +3,7 @@
 import React from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { Input } from '@/shared/ui/atoms/Input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/atoms/Select';
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
 import { cx } from '@/shared/lib/utils';
 
 export type FilterOption = {

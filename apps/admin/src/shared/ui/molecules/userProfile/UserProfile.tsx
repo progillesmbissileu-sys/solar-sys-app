@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/shared/ui/atoms/Button';
+import { Button } from '../../atoms/Button';
 import { cx, focusRing } from '@/shared/lib/utils';
 import { ChevronsUpDown } from 'lucide-react';
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { AppTable } from '@/shared/ui/organisms/AppTable';
-import type { ColumnType } from '@/shared/ui/organisms/AppTable/types';
+import { AppTable } from '@/shared/ui';
+import type { ColumnType } from '@/shared/ui';
 import type { CollectionResponseType } from '@/shared/api';
 import { Controls, type FilterConfig } from './Controls';
 import { cx } from '@/shared/lib/utils';

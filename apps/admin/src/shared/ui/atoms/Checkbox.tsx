@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Checkbox [v0.0.0]
 
 import { cx, focusRing } from '@/shared/lib/utils';

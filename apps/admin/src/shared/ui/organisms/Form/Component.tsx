@@ -1,3 +1,5 @@
+"use client";
+
 import { ButtonProps } from '../../atoms/Button';
 import { useFormContext } from './use-form-context';
 

@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Textarea [v0.0.1]
 
 import React from 'react';

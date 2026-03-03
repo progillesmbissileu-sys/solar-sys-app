@@ -9,7 +9,7 @@ import {
   SelectInputProps,
   TextInputProps,
   TextareaInputProps,
-} from '@/shared/ui/molecules/inputs';
+} from '../../molecules/inputs';
 
 function Text(props: TextInputProps & WithFormBlockProps) {
   const form = useFormContext();

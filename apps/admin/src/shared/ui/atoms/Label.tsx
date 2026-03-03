@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw Label [v0.0.1]
 
 import * as LabelPrimitives from '@radix-ui/react-label';

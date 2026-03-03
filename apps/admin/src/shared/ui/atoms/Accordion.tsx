@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Accordion [v0.0.1]
 
 import React from 'react';
