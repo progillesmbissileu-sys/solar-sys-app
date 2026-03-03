@@ -12,6 +12,8 @@ export type Product = {
   createdAt?: any;
   updatedAt?: any;
   pictureUrl?: string;
+  pictureAlt?: string;
+  pictureTitle?: string;
   categoryName?: string;
 };
 
@@ -25,6 +27,8 @@ export type ProductPreview = Pick<
   | 'designation'
   | 'price'
   | 'pictureUrl'
+  | 'pictureAlt'
+  | 'pictureTitle'
   | 'categoryName'
   | 'createdAt'
   | 'updatedAt'

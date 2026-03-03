@@ -58,7 +58,7 @@ export default function ProductManagementView({
             {
               key: 'thumbnail',
               title: '',
-              render: (product) => <AppImage src={product.pictureUrl} alt={product.designation} width={40} height={40} />,
+              render: (product) => <AppImage src={product.pictureUrl as string} alt={product.pictureAlt as string} title={product.pictureTitle} width={40} height={40} />,
             },
             {
               key: 'name',
