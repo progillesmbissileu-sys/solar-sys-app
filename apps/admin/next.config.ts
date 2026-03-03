@@ -11,6 +11,7 @@ const nextConfig = {
       hostname: 'localhost',
       port: '3333',
       pathname: '/uploads/images/**',
+      unoptimized: true
     }],
   },
 };
