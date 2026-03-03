@@ -12,6 +12,8 @@ import { RiBox1Line } from '@remixicon/react';
 import { panelRegistry, PANEL_TYPES } from '../../config/registry';
 import { use } from 'react';
 import { useRightPanel } from '@/widgets/container/lib/use-right-panel';
+import Image from 'next/image';
+import { AppImage } from '@/shared/ui/atoms/Image';
 
 export default function ProductManagementView({
   collection,
@@ -54,6 +56,11 @@ export default function ProductManagementView({
         <CollectionManager<ProductPreview>
           columns={[
             {
+              key: 'thumbnail',
+              title: '',
+              render: (product) => <AppImage src={product.pictureUrl} alt={product.designation} width={40} height={40} />,
+            },
+            {
               key: 'name',
               title: 'common.designation',
               dataIndex: 'designation',
@@ -65,15 +72,26 @@ export default function ProductManagementView({
               render: (product) => <PriceDisplay amount={product.price} />,
             },
             {
+              key: 'brand',
+              title: 'common.brand',
+              dataIndex: 'brand',
+            },
+            {
               key: 'category',
               title: 'common.category',
               dataIndex: 'categoryName',
             },
             {
-              key: 'date',
+              key: 'added',
               title: 'common.addedAt',
               align: 'end',
               render: (product) => <DateDisplay date={product.createdAt} />,
+            },
+            {
+              key: 'updated',
+              title: 'common.lastUpdated',
+              align: 'end',
+              render: (product) => <DateDisplay date={product.updatedAt} />,
             },
           ]}
           collection={collection}

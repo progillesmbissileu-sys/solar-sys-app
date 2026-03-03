@@ -1,15 +1,18 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
-  // redirects: async () => {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/quotes/overview",
-  //       permanent: true,
-  //     },
-  //   ]
-  // },
+ images: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'solar-sys-api-production.up.railway.app',
+      pathname: '/uploads/images/**',
+    },
+     {
+      protocol: 'http',
+      hostname: 'localhost',
+      port: '3333',
+      pathname: '/uploads/images/**',
+    }],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
