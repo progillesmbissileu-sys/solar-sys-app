@@ -7,7 +7,7 @@ export const productFormSchema = z.object({
   price: z.number().min(1),
   categoryId: z.uuid(),
   brand: z.string().optional(),
-  picture: z.array(z.file()),
+  images: z.array(z.file()),
   pictureTitle: z.string().optional(),
   pictureAlt: z.string().optional(),
 });

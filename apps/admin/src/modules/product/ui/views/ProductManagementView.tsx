@@ -8,7 +8,6 @@ import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/wi
 import { RiBox1Line } from '@remixicon/react';
 import { panelRegistry, PANEL_TYPES } from '../../config/registry';
 import { use } from 'react';
-import Image from 'next/image';
 
 export default function ProductManagementView({
   collection,
@@ -53,7 +52,15 @@ export default function ProductManagementView({
             {
               key: 'thumbnail',
               title: '',
-              render: (product) => <AppImage src={product.pictureUrl as string} alt={product.pictureAlt as string} title={product.pictureTitle} width={40} height={40} />,
+              render: (product) => (
+                <AppImage
+                  src={product.thumbnailUrl as string}
+                  alt={product.designation as string}
+                  width={40}
+                  height={40}
+                  unoptimized
+                />
+              ),
             },
             {
               key: 'name',

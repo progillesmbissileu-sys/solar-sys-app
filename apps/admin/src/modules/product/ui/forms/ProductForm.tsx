@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-import z from 'zod';
 import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper, ImageItem } from '@/shared/ui';
@@ -73,10 +71,10 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
         <div className="space-y-3">
           <div className="w-full" data-testid="picture">
             <FormField.Images
-              label="common.picture"
-              name="picture"
-              maxFiles={2}
-              // multiple={true}
+              label="common.pictures"
+              name="images"
+              maxFiles={4}
+              multiple={true}
               // disabled={isResolvingImageId}
               // defaultValue={imageItems}
             />

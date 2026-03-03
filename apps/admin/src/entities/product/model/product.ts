@@ -1,9 +1,10 @@
+import { ProductImage } from "./product-image";
+
 export type Product = {
   id: string;
   designation: string;
   description: string;
   price: number;
-  pictureId: string | null;
   categoryId: string;
   brand?: string;
   slug?: string;
@@ -11,14 +12,13 @@ export type Product = {
   isDeleted?: boolean;
   createdAt?: any;
   updatedAt?: any;
-  pictureUrl?: string;
-  pictureAlt?: string;
-  pictureTitle?: string;
+  picture: ProductImage  
   categoryName?: string;
+  images?: ProductImage[];
 };
 
 export type ProductUpdateInput = Partial<
-  Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'pictureUrl' | 'categoryName' | 'slug'>
+  Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'categoryName' | 'slug'|"picture"|"images"|'isDeleted' | 'isAvailable'>
 >;
 
 export type ProductPreview = Pick<
@@ -26,11 +26,10 @@ export type ProductPreview = Pick<
   | 'id'
   | 'designation'
   | 'price'
-  | 'pictureUrl'
-  | 'pictureAlt'
-  | 'pictureTitle'
   | 'categoryName'
   | 'createdAt'
   | 'updatedAt'
   | 'brand'
->;
+> & {
+  thumbnailUrl: string
+};

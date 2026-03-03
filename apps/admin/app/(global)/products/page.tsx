@@ -14,6 +14,26 @@ export default async function Page({ searchParams }: { searchParams: any }) {
   const categories = productCategoryCollection();
 
   return (
-    <Suspense>{<ProductManagementView collection={collection} categories={categories} />}</Suspense>
+    <Suspense>
+      {
+        <ProductManagementView
+          collection={{
+            ...(collection ?? {}),
+            data: (collection?.data ?? []).map((item) => ({
+              id: item.id,
+              thumbnailUrl: item.mainImageUrl,
+              designation: item.designation,
+              price: item.price,
+              brand: item.brand,
+              categoryName: item.categoryName,
+              categoryId: item.categoryId,
+              createdAt: item.createdAt,
+              updatedAt: item.updatedAt,
+            })),
+          }}
+          categories={categories}
+        />
+      }
+    </Suspense>
   );
 }

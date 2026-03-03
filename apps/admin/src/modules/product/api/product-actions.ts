@@ -6,36 +6,65 @@ import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
 import { ProductUpdateInput } from '@/entities/product';
 
-export type ProductCreatePayload = Omit<ProductUpdateInput, 'isDeleted' | 'isAvailable'>;
+export type ProductCreatePayload = ProductUpdateInput & {
+  mainImageId: string;
+  imagesIds: (string | null)[];
+};
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<ProductCreatePayload>(formData);
 
-  const uploadDataObject = new FormData();
-  uploadDataObject.append('image', formData.get('picture') as File);
-  uploadDataObject.append('title', formData.get('pictureTitle') as string);
-  uploadDataObject.append('alt', formData.get('pictureAlt') as string);
+  const images = formData.getAll('images') as File[];
 
-  const uploadedPicture = await uploadImageAction(uploadDataObject);
+  const imagesUploadObjectList = images.map((image) => {
+    const uploadDataObject = new FormData();
+    uploadDataObject.append('image', image);
+    uploadDataObject.append('title', formData.get('pictureTitle') as string);
+    uploadDataObject.append('alt', formData.get('pictureAlt') as string);
+    return uploadDataObject;
+  });
 
-  if (uploadedPicture.id) {
-    const resp = await callAction<ProductCreatePayload, void | { error?: string; errors?: any[] }>(
-      '/api/product',
-      'POST'
-    )({
+  const results = await Promise.allSettled(
+    imagesUploadObjectList.map((uploadDataObject) => uploadImageAction(uploadDataObject))
+  );
+
+  const uploadedPictures = results
+    .map((result) => {
+      if (result.status === 'fulfilled') {
+        return result.value;
+      }
+      return null;
+    })
+    .filter(Boolean);
+
+  if (uploadedPictures.length > 0) {
+    const _payload = {
       designation: payload.designation,
       description: payload.description,
       categoryId: payload.categoryId,
       price: payload.price,
-      pictureId: uploadedPicture.id,
       brand: payload.brand,
-    });
+      mainImageId: uploadedPictures[0]?.id as string,
+      imagesIds:
+        uploadedPictures.length > 1
+          ? (uploadedPictures.slice(1, 3) as any[]).map((picture) => picture?.id)
+          : [null],
+    };
 
-    console.error('RESULT', resp);
-    !resp ? redirect(routePaths.PRODUCTS) : await deleteImageMediaAction(uploadedPicture.id);
+    const resp = await callAction<ProductCreatePayload, void | { error?: string; errors?: any[] }>(
+      '/api/product',
+      'POST'
+    )(_payload);
+
+    !resp
+      ? redirect(routePaths.PRODUCTS)
+      : await Promise.allSettled(
+          uploadedPictures.map((picture) => deleteImageMediaAction(picture?.id ?? ''))
+        );
   }
 };
 
+//update action
 export const updateProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<ProductUpdateInput & { id: string }>(formData);
 
