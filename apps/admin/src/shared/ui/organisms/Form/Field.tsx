@@ -5,6 +5,7 @@ import { useFormContext } from './use-form-context';
 import {
   CheckboxInputProps,
   ImageUploadInputProps,
+  ImageUploadFieldProps,
   NumberInputProps,
   SelectInputProps,
   TextInputProps,
@@ -53,10 +54,16 @@ function Images(props: ImageUploadInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.ImageUpload {...props} />} />;
 }
 
+function ImageField(props: ImageUploadFieldProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.ImageField {...props} />} />;
+}
+
 function Textarea(props: TextareaInputProps & WithFormBlockProps) {
   const form = useFormContext();
 
   return <form.AppField name={props.name} children={(field) => <field.Textarea {...props} />} />;
 }
 
-export { Text, Number, Password, Email, Select, Checkbox, Images, Textarea };
+export { Text, Number, Password, Email, Select, Checkbox, Images, ImageField, Textarea };

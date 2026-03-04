@@ -9,6 +9,8 @@ import {
   EmailInputProps,
   ImageUploadInput,
   ImageUploadInputProps,
+  ImageUploadField,
+  ImageUploadFieldProps,
   NumberInput,
   NumberInputProps,
   PasswordInput,
@@ -39,6 +41,7 @@ export const { useAppForm } = createFormHook({
     Select: withFieldContext<SelectInputProps>(SelectInput),
     Checkbox: withFieldContext<CheckboxInputProps>(CheckboxInput),
     ImageUpload: withFieldContext<ImageUploadInputProps>(ImageUploadInput),
+    ImageField: withFieldContext<ImageUploadFieldProps>(ImageUploadField),
     Textarea: withFieldContext<TextareaInputProps>(TextareaInput),
   },
 });

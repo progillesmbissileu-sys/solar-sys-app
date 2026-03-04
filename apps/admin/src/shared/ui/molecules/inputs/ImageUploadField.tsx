@@ -1,46 +1,35 @@
 'use client';
 
 import React from 'react';
-import { RiDeleteBinLine, RiImageAddLine, RiLoader2Fill } from '@remixicon/react';
+import { RiDeleteBinLine, RiImageAddLine } from '@remixicon/react';
 import { cx, focusRing } from '@/shared/lib/utils';
 
-export type ImageItem = File | string;
+export type ImageUploadFieldItem = File | string;
 
-export type ImageUploadInputRemoveEvent = {
-  removed: ImageItem;
+export type ImageUploadFieldRemoveEvent = {
+  removed: ImageUploadFieldItem;
   index: number;
-  nextValue: ImageItem[];
+  nextValue: ImageUploadFieldItem[];
 };
 
-export type ImageUploadInputProps = {
+export type ImageUploadFieldProps = {
   name: string;
   /**
-   * Expected to be an array of `File`s (new images) and/or `string` URLs
-   * (already uploaded images).
-   *
-   * When used inside the Form wrapper `withFieldContext` passes the TanStack
-   * field value here on every render.  The component treats it as the
-   * authoritative source of truth and keeps its own state in sync.
+   * Array of File objects (new images) and/or string URLs (existing images).
+   * This is the controlled value from the form field.
    */
-  defaultValue?: ImageItem[];
-  onChange?: (value: ImageItem[]) => void;
+  defaultValue?: ImageUploadFieldItem[];
+  onChange?: (value: ImageUploadFieldItem[]) => void;
   /**
    * Called when the user removes an item via the UI.
    * Useful for triggering delete-on-server for already uploaded images.
    */
-  onRemove?: (event: ImageUploadInputRemoveEvent) => void | Promise<void>;
+  onRemove?: (event: ImageUploadFieldRemoveEvent) => void | Promise<void>;
   multiple?: boolean;
   maxFiles?: number;
   accept?: string;
   disabled?: boolean;
   className?: string;
-  /**
-   * Optional future hook: if provided (and `autoUpload` is true), newly
-   * selected `File`s are uploaded immediately and replaced with returned URL
-   * strings in the field value.
-   */
-  upload?: (files: File[]) => Promise<string[]>;
-  autoUpload?: boolean;
   /**
    * Maximum allowed file size in bytes.
    * Default: 5MB (5 * 1024 * 1024 bytes)
@@ -53,28 +42,25 @@ export type ImageUploadInputProps = {
   acceptedFormats?: string[];
   /**
    * Callback fired when validation error occurs.
-   * Receives an object with error type and message.
    */
   onValidationError?: (error: { type: 'format' | 'size'; message: string }) => void;
 };
 
-function isFile(item: ImageItem): item is File {
+function isFile(item: ImageUploadFieldItem): item is File {
   return typeof item !== 'string';
 }
 
-function normalizeValue(value: unknown): ImageItem[] {
+function normalizeValue(value: unknown): ImageUploadFieldItem[] {
   if (!Array.isArray(value)) return [];
   return value.filter(
     (v) => typeof v === 'string' || v instanceof File,
-  ) as ImageItem[];
+  ) as ImageUploadFieldItem[];
 }
 
 /**
- * Shallow comparison of two `ImageItem[]` arrays.
- * Two `File` objects are considered equal when they share the same name,
- * size and lastModified timestamp (reference equality is checked first).
+ * Shallow comparison of two `ImageUploadFieldItem[]` arrays.
  */
-function itemsEqual(a: ImageItem[], b: ImageItem[]): boolean {
+function itemsEqual(a: ImageUploadFieldItem[], b: ImageUploadFieldItem[]): boolean {
   if (a.length !== b.length) return false;
   return a.every((item, i) => {
     const other = b[i];
@@ -86,11 +72,28 @@ function itemsEqual(a: ImageItem[], b: ImageItem[]): boolean {
         item.lastModified === other.lastModified
       );
     }
+    // Compare strings
+    if (typeof item === 'string' && typeof other === 'string') {
+      return item === other;
+    }
     return false;
   });
 }
 
-export function ImageUploadInput({
+/**
+ * ImageUploadField - A form-integrated image upload component
+ * 
+ * This component properly integrates with FormWrapper by:
+ * 1. Using a single file input with `multiple` attribute for file submission
+ * 2. Syncing files to the input using DataTransfer API (works because we set on DOM element)
+ * 3. Rendering hidden inputs for existing URLs to be included in FormData
+ * 4. Tracking files in form state for validation and previews
+ * 
+ * Key difference from ImageUploadInput: This component ensures that on form submit,
+ * both new files AND existing URLs are properly included in the FormData by using
+ * the DataTransfer API to sync files to a single file input.
+ */
+export function ImageUploadField({
   name,
   defaultValue,
   onChange,
@@ -99,14 +102,16 @@ export function ImageUploadInput({
   accept = 'image/*',
   disabled,
   className,
-  upload,
-  autoUpload = false,
   onRemove,
   maxFileSize,
   acceptedFormats,
   onValidationError,
-}: ImageUploadInputProps) {
+}: ImageUploadFieldProps) {
+  // Ref to the file input that will be submitted with the form
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  
+  // Ref to track if we're currently syncing files to prevent infinite loops
+  const isSyncingRef = React.useRef(false);
 
   // Default accepted image formats
   const DEFAULT_ACCEPTED_FORMATS = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -116,25 +121,18 @@ export function ImageUploadInput({
   const effectiveAcceptedFormats = acceptedFormats ?? DEFAULT_ACCEPTED_FORMATS;
   const effectiveMaxFileSize = maxFileSize ?? DEFAULT_MAX_FILE_SIZE;
 
-  // ── Internal state ──────────────────────────────────────────────────
-  const [items, setItems] = React.useState<ImageItem[]>(() =>
+  // Internal state synced from form field value
+  const [items, setItems] = React.useState<ImageUploadFieldItem[]>(() =>
     normalizeValue(defaultValue),
   );
 
-  const [isUploading, setIsUploading] = React.useState(false);
   const [isDragActive, setIsDragActive] = React.useState(false);
   const [validationError, setValidationError] = React.useState<string | null>(null);
 
-  // Track the last value we pushed via `onChange` so we can distinguish
-  // external resets from our own updates echoing back through
-  // `defaultValue`.
-  const lastCommittedRef = React.useRef<ImageItem[]>(items);
+  // Track the last committed value to prevent feedback loops
+  const lastCommittedRef = React.useRef<ImageUploadFieldItem[]>(items);
 
-  // ── Sync from external `defaultValue` ───────────────────────────────
-  // `withFieldContext` passes `field.state.value` as `defaultValue` on
-  // every render.  We only update internal state when the incoming value
-  // is genuinely different from what we last committed – this prevents
-  // the feedback loop that previously caused bugs.
+  // Sync from external `defaultValue` (form field value)
   React.useEffect(() => {
     const incoming = normalizeValue(defaultValue);
     if (!itemsEqual(incoming, lastCommittedRef.current)) {
@@ -145,7 +143,7 @@ export function ImageUploadInput({
 
   const effectiveMaxFiles = multiple ? maxFiles : 1;
 
-  // ── Preview URLs ────────────────────────────────────────────────────
+  // Preview URLs
   const [previewSrcs, setPreviewSrcs] = React.useState<string[]>([]);
 
   React.useEffect(() => {
@@ -164,9 +162,26 @@ export function ImageUploadInput({
     };
   }, [items]);
 
-  // ── Commit helper ───────────────────────────────────────────────────
+  // ── Sync files to the file input using DataTransfer API ─────────────────
+  // This is the KEY fix: we set files on an existing DOM element, not via JSX
+  React.useEffect(() => {
+    const input = fileInputRef.current;
+    if (!input || isSyncingRef.current) return;
+
+    const files = items.filter(isFile);
+
+    // Use DataTransfer to set files on the input
+    const dt = new DataTransfer();
+    files.forEach((f) => dt.items.add(f));
+
+    isSyncingRef.current = true;
+    input.files = dt.files;
+    isSyncingRef.current = false;
+  }, [items]);
+
+  // ── Commit helper - updates form state ───────────────────────────────────
   const commit = React.useCallback(
-    (next: ImageItem[]) => {
+    (next: ImageUploadFieldItem[]) => {
       const normalized = normalizeValue(next);
       const capped =
         typeof effectiveMaxFiles === 'number'
@@ -180,7 +195,7 @@ export function ImageUploadInput({
     [effectiveMaxFiles, onChange],
   );
 
-  // ── Remove ──────────────────────────────────────────────────────────
+  // ── Remove item ──────────────────────────────────────────────────────────
   const removeAt = React.useCallback(
     (index: number) => {
       const removed = items[index];
@@ -193,14 +208,14 @@ export function ImageUploadInput({
     [commit, items, onRemove],
   );
 
-  // ── Open file picker ────────────────────────────────────────────────
+  // ── Open file picker ──────────────────────────────────────────────────────
   const handleChooseFiles = React.useCallback(() => {
     fileInputRef.current?.click();
   }, []);
 
-  // ── Add files (from picker or drop) ─────────────────────────────────
+  // ── Add files (from picker or drop) ───────────────────────────────────────
   const addFiles = React.useCallback(
-    async (selectedRaw: File[]) => {
+    (selectedRaw: File[]) => {
       const selected = selectedRaw.filter((f) => f.size > 0);
 
       const shouldFilterToImages = accept.includes('image/');
@@ -253,72 +268,38 @@ export function ImageUploadInput({
         : [cappedSelection[0]];
 
       commit(nextLocal);
-
-      if (!autoUpload || !upload) return;
-
-      setIsUploading(true);
-      try {
-        const urls = await upload(cappedSelection);
-        const uploadedItems: ImageItem[] = urls.filter(Boolean);
-
-        if (uploadedItems.length === 0) return;
-
-        const nextUploaded = multiple
-          ? [...current, ...uploadedItems]
-          : [uploadedItems[0] ?? cappedSelection[0]];
-
-        commit(nextUploaded);
-      } finally {
-        setIsUploading(false);
-      }
     },
-    [accept, autoUpload, commit, effectiveMaxFiles, items, multiple, upload, effectiveAcceptedFormats, effectiveMaxFileSize, onValidationError],
+    [accept, commit, effectiveMaxFiles, items, multiple, effectiveAcceptedFormats, effectiveMaxFileSize, onValidationError],
   );
 
-  // ── File input change handler ───────────────────────────────────────
-  const isResettingRef = React.useRef(false);
-
+  // ── File input change handler ─────────────────────────────────────────────
   const handleFileChange = React.useCallback(
-    async (evt: React.ChangeEvent<HTMLInputElement>) => {
-      if (isResettingRef.current) return;
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      // Ignore if we're syncing files
+      if (isSyncingRef.current) return;
+      
       const selected = Array.from(evt.target.files ?? []);
       if (selected.length === 0) return;
-      await addFiles(selected);
+      addFiles(selected);
+      // Note: We don't clear the input here because we want to keep the files
+      // The sync effect will update the input with all files
     },
     [addFiles],
   );
 
-  // ── Sync native file input for FormData submission ──────────────────
-  React.useEffect(() => {
-    const input = fileInputRef.current;
-    if (!input) return;
-
-    const files = items.filter(isFile);
-
-    if (typeof DataTransfer !== 'undefined') {
-      const dt = new DataTransfer();
-      files.forEach((f) => dt.items.add(f));
-
-      isResettingRef.current = true;
-      input.files = dt.files;
-      input.value = '';
-      isResettingRef.current = false;
-    }
-  }, [items]);
-
-  // ── Drag & drop handlers ────────────────────────────────────────────
+  // ── Drag & drop handlers ──────────────────────────────────────────────────
   const handleDrop = React.useCallback(
-    async (evt: React.DragEvent<HTMLDivElement>) => {
+    (evt: React.DragEvent<HTMLDivElement>) => {
       evt.preventDefault();
       evt.stopPropagation();
       setIsDragActive(false);
 
-      if (disabled || isUploading) return;
+      if (disabled) return;
 
       const files = Array.from(evt.dataTransfer.files ?? []);
-      await addFiles(files);
+      addFiles(files);
     },
-    [addFiles, disabled, isUploading],
+    [addFiles, disabled],
   );
 
   const handleDragOver = React.useCallback(
@@ -344,31 +325,44 @@ export function ImageUploadInput({
       ? true
       : items.length < effectiveMaxFiles;
 
+  // Separate items into files and URLs for rendering
+  const urlItems = items.filter((item): item is string => typeof item === 'string');
+
   return (
     <div className={cx('w-full', className)}>
-      {/* Hidden native file input – participates in FormData submission */}
+      {/* 
+        THE KEY FIX: Single file input with multiple attribute.
+        Files are synced to this input using DataTransfer API.
+        This input WILL submit files via FormData because:
+        1. It has a name attribute
+        2. Files are set via DOM manipulation (not JSX)
+        3. It's part of the form being submitted
+        
+        NOTE: We do NOT disable this input when canAddMore is false because
+        disabled inputs are NOT submitted with the form. The input is hidden
+        anyway, so users can't interact with it directly.
+      */}
       <input
         ref={fileInputRef}
         name={name}
         type="file"
         accept={accept}
         multiple={multiple}
-        disabled={disabled || isUploading || !canAddMore}
+        disabled={disabled}
         className="hidden"
         onChange={handleFileChange}
       />
 
       {/* Hidden inputs for URL strings so they appear in FormData */}
-      {items
-        .filter((item): item is string => typeof item === 'string')
-        .map((url, index) => (
-          <input
-            key={`${url}-${index}`}
-            type="hidden"
-            name={name}
-            value={url}
-          />
-        ))}
+      {/* FormData.getAll(name) will return both files from input and these URLs */}
+      {urlItems.map((url, index) => (
+        <input
+          key={`url-${url}-${index}`}
+          type="hidden"
+          name={name}
+          value={url}
+        />
+      ))}
 
       <div className="flex items-center justify-end gap-2">
         {typeof effectiveMaxFiles === 'number' && (
@@ -385,13 +379,13 @@ export function ImageUploadInput({
         role="button"
         tabIndex={0}
         onClick={() => {
-          if (disabled || isUploading || !canAddMore) return;
+          if (disabled || !canAddMore) return;
           handleChooseFiles();
         }}
         onKeyDown={(evt) => {
           if (evt.key !== 'Enter' && evt.key !== ' ') return;
           evt.preventDefault();
-          if (disabled || isUploading || !canAddMore) return;
+          if (disabled || !canAddMore) return;
           handleChooseFiles();
         }}
         onDrop={handleDrop}
@@ -402,10 +396,10 @@ export function ImageUploadInput({
           isDragActive
             ? 'border-blue-500 bg-blue-50'
             : 'border-gray-300 bg-white hover:bg-gray-50',
-          (disabled || isUploading) && 'cursor-not-allowed opacity-60',
+          disabled && 'cursor-not-allowed opacity-60',
           focusRing,
         )}
-        aria-disabled={disabled || isUploading}
+        aria-disabled={disabled}
       >
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {/* Dropzone tile */}
@@ -415,20 +409,10 @@ export function ImageUploadInput({
               !canAddMore && 'hidden',
             )}
           >
-            {isUploading ? (
-              <div className="flex flex-col items-center gap-2 text-xs">
-                <RiLoader2Fill
-                  className="size-5 animate-spin"
-                  aria-hidden="true"
-                />
-                <span>Uploading…</span>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-2 text-xs">
-                <RiImageAddLine className="size-5" aria-hidden="true" />
-                <span>{multiple ? 'Add' : 'Choose'}</span>
-              </div>
-            )}
+            <div className="flex flex-col items-center gap-2 text-xs">
+              <RiImageAddLine className="size-5" aria-hidden="true" />
+              <span>{multiple ? 'Add' : 'Choose'}</span>
+            </div>
           </div>
 
           {/* Previews */}
@@ -449,7 +433,7 @@ export function ImageUploadInput({
                     evt.stopPropagation();
                     removeAt(index);
                   }}
-                  disabled={disabled || isUploading}
+                  disabled={disabled}
                   className={cx(
                     'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/90 text-gray-900 shadow-sm transition-opacity',
                     'opacity-0 group-hover:opacity-100',

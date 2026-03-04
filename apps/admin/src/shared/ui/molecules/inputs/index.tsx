@@ -11,3 +11,9 @@ export {
   type ImageItem,
   ImageUploadInput,
 } from './ImageUploadInput';
+export {
+  type ImageUploadFieldProps,
+  type ImageUploadFieldRemoveEvent,
+  type ImageUploadFieldItem,
+  ImageUploadField,
+} from './ImageUploadField';

@@ -47,7 +47,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       mainImageId: uploadedPictures[0]?.id as string,
       imagesIds:
         uploadedPictures.length > 1
-          ? (uploadedPictures.slice(1, 3) as any[]).map((picture) => picture?.id)
+          ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
           : [null],
     };
 

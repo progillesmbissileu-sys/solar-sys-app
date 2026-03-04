@@ -3,7 +3,7 @@
 import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper, ImageItem } from '@/shared/ui';
-import { Product, ProductCategory } from '@/entities/product';
+import {ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-form';
 import { createProductAction, updateProductAction } from '../../api/product-actions';
 
@@ -11,15 +11,6 @@ type ProductFormProps = {
   initialValues?: Partial<ProductFormValues>;
   categories: ProductCategory[];
 };
-
-function toDefaultImageItems(product?: Partial<Product> | Partial<ProductFormValues>): ImageItem[] {
-  if (!product) return [];
-  // If backend provides a URL, we can show preview. If we only have id, show nothing.
-  const anyProduct = product as any;
-  if (typeof anyProduct.pictureUrl === 'string' && anyProduct.pictureUrl.length > 0)
-    return [anyProduct.pictureUrl];
-  return [];
-}
 
 export default function ProductForm({ initialValues, categories }: ProductFormProps) {
   const formOpts = formOptions({
@@ -32,7 +23,8 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
   return (
     <FormWrapper
       formOptions={formOpts}
-      serverAction={!initialValues?.id ? createProductAction : updateProductAction}
+      // serverAction={!initialValues?.id ? createProductAction : updateProductAction}
+      serverAction={createProductAction}
     >
       {/* hidden id for update */}
       <div data-testid="id">
@@ -70,10 +62,10 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
 
         <div className="space-y-3">
           <div className="w-full" data-testid="picture">
-            <FormField.Images
+            <FormField.ImageField
               label="common.pictures"
               name="images"
-              maxFiles={4}
+              maxFiles={3}
               multiple={true}
               // disabled={isResolvingImageId}
               // defaultValue={imageItems}
