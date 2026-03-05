@@ -1,40 +1,118 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { getAccessToken } from '@/shared/lib/auth/helpers/server-token';
 import { refreshAccessToken } from '../../lib/auth/helpers/session';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { apiClient, interceptors } from './axios-instance';
+import { requestCancellation } from './cancellation';
+import { calculateRetryDelay, shouldRetry, sleep, normalizeRetryConfig } from './retry';
+import {
+  ApiError,
+  ApiResponse,
+  RequestConfig,
+  RetryConfig,
+  Result,
+  DEFAULT_RETRY_CONFIG,
+} from './types';
 
-export interface AuthFetchOptions extends AxiosRequestConfig {
-  skipAuth?: boolean;
-  retry?: boolean;
-  maxRetries?: number;
+// Re-export types and utilities
+export type { ApiError, ApiResponse, RequestConfig, RetryConfig, Result };
+export { interceptors, requestCancellation, DEFAULT_RETRY_CONFIG };
+
+/**
+ * Converts an AxiosError to a structured ApiError
+ * 
+ * @param error - The Axios error to convert
+ * @returns A structured ApiError object
+ */
+function toApiError(error: AxiosError): ApiError {
+  const responseData = error.response?.data as Record<string, unknown> | undefined;
+
+  return {
+    status: error.response?.status ?? 0,
+    statusText: error.response?.statusText ?? 'Unknown Error',
+    message:
+      (responseData?.message as string) ??
+      error.message ??
+      'An unexpected error occurred',
+    details: (responseData?.details as ApiError['details']) ?? (responseData?.errors as ApiError['details']),
+    timestamp: responseData?.timestamp as string | undefined,
+    path: (responseData?.path as string) ?? error.config?.url,
+  };
 }
 
-export async function authFetch(
+/**
+ * Creates a cancelled request error
+ * 
+ * @returns An ApiError representing a cancelled request
+ */
+function createCancelledError(): ApiError {
+  return {
+    status: 0,
+    statusText: 'Cancelled',
+    message: 'Request was cancelled',
+  };
+}
+
+/**
+ * Main authenticated fetch function with retry, cancellation, and interceptor support
+ * 
+ * @param url - The URL to fetch
+ * @param config - Request configuration options
+ * @returns A promise resolving to an ApiResponse
+ * @throws ApiError when the request fails
+ * 
+ * @example
+ * // Basic usage
+ * const response = await authFetch<Product>('/api/products/123');
+ * console.log(response.data);
+ * 
+ * // With custom retry configuration
+ * const response = await authFetch('/api/products', {
+ *   method: 'POST',
+ *   data: { name: 'New Product' },
+ *   retry: {
+ *     enabled: true,
+ *     maxRetries: 3,
+ *     retryDelay: 500,
+ *     retryOn: [500, 502, 503],
+ *     exponentialBackoff: true,
+ *   },
+ * });
+ * 
+ * // With request cancellation
+ * const controller = new AbortController();
+ * const promise = authFetch('/api/products', { signal: controller.signal });
+ * controller.abort(); // Cancel the request
+ * 
+ * // Skip authentication
+ * const response = await authFetch('/public/health', { skipAuth: true });
+ */
+export async function authFetch<T = unknown>(
   url: string,
-  options: AuthFetchOptions = {}
-): Promise<AxiosResponse> {
+  config: RequestConfig = {}
+): Promise<ApiResponse<T>> {
   const {
     skipAuth = false,
     retry = true,
-    maxRetries = 2,
+    signal: externalSignal,
     headers: customHeaders,
-    ...axiosOptions
-  } = options;
+    ...axiosConfig
+  } = config;
+
+  const retryConfig = normalizeRetryConfig(retry);
 
   let attempt = 0;
-  let lastResponse: AxiosResponse | null = null;
+  let lastError: ApiError | null = null;
 
-  while (attempt <= maxRetries) {
+  while (attempt <= retryConfig.maxRetries) {
     try {
-      // Get the access token
+      // Get access token if authentication is required
       let accessToken: string | null = null;
-
       if (!skipAuth) {
         accessToken = await getAccessToken();
       }
 
       // Prepare headers
       const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
         ...(customHeaders as Record<string, string>),
       };
 
@@ -43,78 +121,116 @@ export async function authFetch(
       }
 
       // Make the request
-      const response = await axios({
+      const response: AxiosResponse<T> = await apiClient.request<T>({
         url,
-        ...axiosOptions,
+        ...axiosConfig,
         headers,
-        // Let us handle all statuses manually (no throw for non-2xx)
-        validateStatus: () => true,
+        signal: externalSignal,
+        validateStatus: (status) => status < 500, // Don't throw on 4xx/5xx
       });
 
-      // If we get a 401 and haven't retried yet, try to refresh the token
-      if (response.status === 401 && retry && !skipAuth) {
-        const newAccessToken = await refreshAccessToken();
-
-        if (newAccessToken) {
-          // Retry the request with the new token
-          const retryHeaders = {
-            ...headers,
-            Authorization: `Bearer ${newAccessToken}`,
-          };
-
-          return axios({
-            url,
-            ...axiosOptions,
-            headers: retryHeaders,
-          });
-        }
-      }
-
-      // Retry on transient server errors
-      if (response.status >= 500 && retry && attempt < maxRetries) {
-        lastResponse = response;
-        attempt++;
-        continue;
-      }
-
-      return response;
-    } catch (error: any) {
-      const status = error.response?.status;
-
-      // Handle 401 in catch if validateStatus was different or if it threw
-      if (status === 401 && retry && !skipAuth) {
+      // Handle 401 - try to refresh token
+      if (response.status === 401 && retryConfig.enabled && !skipAuth) {
         const newAccessToken = await refreshAccessToken();
         if (newAccessToken) {
-          return axios({
+          // Retry with new token
+          const retryResponse = await apiClient.request<T>({
             url,
-            ...axiosOptions,
+            ...axiosConfig,
             headers: {
-              ...customHeaders,
+              ...headers,
               Authorization: `Bearer ${newAccessToken}`,
-              'Content-Type': 'application/json',
             },
+            signal: externalSignal,
           });
+
+          return {
+            data: retryResponse.data,
+            status: retryResponse.status,
+            statusText: retryResponse.statusText,
+            headers: retryResponse.headers as Record<string, string>,
+          };
         }
       }
 
-      if (retry && attempt < maxRetries) {
+      // Check for error status (4xx errors that shouldn't be retried)
+      if (response.status >= 400) {
+        const error = new AxiosError(
+          `Request failed with status ${response.status}`,
+          undefined,
+          undefined,
+          { url, ...axiosConfig, headers },
+          response
+        );
+        throw error;
+      }
+
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers as Record<string, string>,
+      };
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+
+      // Handle cancellation
+      if (
+        axiosError.name === 'CanceledError' ||
+        axiosError.code === 'ERR_CANCELED' ||
+        axiosError.code === 'ECONNABORTED'
+      ) {
+        throw createCancelledError();
+      }
+
+      lastError = toApiError(axiosError);
+
+      // Handle 401 with token refresh
+      if (axiosError.response?.status === 401 && retryConfig.enabled && !skipAuth) {
+        const newAccessToken = await refreshAccessToken();
+        if (newAccessToken) {
+          attempt++;
+          continue;
+        }
+      }
+
+      // Check if we should retry
+      if (shouldRetry(axiosError, retryConfig, attempt)) {
+        const delay = calculateRetryDelay(attempt, retryConfig);
+        await sleep(delay);
         attempt++;
         continue;
       }
-      throw error;
+
+      throw lastError;
     }
   }
 
-  return lastResponse!;
+  // All retries exhausted
+  throw lastError!;
 }
 
 /**
- * Type-safe wrapper that also parses JSON response
+ * Type-safe wrapper that parses JSON response
+ * 
+ * @param url - The URL to fetch
+ * @param config - Request configuration options
+ * @returns A promise resolving to the parsed JSON data
+ * @throws ApiError when the request fails
+ * 
+ * @example
+ * // Basic usage
+ * const products = await authFetchJson<Product[]>('/api/products');
+ * 
+ * // With query parameters
+ * const response = await authFetchJson<{ data: Product[], meta: PaginationMeta }>(
+ *   '/api/products?page=1&limit=10'
+ * );
  */
-export async function authFetchJson<T>(url: string, options?: AuthFetchOptions): Promise<T> {
-  console.log(':::API call  from - ', url);
-  const response = await authFetch(url, options);
-
-  // Axios already parsed the data if it's JSON
+export async function authFetchJson<T>(
+  url: string,
+  config?: RequestConfig
+): Promise<T> {
+  const response = await authFetch<T>(url, config);
   return response.data;
 }

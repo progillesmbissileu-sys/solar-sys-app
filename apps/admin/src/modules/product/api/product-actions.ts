@@ -37,19 +37,21 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       designation: payload.designation,
       description: payload.description,
       categoryId: payload.categoryId,
-      price: payload.price,
+      // price: payload.price,
       brand: payload.brand,
-      mainImageId: uploadedPictures[0]?.id as string,
+      // mainImageId: uploadedPictures[0]?.id as string,
       imagesIds:
         uploadedPictures.length > 1
           ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
           : [null],
     };
 
-    const resp = await callAction<CreateProductInput, void | { error?: string; errors?: any[] }>(
+    const resp = await callAction<void | { error?: string; errors?: any[] }>(
       '/api/product',
       'POST'
     )(_payload);
+
+    console.log({resp})
 
     !resp
       ? redirect(routePaths.PRODUCTS)
@@ -63,7 +65,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
 export const updateProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<UpdateProductInput & { id: string }>(formData);
 
-  const resp = await callAction<UpdateProductInput, void | { error?: string; errors?: any[] }>(
+  const resp = await callAction<void | { error?: string; errors?: any[] }>(
     `/api/product/${payload.id}`,
     'PATCH'
   )(payload);

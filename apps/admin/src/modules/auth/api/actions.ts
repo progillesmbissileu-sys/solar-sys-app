@@ -11,12 +11,9 @@ export default async function loginAction(_prev: unknown, formData: FormData) {
     password: formData.get('password') as string,
   };
 
-  const response = await callAction<
-    any,
-    {
-      data: { accessToken: string; refreshToken: string };
-    }
-  >('/api/login', 'post', {
+  const response = await callAction<{
+    data: { accessToken: string; refreshToken: string };
+  }>('/api/login', 'post', {
     skipAuth: true,
   })(credentials);
 

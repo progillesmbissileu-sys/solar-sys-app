@@ -43,9 +43,27 @@ export interface BuilderInputProps {
   labelPlacement?: 'top' | 'left' | 'right';
 }
 
-export interface FormBuilderProps<TSchema extends ZodSchema<any>, TFormData = any> {
+/**
+ * Result type for server actions used with FormWrapper.
+ * Server actions should return an object with optional data and error fields.
+ */
+export type FormActionResult<T = unknown> = 
+  | { data: T; error?: undefined }
+  | { data?: undefined; error: string; errors?: any[] }
+  | void;
+
+export interface FormBuilderProps<TSchema extends ZodSchema<any>, TFormData = any, TResult = unknown> {
   initialValues?: TFormData;
   onSubmit?: (payload: TFormData) => Promise<void>;
+  /**
+   * Callback fired when the server action completes successfully.
+   * Receives the data returned by the server action.
+   */
+  onSuccess?: (data: TResult) => void;
+  /**
+   * Callback fired when the server action returns an error.
+   */
+  onError?: (error: { message: string; errors?: any[] }) => void;
   children: React.ReactNode;
   serverAction: any;
   formOptions: Omit<FormOptions<any, any, any, any, any, any, any, any, any, any, any>, 'onSubmit'>;

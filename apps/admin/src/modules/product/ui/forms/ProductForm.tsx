@@ -25,6 +25,7 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
       formOptions={formOpts}
       // serverAction={!initialValues?.id ? createProductAction : updateProductAction}
       serverAction={createProductAction}
+      onError={error => console.log(error)}
     >
       {/* hidden id for update */}
       <div data-testid="id">
