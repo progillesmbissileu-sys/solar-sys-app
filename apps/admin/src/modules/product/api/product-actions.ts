@@ -5,6 +5,7 @@ import { routePaths } from '@/shared/routes';
 import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
 import { CreateProductInput, UpdateProductInput } from '@/entities/product';
+import { revalidatePath } from 'next/cache';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<CreateProductInput>(formData);
@@ -54,7 +55,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
     console.log({ resp });
 
     !resp
-      ? redirect(routePaths.PRODUCTS)
+      ? revalidatePath(routePaths.PRODUCTS)
       : await Promise.allSettled(
           uploadedPictures.map((picture) => deleteImageMediaAction(picture?.id ?? ''))
         );
