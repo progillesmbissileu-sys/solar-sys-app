@@ -8,7 +8,7 @@ export const routePaths = {
 
   PRODUCTS: '/products',
   PRODUCTS_MANAGEMENT: '/products',
-  PRODUCTS_DETAILS: '/products/details/:id',
+  PRODUCTS_DETAILS: '/products/:id',
   PRODUCTS_ADD: '/products/add',
 
   PRODUCTS_CATEGORIES: '/products/categories',

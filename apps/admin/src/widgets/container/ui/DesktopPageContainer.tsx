@@ -4,26 +4,22 @@ import { useEffect, useState, useRef } from 'react';
 import { useBreadcrumbs } from '../lib/use-breadcrumbs';
 import { PageContainerProps } from './types';
 import { useRightPanelStore } from '../model/right-panel-store';
-import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
 import { XIcon } from 'lucide-react';
 import { useSidebar } from '@/shared/lib';
+import { RightPanelContent } from './RigthPanelComponent';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms
 
-function RightPanelContent({ panelProps }: { panelProps?: any }) {
-  const panelType = useRightPanelStore((state) => state.panelType);
-  const PanelComponent = usePanelComponent(panelType);
-
-  if (!PanelComponent) {
-    return null;
-  }
-
-  return <PanelComponent panelProps={panelProps} />;
-}
-
-function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageContainerProps) {
+function DesktopPageContainerInner({
+  children,
+  breadcrumbs,
+  pageHeader,
+  tabs,
+  defaultTab,
+  onTabChange,
+}: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
   const rightPanelOpen = useRightPanelStore((state) => state.open);
   const closePanel = useRightPanelStore((state) => state.closePanel);
@@ -31,10 +27,11 @@ function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageCo
   const [shouldRender, setShouldRender] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const sidebar = useSidebar();
-  // const rightPanelRef = useClickAway<HTMLDivElement>(() => {
-  //   closePanel();
-  // });
+
   const panelProps = useRightPanelStore((state) => state.panelProps);
+  const [activeTab, setActiveTab] = useState<string>(
+    defaultTab || (tabs && tabs.length > 0 ? tabs[0].key : '')
+  );
 
   useEffect(() => {
     if (breadcrumbs) {
@@ -83,13 +80,12 @@ function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageCo
           'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out'
         )}
       >
-        <header className="flex flex-col justify-between border-b p-3 xl:min-h-44">
-          {pageHeader?.title && (
-            <h1 className="border-b border-dashed pb-3 font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
+        <header className="flex h-16 items-center justify-end border-b border-dashed px-5">
+          {/*{pageHeader?.title && (
+            <h1 className="font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
               {pageHeader.title}
             </h1>
-          )}
-          <div></div>
+          )}*/}
           {pageHeader?.actions && <div className="flex justify-end">{pageHeader.actions}</div>}
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
@@ -105,9 +101,9 @@ function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageCo
         style={{ width: panelProps?.width || RIGHT_PANEL_WIDTH }}
       >
         {shouldRender && (
-          <div className="h-full overflow-auto p-3">
+          <div className="h-full overflow-auto px-3">
             <div className="h-full">
-              <header className="flex items-end justify-between border-b border-dashed xl:pb-2.5">
+              <header className="flex items-center justify-between border-b border-dashed xl:h-16">
                 <h1 className="font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
                   {panelProps?.title || 'Default Title'}
                 </h1>

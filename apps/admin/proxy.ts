@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
   const token = await getAccessToken();
+  const headers = new Headers(request.headers);
 
   const isAuthPage =
     request.nextUrl.pathname.startsWith('/login') ||
@@ -26,7 +27,13 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  return NextResponse.next();
+  headers.set('x-pathname', request.nextUrl.pathname);
+
+  return NextResponse.next({
+    request: {
+      headers,
+    },
+  });
 }
 
 // Configure which routes use this middleware

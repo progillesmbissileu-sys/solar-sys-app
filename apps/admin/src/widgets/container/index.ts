@@ -1,4 +1,5 @@
 export { DesktopPageContainer } from './ui/DesktopPageContainer';
+export { TabNavigationContainer } from './ui/TabNavigationContainer';
 
 //HOOK
 export { useBreadcrumbs } from './lib/use-breadcrumbs';

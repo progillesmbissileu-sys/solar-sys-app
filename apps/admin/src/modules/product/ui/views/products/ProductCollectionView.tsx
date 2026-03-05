@@ -7,8 +7,9 @@ import { CollectionResponseType } from '@/shared/api';
 import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { use } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function ProductManagementView({
+export default function ProductCollectionView({
   collection,
   categories,
 }: {
@@ -17,6 +18,7 @@ export default function ProductManagementView({
 }) {
   const _categories = use(categories);
   const { openPanel } = useRightPanel();
+  const router = useRouter();
 
   return (
     <DesktopPageContainer
@@ -96,6 +98,7 @@ export default function ProductManagementView({
           },
         ]}
         collection={collection}
+        onRowClick={(record) => router.push(`/products/${record.id}`)}
       />
     </DesktopPageContainer>
   );
