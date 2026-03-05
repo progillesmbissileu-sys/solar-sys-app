@@ -54,8 +54,9 @@ export default function ProductManagementView({
               title: '',
               render: (product) => (
                 <AppImage
-                  src={product.thumbnailUrl as string}
-                  alt={product.designation as string}
+                  src={product.mainImage.url}
+                  alt={product.mainImage.alt}
+                  title={product.mainImage.title}
                   width={40}
                   height={40}
                   unoptimized
@@ -81,7 +82,7 @@ export default function ProductManagementView({
             {
               key: 'category',
               title: 'common.category',
-              dataIndex: 'categoryName',
+              render: (product) => product.category.designation,
             },
             {
               key: 'added',

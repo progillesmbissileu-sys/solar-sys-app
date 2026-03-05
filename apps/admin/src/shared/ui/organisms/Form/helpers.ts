@@ -1,6 +1,6 @@
 import { EnumHelper } from '@/shared/lib/types';
 
-export const extractFormPayload = <TData>(formData: FormData): TData => {
+export const extractFormPayload = <TData = any>(formData: FormData): TData => {
   const payload = Object.fromEntries(formData.entries()) as TData;
 
   return payload;

@@ -4,15 +4,10 @@ import { callAction, deleteImageMediaAction, uploadImageAction } from '@/shared/
 import { routePaths } from '@/shared/routes';
 import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
-import { ProductUpdateInput } from '@/entities/product';
-
-export type ProductCreatePayload = ProductUpdateInput & {
-  mainImageId: string;
-  imagesIds: (string | null)[];
-};
+import { CreateProductInput, UpdateProductInput } from '@/entities/product';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormPayload<ProductCreatePayload>(formData);
+  const payload = extractFormPayload<CreateProductInput>(formData);
 
   const images = formData.getAll('images') as File[];
 
@@ -51,7 +46,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
           : [null],
     };
 
-    const resp = await callAction<ProductCreatePayload, void | { error?: string; errors?: any[] }>(
+    const resp = await callAction<CreateProductInput, void | { error?: string; errors?: any[] }>(
       '/api/product',
       'POST'
     )(_payload);
@@ -66,9 +61,9 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
 
 //update action
 export const updateProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormPayload<ProductUpdateInput & { id: string }>(formData);
+  const payload = extractFormPayload<UpdateProductInput & { id: string }>(formData);
 
-  const resp = await callAction<ProductUpdateInput, void | { error?: string; errors?: any[] }>(
+  const resp = await callAction<UpdateProductInput, void | { error?: string; errors?: any[] }>(
     `/api/product/${payload.id}`,
     'PATCH'
   )(payload);

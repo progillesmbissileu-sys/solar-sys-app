@@ -1,35 +1,60 @@
-import { ProductImage } from "./product-image";
-
 export type Product = {
   id: string;
   designation: string;
   description: string;
   price: number;
-  categoryId: string;
-  brand?: string;
+  category: {
+    id: string;
+    designation?: string;
+  };
+  mainImage: ProductImage;
+  brand: string;
   slug?: string;
   isAvailable?: boolean;
   isDeleted?: boolean;
+  stockQuantity: number;
+  lowStockThreshold: number;
   createdAt?: any;
   updatedAt?: any;
-  picture: ProductImage  
-  categoryName?: string;
   images?: ProductImage[];
 };
 
-export type ProductUpdateInput = Partial<
-  Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'categoryName' | 'slug'|"picture"|"images"|'isDeleted' | 'isAvailable'>
->;
+export type CreateProductInput = {
+  designation: string;
+  description: string;
+  categoryId: string;
+  mainImageId: string;
+  price: number;
+  brand?: string;
+  imageIds?: string[];
+};
+
+export type UpdateProductInput = {
+  designation: string;
+  description: string;
+  categoryId: string;
+  mainImageId: string;
+  price: number;
+  brand?: string;
+  imageIds?: string[];
+};
 
 export type ProductPreview = Pick<
   Product,
   | 'id'
   | 'designation'
   | 'price'
-  | 'categoryName'
+  | 'category'
   | 'createdAt'
   | 'updatedAt'
   | 'brand'
-> & {
-  thumbnailUrl: string
+  | 'stockQuantity'
+  | 'mainImage'
+>;
+
+export type ProductImage = {
+  id?: string;
+  title: string;
+  url: string;
+  alt: string;
 };
