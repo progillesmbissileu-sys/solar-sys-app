@@ -1,5 +1,10 @@
-import { App } from '@/app/entrypoint/App';
+import { AppContextProvider } from '@/app/entrypoint/provider';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <App>{children}</App>;
+import { cookies } from 'next/headers';
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true';
+
+  return <AppContextProvider sidebarCookieState={defaultOpen}>{children}</AppContextProvider>;
 }

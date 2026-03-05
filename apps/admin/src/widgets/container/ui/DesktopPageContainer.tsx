@@ -6,8 +6,7 @@ import { PageContainerProps } from './types';
 import { useRightPanelStore } from '../model/right-panel-store';
 import { usePanelComponent } from '../model/panel-registry';
 import { cx } from '@/shared/lib/utils';
-import { useClickAway } from '@uidotdev/usehooks';
-import { CrossIcon, PanelTopCloseIcon, XIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 import { useSidebar } from '@/shared/lib';
 
 const RIGHT_PANEL_WIDTH = '24rem';
@@ -24,12 +23,7 @@ function RightPanelContent({ panelProps }: { panelProps?: any }) {
   return <PanelComponent panelProps={panelProps} />;
 }
 
-function DesktopPageContainerInner({
-  children,
-  breadcrumbs,
-  pageHeader,
-  rightPanel,
-}: PageContainerProps) {
+function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
   const rightPanelOpen = useRightPanelStore((state) => state.open);
   const closePanel = useRightPanelStore((state) => state.closePanel);

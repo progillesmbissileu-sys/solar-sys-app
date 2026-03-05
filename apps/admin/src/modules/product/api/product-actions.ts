@@ -37,9 +37,9 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       designation: payload.designation,
       description: payload.description,
       categoryId: payload.categoryId,
-      // price: payload.price,
+      price: payload.price,
       brand: payload.brand,
-      // mainImageId: uploadedPictures[0]?.id as string,
+      mainImageId: uploadedPictures[0]?.id as string,
       imagesIds:
         uploadedPictures.length > 1
           ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
@@ -51,7 +51,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       'POST'
     )(_payload);
 
-    console.log({resp})
+    console.log({ resp });
 
     !resp
       ? redirect(routePaths.PRODUCTS)
