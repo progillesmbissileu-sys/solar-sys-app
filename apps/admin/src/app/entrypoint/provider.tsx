@@ -3,8 +3,8 @@
 import { productModulePanels } from '@/modules/product/config/module';
 import { SidebarProvider } from '@/shared/ui';
 import { PanelRegistryProvider } from '@/widgets/container';
+import { Layout } from '@/widgets/layouts';
 import { ThemeProvider } from 'next-themes';
-import { Layout } from '../components/layouts';
 
 export const rightPanelRegistry = {
   ...productModulePanels,
