@@ -11,8 +11,13 @@ export const productModuleConfig: AppModuleConfig = {
   title: 'product.menuTitle',
   children: [
     {
-      key: 'product.management',
-      title: 'product.management',
+      key: 'product.list',
+      title: 'product.list',
+      path: routePaths.PRODUCTS_MANAGEMENT,
+    },
+    {
+      key: 'product.packages',
+      title: 'product.packages',
       path: routePaths.PRODUCTS_MANAGEMENT,
     },
     {

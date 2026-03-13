@@ -9,7 +9,7 @@ import { RiBox1Line } from '@remixicon/react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ProductCollectionView({
+export function ProductCollectionView({
   collection,
   categories,
 }: {

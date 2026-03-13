@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { buildQueryParams } from './utils';
+import { buildRoute } from './utils';
 
 export function useNavigator() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export function useNavigator() {
   };
 
   const queryNavigate = (queries: Record<string, string> = {}) => {
-    const path = buildQueryParams(pathname, queries);
+    const path = buildRoute(pathname, {}, queries);
     const hash = globalThis?.location?.hash || '';
     router.push(hash ? `${path}${hash}` : path);
   };

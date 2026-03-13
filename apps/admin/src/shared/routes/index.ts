@@ -8,12 +8,17 @@ export const routePaths = {
 
   PRODUCTS: '/products',
   PRODUCTS_MANAGEMENT: '/products',
-  PRODUCTS_DETAILS: '/products/:id',
+  PRODUCTS_OVERVIEW: '/products/:id',
+  PRODUCTS_INVENTORY: '/products/:id/inventory',
+  PRODUCTS_ORDERS_RECORD: '/products/:id/orders-history',
+  PRODUCTS_EDIT: '/products/:id/edit',
   PRODUCTS_ADD: '/products/add',
+  PRODUCTS_PACKAGES: '/products/packages',
+  PRODUCTS_PACKAGES_VIEW: '/products/packages/:id',
 
-  PRODUCTS_CATEGORIES: '/products/categories',
-  PRODUCTS_CATEGORIES_ADD: '/products/categories/create',
-  PRODUCTS_CATEGORIES_VIEW: '/products/categories/view/:id',
+  PRODUCTS_CATEGORIES: '/product-categories',
+  PRODUCTS_CATEGORIES_ADD: '/product-categories/create',
+  PRODUCTS_CATEGORIES_VIEW: '/product-categories/:id',
 
   USERS: '/users',
   USERS_ADD: '/users/add',

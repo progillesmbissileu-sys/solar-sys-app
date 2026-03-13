@@ -4,12 +4,12 @@ import { ProductCategoryPreview } from '@/entities/product';
 import { Button, DateDisplay, Label } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
-import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/widgets/container';
+import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { useNavigator } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
 
-export default function ProductCategoriesView({
+export function CategoryCollectionView({
   collection,
 }: {
   collection: CollectionResponseType<ProductCategoryPreview>;

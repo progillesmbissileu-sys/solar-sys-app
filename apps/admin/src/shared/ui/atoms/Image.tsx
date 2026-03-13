@@ -3,17 +3,21 @@
 import { RiImageLine } from '@remixicon/react';
 import Image, { ImageProps } from 'next/image';
 
-export const AppImage = (props: Omit<ImageProps, 'src'> & { src: string }) => {
-  if (props.src?.toString().length > 0) {
+export const AppImage = ({
+  src,
+  alt,
+  unoptimized,
+  className,
+  ...props
+}: Omit<ImageProps, 'src'> & { src: string }) => {
+  if (src?.toString().length > 0) {
     return (
       <Image
-        src={props.src}
-        alt={props.alt?.toLowerCase()}
-        width={props.width}
-        height={props.height}
-        unoptimized={props.unoptimized}
-        preload={props.preload}
-        className={props.className}
+        src={src}
+        alt={alt?.toLowerCase()}
+        unoptimized={unoptimized}
+        className={className}
+        {...props}
       />
     );
   }

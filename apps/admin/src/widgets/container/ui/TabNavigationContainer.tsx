@@ -9,7 +9,7 @@ export const TabNavigationContainer = ({
   pathname,
 }: TabNavigationContainerProps) => {
   return (
-    <div className="dark:bg-gray-925 bg-white">
+    <div className="h-full w-full bg-white dark:bg-dark">
       <TabNavigation className="gap-x-5 px-5 sm:px-6 xl:h-16">
         {navigation.map((item) => (
           <TabNavigationLink
@@ -22,7 +22,7 @@ export const TabNavigationContainer = ({
           </TabNavigationLink>
         ))}
       </TabNavigation>
-      <div>{children}</div>
+      <div className="xl:h-[calc(100%-64px)]">{children}</div>
     </div>
   );
 };
