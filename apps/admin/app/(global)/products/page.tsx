@@ -1,5 +1,5 @@
-import { ProductCollectionView } from '@/modules/product';
 import { productCategoryCollection, productCollection } from '@/entities/product';
+import { ProductCollectionView } from '@/views/product';
 import { Suspense } from 'react';
 
 export default async function Page({ searchParams }: { searchParams: any }) {

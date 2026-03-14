@@ -1,10 +1,10 @@
 'use client';
 
-import { productModulePanels } from '@/modules/product/config/module';
 import { SidebarProvider } from '@/shared/ui';
 import { PanelRegistryProvider } from '@/widgets/container';
-import { Layout } from '@/widgets/layouts';
+import { Layout } from '@/app/layouts';
 import { ThemeProvider } from 'next-themes';
+import { productModulePanels } from '@/views/product';
 
 export const rightPanelRegistry = {
   ...productModulePanels,

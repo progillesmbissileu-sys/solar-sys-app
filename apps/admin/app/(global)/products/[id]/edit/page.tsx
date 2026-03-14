@@ -1,8 +1,9 @@
 import { getProduct } from '@/entities/product';
-import { ProductUpdateForm, ProductUpdateFormValues } from '@/modules/product';
+import { ProductUpdateForm } from '@/views/product';
 import { RouteLayoutProps } from '../../../../_lib';
 import { ResourceNotFound } from '../../../../_ui/ResourceNotFound';
 import { productCategoryCollection } from '@/entities/product';
+import { ProductUpdateFormValues } from '@/views/product';
 
 export default async function EditPage({ params }: RouteLayoutProps) {
   const { id } = await params;

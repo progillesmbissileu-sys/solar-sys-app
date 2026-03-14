@@ -108,8 +108,9 @@ export function callActionWithId<
 export function callActionSafe<
   TReturn = void,
   TQuery extends CollectionQueryParams = CollectionQueryParams,
+  TData extends object = any,
 >(path: string, method: RequestConfig['method'], options?: Omit<RequestConfig, 'method' | 'data'>) {
-  return async (payload?: unknown, query?: TQuery): Promise<Result<TReturn>> => {
+  return async (payload?: TData, query?: TQuery): Promise<Result<TReturn>> => {
     try {
       const queryString = query ? `?${CollectionHelpers.paramsToQueryString(query)}` : '';
 
@@ -150,12 +151,9 @@ export function callActionSafe<
 export function callActionWithIdSafe<
   TReturn = void,
   TQuery extends CollectionQueryParams = CollectionQueryParams,
+  TData extends object = any,
 >(path: string, method: RequestConfig['method'], options?: Omit<RequestConfig, 'method' | 'data'>) {
-  return async (
-    resourceId: string,
-    payload?: unknown,
-    query?: TQuery
-  ): Promise<Result<TReturn>> => {
+  return async (resourceId: string, payload?: TData, query?: TQuery): Promise<Result<TReturn>> => {
     try {
       // Find and replace the placeholder pattern
       const pathChunks = path.split('/');
@@ -175,6 +173,24 @@ export function callActionWithIdSafe<
     } catch (error) {
       return { success: false, error: error as ApiError };
     }
+  };
+}
+
+export function mutation<TData extends object = any>(
+  path: string,
+  method: RequestConfig['method'] = 'post'
+) {
+  return (payload?: TData) => {
+    return callActionSafe<void, any, TData>(path, method)(payload);
+  };
+}
+
+export function mutationWithId<TData extends object = any>(
+  path: string,
+  method: RequestConfig['method'] = 'post'
+) {
+  return (id: string, payload?: TData) => {
+    return callActionWithIdSafe<void, any, TData>(path, method)(id, payload);
   };
 }
 

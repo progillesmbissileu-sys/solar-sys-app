@@ -24,6 +24,8 @@ export {
   callActionWithId,
   callActionSafe,
   callActionWithIdSafe,
+  mutation,
+  mutationWithId,
 } from './client/helpers';
 
 // Collection types

@@ -1,4 +1,8 @@
-export * from './api';
+// API
+export * from './api/product';
+export * from './api/product-pack';
+
+// MODELS
 export type {
   Product,
   ProductPreview,
@@ -13,3 +17,5 @@ export {
   type CreateCategoryInput as CategoryCreatePayload,
   ProductCategoryType,
 } from './model/product-category';
+
+export type { ProductPackCollectionPreview } from './model/product-package';

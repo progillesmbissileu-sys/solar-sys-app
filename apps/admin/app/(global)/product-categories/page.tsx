@@ -1,5 +1,5 @@
 import { productCategoryCollection } from '@/entities/product';
-import { CategoryCollectionView } from '@/modules/product';
+import { CategoryCollectionView } from '@/views/product';
 
 export default async function Page() {
   const response = await productCategoryCollection();

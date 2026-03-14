@@ -1,6 +1,6 @@
 'use client';
 
-import { productManageTabs } from '@/modules/product';
+import { productManageTabs } from '@/views/product';
 import { TabNavigationContainer } from '@/widgets/container';
 import { useParams, usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
