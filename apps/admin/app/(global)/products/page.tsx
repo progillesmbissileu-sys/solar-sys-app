@@ -1,11 +1,12 @@
 import { productCategoryCollection, productCollection } from '@/entities/product';
 import { ProductCollectionView } from '@/views/product';
+import { SomethingWentWrong } from '@/shared/ui';
 import { Suspense } from 'react';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
   const query = await searchParams;
 
-  const collection = await productCollection(undefined, {
+  const response = await productCollection({
     page: query.page || 1,
     limit: query.limit || 10,
     q: query.q,
@@ -14,6 +15,12 @@ export default async function Page({ searchParams }: { searchParams: any }) {
   const categories = productCategoryCollection();
 
   return (
-    <Suspense>{<ProductCollectionView collection={collection} categories={categories} />}</Suspense>
+    <Suspense>
+      {response.success ? (
+        <ProductCollectionView collection={response.data} categories={categories} />
+      ) : (
+        <SomethingWentWrong />
+      )}
+    </Suspense>
   );
 }

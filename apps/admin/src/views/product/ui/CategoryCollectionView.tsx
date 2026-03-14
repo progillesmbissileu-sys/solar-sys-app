@@ -69,7 +69,7 @@ export function CategoryCollectionView({
         ]}
         collection={collection}
         onRowClick={(record) =>
-          navigator.navigate(routePaths.PRODUCTS_CATEGORIES_VIEW, {
+          navigator.navigate(routePaths.PRODUCTS_CATEGORIES_DETAILS, {
             id: record.id,
           })
         }

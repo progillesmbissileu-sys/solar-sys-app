@@ -9,8 +9,8 @@ export const AppImage = ({
   unoptimized,
   className,
   ...props
-}: Omit<ImageProps, 'src'> & { src: string }) => {
-  if (src?.toString().length > 0) {
+}: Omit<ImageProps, 'src'> & { src?: string }) => {
+  if (src && src.toString().length > 0) {
     return (
       <Image
         src={src}

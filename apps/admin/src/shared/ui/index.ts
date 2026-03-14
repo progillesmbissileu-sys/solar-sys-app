@@ -59,5 +59,6 @@ export * from './molecules/userProfile/UserProfile';
 export * from './molecules/userProfile/DropdownUserProfile';
 
 // Organisms
-export * from './organisms/AppTable';
-export * from './organisms/Form';
+export * from './organisms/app-table';
+export * from './organisms/form';
+export * from './organisms/errors/SomethingWentWrong';

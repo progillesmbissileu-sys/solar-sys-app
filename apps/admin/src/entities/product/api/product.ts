@@ -1,8 +1,13 @@
-import { callAction, callActionWithIdSafe, CollectionResponseType } from '@/shared/api';
+import {
+  callAction,
+  callActionSafe,
+  callActionWithIdSafe,
+  CollectionResponseType,
+} from '@/shared/api';
 import { ProductCategory } from '../model/product-category';
 import { Product, ProductPreview } from '../model/product';
 
-export const productCollection = callAction<CollectionResponseType<ProductPreview>>(
+export const productCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
   '/api/product',
   'get'
 );

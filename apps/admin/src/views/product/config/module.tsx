@@ -18,7 +18,7 @@ export const productModuleConfig: AppModuleConfig = {
     {
       key: 'product.packages',
       title: 'product.packages',
-      path: routePaths.PRODUCTS_MANAGEMENT,
+      path: routePaths.PRODUCTS_PACKAGES,
     },
     {
       key: 'product.category',

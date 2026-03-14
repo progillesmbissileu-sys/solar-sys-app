@@ -1,4 +1,5 @@
 export { ProductDetailsView } from './ui/ProductDetailsView';
+export { ProductPackCollectionView } from './ui/ProductPackCollectionView';
 export { ProductCollectionView } from './ui/ProductCollectionView';
 export { ProductOrdersView } from './ui/ProductOrdersView';
 export { ProductInventoryView } from './ui/ProductInventoryView';

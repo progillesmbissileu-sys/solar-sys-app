@@ -45,7 +45,7 @@ export type ProductPackCollectionPreview = {
   id: string;
   designation: string;
   price: number;
-  mainImageId?: string;
+  mainImageUrl?: string;
   isAvailable?: boolean;
   createdAt?: any;
   updatedAt?: any;

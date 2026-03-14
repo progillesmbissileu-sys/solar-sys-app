@@ -1,4 +1,4 @@
-import { authFetchJson, authFetch } from './api-client';
+import { authFetchJson } from './api-client';
 import { RequestConfig, ApiError, Result } from './types';
 import { env } from '@/shared/config';
 import { CollectionQueryParams } from '../collection/types';
@@ -110,7 +110,7 @@ export function callActionSafe<
   TQuery extends CollectionQueryParams = CollectionQueryParams,
   TData extends object = any,
 >(path: string, method: RequestConfig['method'], options?: Omit<RequestConfig, 'method' | 'data'>) {
-  return async (payload?: TData, query?: TQuery): Promise<Result<TReturn>> => {
+  return async (query?: TQuery, payload?: TData): Promise<Result<TReturn>> => {
     try {
       const queryString = query ? `?${CollectionHelpers.paramsToQueryString(query)}` : '';
 

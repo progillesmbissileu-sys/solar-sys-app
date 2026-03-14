@@ -1,0 +1,97 @@
+'use client';
+
+import { ProductPackCollectionPreview } from '@/entities/product';
+import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
+import { CollectionManager } from '@/widgets/collection';
+import { CollectionResponseType } from '@/shared/api';
+import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
+import { RiBox1Line } from '@remixicon/react';
+import { use } from 'react';
+import { useRouter } from 'next/navigation';
+
+export function ProductPackCollectionView({
+  collection,
+}: {
+  collection: CollectionResponseType<ProductPackCollectionPreview>;
+}) {
+  const { openPanel } = useRightPanel();
+  const router = useRouter();
+
+  return (
+    <DesktopPageContainer
+      breadcrumbs={[
+        { label: 'Home', href: '/' },
+        { label: 'Products', href: '/products' },
+      ]}
+      pageHeader={{
+        title: 'product.pageTitle',
+        actions: (
+          <div>
+            <Button
+              className="cursor-pointer gap-x-2"
+              onClick={() => {
+                openPanel('PRODUCT_FORM', {
+                  title: 'Nouveau package',
+                  width: '35vw',
+                });
+              }}
+            >
+              <RiBox1Line className="size-5 text-white/90" />
+              <Label className="cursor-pointer text-white/90">action.new</Label>
+            </Button>
+          </div>
+        ),
+      }}
+    >
+      <CollectionManager<ProductPackCollectionPreview>
+        columns={[
+          {
+            key: 'thumbnail',
+            title: '',
+            render: (pack) => (
+              <AppImage
+                src={pack.mainImageUrl}
+                alt={pack.designation}
+                title={pack.designation}
+                width={40}
+                height={40}
+                unoptimized
+              />
+            ),
+          },
+          {
+            key: 'name',
+            title: 'common.designation',
+            dataIndex: 'designation',
+          },
+          {
+            key: 'price',
+            title: 'common.price',
+            align: 'end',
+            render: (pack) => <PriceDisplay amount={pack.price} />,
+          },
+          {
+            key: 'count',
+            title: 'common.countItems',
+            align: 'center',
+            render: (pack) => pack.items.length,
+          },
+          {
+            key: 'created',
+            title: 'common.createdAt',
+            align: 'end',
+            render: (pack) => <DateDisplay date={pack.createdAt} />,
+          },
+          {
+            key: 'updated',
+            title: 'common.lastUpdated',
+            align: 'end',
+            render: (pack) => <DateDisplay date={pack.updatedAt} />,
+          },
+        ]}
+        collection={collection}
+        onRowClick={(record) => router.push(`/products/${record.id}`)}
+      />
+    </DesktopPageContainer>
+  );
+}
