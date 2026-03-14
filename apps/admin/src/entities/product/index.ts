@@ -4,8 +4,8 @@ export type {
   ProductPreview,
   CreateProductInput,
   UpdateProductInput,
-  ProductImage,
 } from './model/product';
+export type { ProductImage } from './model/product-image';
 export {
   type ProductCategory,
   type ProductCategoryPreview,

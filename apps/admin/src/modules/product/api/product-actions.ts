@@ -1,10 +1,17 @@
 'use server';
 
-import { callAction, deleteImageMediaAction, uploadImageAction } from '@/shared/api';
+import {
+  callActionSafe,
+  callActionWithIdSafe,
+  deleteImageMediaAction,
+  uploadImageAction,
+} from '@/shared/api';
 import { routePaths } from '@/shared/routes';
 import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
 import { CreateProductInput, UpdateProductInput } from '@/entities/product';
+import { revalidatePath } from 'next/cache';
+import { buildRoute } from '@/shared/lib/router';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<CreateProductInput>(formData);
@@ -37,27 +44,23 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       designation: payload.designation,
       description: payload.description,
       categoryId: payload.categoryId,
-      // price: payload.price,
+      price: payload.price,
       brand: payload.brand,
-      // mainImageId: uploadedPictures[0]?.id as string,
+      mainImageId: uploadedPictures[0]?.id as string,
       imagesIds:
         uploadedPictures.length > 1
           ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
           : [null],
     };
 
-    const resp = await callAction<void | { error?: string; errors?: any[] }>(
-      '/api/product',
-      'POST'
-    )(_payload);
+    const resp = await callActionSafe<void>('/api/product', 'POST')(_payload);
 
-    console.log({resp})
-
-    !resp
-      ? redirect(routePaths.PRODUCTS)
+    resp.success
+      ? revalidatePath(routePaths.PRODUCTS)
       : await Promise.allSettled(
           uploadedPictures.map((picture) => deleteImageMediaAction(picture?.id ?? ''))
         );
+    return resp;
   }
 };
 
@@ -65,11 +68,17 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
 export const updateProductAction = async (_prev: unknown, formData: FormData) => {
   const payload = extractFormPayload<UpdateProductInput & { id: string }>(formData);
 
-  const resp = await callAction<void | { error?: string; errors?: any[] }>(
-    `/api/product/${payload.id}`,
-    'PATCH'
-  )(payload);
+  const _payload = {
+    designation: payload.designation,
+    description: payload.description,
+    categoryId: payload.categoryId,
+    price: payload.price,
+    brand: payload.brand,
+  };
 
-  console.error(resp);
-  !resp && redirect(routePaths.PRODUCTS);
+  const resp = await callActionWithIdSafe<void>(`/api/product/:id`, 'PATCH')(payload.id, _payload);
+
+  resp.success && redirect(buildRoute(routePaths.PRODUCTS_OVERVIEW, { id: payload.id }));
+
+  return resp;
 };

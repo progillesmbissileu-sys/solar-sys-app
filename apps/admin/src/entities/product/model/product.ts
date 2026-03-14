@@ -1,3 +1,5 @@
+import { ProductImage } from './product-image';
+
 export type Product = {
   id: string;
   designation: string;
@@ -51,10 +53,3 @@ export type ProductPreview = Pick<
   | 'stockQuantity'
   | 'mainImage'
 >;
-
-export type ProductImage = {
-  id?: string;
-  title: string;
-  url: string;
-  alt: string;
-};

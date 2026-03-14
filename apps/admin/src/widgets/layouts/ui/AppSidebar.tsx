@@ -24,7 +24,7 @@ import Image from 'next/image';
 import { productModuleConfig } from '@/modules/product/config/module';
 import { dashboardModuleConfig } from '@/modules/dashboard';
 import { locationModuleConfig } from '@/modules/location';
-import { useLayout } from '@/app/components/layouts/lib/use-layout';
+import { useLayout } from '../lib/use-layout';
 
 const navigation = [dashboardModuleConfig, locationModuleConfig];
 

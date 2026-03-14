@@ -10,13 +10,16 @@ export interface PaginationMeta {
   previousPageUrl?: string;
 }
 
-export type CollectionResponseType<TData> = {
-  data: TData[];
-  meta: {
-    pagination?: Pagination;
+export type CollectionResponseType<
+  TData,
+  TMeta = {
+    pagination?: PaginationMeta;
     filter?: FilterParams;
     sort?: SortParams;
-  };
+  },
+> = {
+  data: TData[];
+  meta: TMeta;
 };
 
 export type Pagination = {
