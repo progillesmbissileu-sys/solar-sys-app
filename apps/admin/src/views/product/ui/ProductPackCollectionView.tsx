@@ -8,6 +8,7 @@ import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
+import { routePaths } from '@/shared/routes';
 
 export function ProductPackCollectionView({
   collection,
@@ -20,8 +21,8 @@ export function ProductPackCollectionView({
   return (
     <DesktopPageContainer
       breadcrumbs={[
-        { label: 'Home', href: '/' },
-        { label: 'Products', href: '/products' },
+        { label: 'Acceuil', href: '/' },
+        { label: 'Packages', href: routePaths.PRODUCTS_PACKAGES },
       ]}
       pageHeader={{
         title: 'product.pageTitle',

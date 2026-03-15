@@ -12,15 +12,16 @@ export default async function Page({ searchParams }: { searchParams: any }) {
     q: query.q,
   });
 
-  const categories = productCategoryCollection();
-
   return (
-    <Suspense>
+    <>
       {response.success ? (
-        <ProductCollectionView collection={response.data} categories={categories} />
+        <ProductCollectionView
+          collection={response.data}
+          categories={productCategoryCollection()}
+        />
       ) : (
         <SomethingWentWrong />
       )}
-    </Suspense>
+    </>
   );
 }

@@ -13,12 +13,12 @@ export default async function Page({ searchParams }: { searchParams: any }) {
   });
 
   return (
-    <Suspense>
+    <>
       {response.success ? (
         <ProductPackCollectionView collection={response.data} />
       ) : (
         <SomethingWentWrong />
       )}
-    </Suspense>
+    </>
   );
 }

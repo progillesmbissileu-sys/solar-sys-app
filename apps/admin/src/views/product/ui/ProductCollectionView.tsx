@@ -3,8 +3,8 @@
 import { ProductCategory, ProductPreview } from '@/entities/product';
 import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
-import { CollectionResponseType } from '@/shared/api';
-import { DesktopPageContainer, PanelRegistryProvider, useRightPanel } from '@/widgets/container';
+import { CollectionResponseType, Result } from '@/shared/api';
+import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ export function ProductCollectionView({
   categories,
 }: {
   collection: CollectionResponseType<ProductPreview>;
-  categories: Promise<CollectionResponseType<ProductCategory>>;
+  categories: Promise<Result<CollectionResponseType<ProductCategory>>>;
 }) {
   const _categories = use(categories);
   const { openPanel } = useRightPanel();

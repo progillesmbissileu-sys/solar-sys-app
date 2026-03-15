@@ -1,4 +1,9 @@
-import { AxiosRequestConfig, AxiosInterceptorOptions, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  AxiosRequestConfig,
+  AxiosInterceptorOptions,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
 /**
  * Error detail structure from API responses
@@ -75,7 +80,7 @@ export interface RequestConfig extends Omit<AxiosRequestConfig, 'signal'> {
  */
 export type Result<T, E = ApiError> =
   | { success: true; data: T }
-  | { success: false; error: E };
+  | { success: false; error: E; data: null };
 
 /**
  * Interceptor manager interface for type-safe interceptor management
@@ -83,7 +88,9 @@ export type Result<T, E = ApiError> =
 export interface InterceptorManager {
   request: {
     use: (
-      onFulfilled?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>,
+      onFulfilled?: (
+        config: InternalAxiosRequestConfig
+      ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>,
       onRejected?: (error: unknown) => unknown,
       options?: AxiosInterceptorOptions
     ) => number;
