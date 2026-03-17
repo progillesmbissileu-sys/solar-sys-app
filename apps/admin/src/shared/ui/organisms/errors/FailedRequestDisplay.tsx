@@ -9,7 +9,7 @@ export const FailedRequestDisplay = ({ status }: { status: number }) => {
     case 401:
       return (
         <div className="flex h-full w-full flex-col items-center justify-center gap-y-3">
-          <div className="flex items-center justify-acenter gap-x-1.5">
+          <div className="flex items-center justify-center gap-x-1.5">
             <XCircle />
             <span className="text-lg capitalize">Votre session a expirée</span>
           </div>
