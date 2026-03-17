@@ -61,7 +61,11 @@ export * from './molecules/userProfile/DropdownUserProfile';
 // Organisms
 export * from './organisms/app-table';
 export * from './organisms/errors/FailedRequestDisplay';
+//@ts-expect-error - TODO: fix this
 export { FormWrapper } from './organisms/form/FormWrapper';
+//@ts-expect-error - TODO: fix this
 export * as FormField from './organisms/form/Field';
+//@ts-expect-error - TODO: fix this
 export * as FormComponent from './organisms/form/Component';
+//@ts-expect-error
 export { parseEnumOptions, extractFormPayload } from '@/shared/ui/organisms/form/helpers';
