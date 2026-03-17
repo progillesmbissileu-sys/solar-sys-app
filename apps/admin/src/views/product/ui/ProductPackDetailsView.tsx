@@ -4,7 +4,6 @@ import { ProductPackage, ProductPackageItem } from '@/entities/product';
 import { AppImage, Badge, Button, Card, PriceDisplay, DateDisplay, Divider } from '@/shared/ui';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiDeleteBinLine, RiPencilLine, RiBox1Line } from '@remixicon/react';
-import { productPackManageTabs } from '../config/tabs-config';
 import { removeProductPackItemAction, deleteProductPackAction } from '@/features/products';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
