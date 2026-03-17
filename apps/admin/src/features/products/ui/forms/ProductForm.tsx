@@ -2,7 +2,7 @@
 
 import { formOptions } from '@tanstack/react-form';
 
-import { FormComponent, FormField, FormWrapper, ImageItem } from '@/shared/ui';
+import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-validators';
 import { createProductAction } from '../../lib/create-product-action';
