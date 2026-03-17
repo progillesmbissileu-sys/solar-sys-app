@@ -6,7 +6,6 @@ import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
-import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { routePaths } from '@/shared/routes';
 
@@ -31,14 +30,14 @@ export function ProductPackCollectionView({
             <Button
               className="cursor-pointer gap-x-2"
               onClick={() => {
-                openPanel('PRODUCT_FORM', {
+                openPanel('PRODUCT_PACKAGE_FORM', {
                   title: 'Nouveau package',
-                  width: '35vw',
+                  width: '50vw',
                 });
               }}
             >
               <RiBox1Line className="size-5 text-white/90" />
-              <Label className="cursor-pointer text-white/90">action.new</Label>
+              <Label className="cursor-pointer text-white/90">Nouveau</Label>
             </Button>
           </div>
         ),

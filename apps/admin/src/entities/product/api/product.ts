@@ -32,3 +32,16 @@ export const getProductCategory = callActionWithIdSafe<{ data: ProductCategory }
   '/api/product-category/{id}',
   'get'
 );
+
+// MARKET ROUTES (unprotected routes)
+export const marketProductCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
+  '/api/market/products',
+  'get',
+  { skipAuth: true }
+);
+
+export const marketCategoryCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
+  '/api/market/products/categories',
+  'get',
+  { skipAuth: true }
+);

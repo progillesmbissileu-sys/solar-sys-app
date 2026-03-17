@@ -32,8 +32,18 @@ export type FilterParams = {
   [key: string]: string | number | boolean | string[] | number[] | boolean[];
 };
 
-export type SortParams = {
-  [key: string]: 'asc' | 'desc';
+export type SortItem = {
+  field: string;
+  order: 'asc' | 'desc';
 };
 
-export type CollectionQueryParams = Pagination & FilterParams & SortParams & { q?: string };
+export type SortParams = {
+  sort?: SortItem[];
+};
+
+export type CollectionQueryParams = {
+  q?: string;
+} & Pagination & {
+    filter?: FilterParams;
+    sort?: SortItem[];
+  };

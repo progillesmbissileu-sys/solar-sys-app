@@ -6,7 +6,9 @@ import {
   CheckboxInputProps,
   ImageUploadInputProps,
   ImageUploadFieldProps,
+  MultiSearchInputProps,
   NumberInputProps,
+  SearchInputProps,
   SelectInputProps,
   TextInputProps,
   TextareaInputProps,
@@ -66,4 +68,28 @@ function Textarea(props: TextareaInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.Textarea {...props} />} />;
 }
 
-export { Text, Number, Password, Email, Select, Checkbox, Images, ImageField, Textarea };
+function Search(props: SearchInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.Search {...props} />} />;
+}
+
+function MultiSearch(props: MultiSearchInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.MultiSearch {...props} />} />;
+}
+
+export {
+  Text,
+  Number,
+  Password,
+  Email,
+  Select,
+  Checkbox,
+  Images,
+  ImageField,
+  Textarea,
+  Search,
+  MultiSearch,
+};
