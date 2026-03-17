@@ -1,7 +1,6 @@
 import { productPackCollection } from '@/entities/product';
 import { ProductPackCollectionView } from '@/views/product';
-import { Suspense } from 'react';
-import { SomethingWentWrong } from '@/shared/ui';
+import { FailedRequestDisplay } from '@/shared/ui';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
   const query = await searchParams;
@@ -17,7 +16,7 @@ export default async function Page({ searchParams }: { searchParams: any }) {
       {response.success ? (
         <ProductPackCollectionView collection={response.data} />
       ) : (
-        <SomethingWentWrong />
+        <FailedRequestDisplay status={response.error.status} />
       )}
     </>
   );

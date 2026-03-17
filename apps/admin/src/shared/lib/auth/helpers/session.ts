@@ -1,8 +1,9 @@
 import { env } from '@/shared/config';
+import { redirect } from 'next/navigation';
 
 export async function refreshAccessToken(): Promise<string | void> {
-  const refreshToken = await import('./server-token').then(({ getAccessToken }) =>
-    getAccessToken()
+  const refreshToken = await import('./server-token').then(({ getRefreshToken }) =>
+    getRefreshToken()
   );
 
   if (!refreshToken) {
@@ -35,4 +36,8 @@ export async function refreshAccessToken(): Promise<string | void> {
     console.error('Token refresh failed:', error);
     return;
   }
+}
+
+export function logout() {
+  redirect('/logout');
 }

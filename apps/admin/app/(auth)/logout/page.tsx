@@ -14,16 +14,20 @@ export default function Page() {
           method: 'DELETE',
         });
 
+        console.log(response);
+
         canRedirect = !!response.ok;
       } catch (error) {
         console.error(error);
       }
 
-      if (canRedirect) {
-        redirect(routePaths.LOGIN);
-      }
+      // if (canRedirect) {
+      redirect(routePaths.LOGIN);
+      // }
     })();
   }, []);
 
-  return <div className="h-screen w-screen text-white">Logout ...</div>;
+  return (
+    <div className="flex h-screen w-screen items-center justify-center text-white">Logout ...</div>
+  );
 }

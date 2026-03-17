@@ -7,7 +7,7 @@ import { formOpts } from '../config/shared';
 export default function LoginView() {
   return (
     <div className="h-screen w-screen content-center">
-      <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md p-3 xl:w-1/3 dark:bg-dark">
+      <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md p-3 xl:w-1/3">
         <div className="flex items-center justify-center">
           <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-100">login.pageTitle</h1>
         </div>

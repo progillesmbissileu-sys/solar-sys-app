@@ -12,7 +12,7 @@ export default function Error({ error }: ErrorProps) {
   const isDev = process.env.NODE_ENV === 'development';
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white-50 px-4 dark:bg-gray-950">
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 dark:bg-gray-950">
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-50">

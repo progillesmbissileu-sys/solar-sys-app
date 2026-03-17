@@ -19,7 +19,7 @@ export { interceptors, requestCancellation, DEFAULT_RETRY_CONFIG };
 
 /**
  * Converts an AxiosError to a structured ApiError
- * 
+ *
  * @param error - The Axios error to convert
  * @returns A structured ApiError object
  */
@@ -29,11 +29,10 @@ function toApiError(error: AxiosError): ApiError {
   return {
     status: error.response?.status ?? 0,
     statusText: error.response?.statusText ?? 'Unknown Error',
-    message:
-      (responseData?.message as string) ??
-      error.message ??
-      'An unexpected error occurred',
-    details: (responseData?.details as ApiError['details']) ?? (responseData?.errors as ApiError['details']),
+    message: (responseData?.message as string) ?? error.message ?? 'An unexpected error occurred',
+    details:
+      (responseData?.details as ApiError['details']) ??
+      (responseData?.errors as ApiError['details']),
     timestamp: responseData?.timestamp as string | undefined,
     path: (responseData?.path as string) ?? error.config?.url,
   };
@@ -41,7 +40,7 @@ function toApiError(error: AxiosError): ApiError {
 
 /**
  * Creates a cancelled request error
- * 
+ *
  * @returns An ApiError representing a cancelled request
  */
 function createCancelledError(): ApiError {
@@ -54,17 +53,17 @@ function createCancelledError(): ApiError {
 
 /**
  * Main authenticated fetch function with retry, cancellation, and interceptor support
- * 
+ *
  * @param url - The URL to fetch
  * @param config - Request configuration options
  * @returns A promise resolving to an ApiResponse
  * @throws ApiError when the request fails
- * 
+ *
  * @example
  * // Basic usage
  * const response = await authFetch<Product>('/api/products/123');
  * console.log(response.data);
- * 
+ *
  * // With custom retry configuration
  * const response = await authFetch('/api/products', {
  *   method: 'POST',
@@ -77,12 +76,12 @@ function createCancelledError(): ApiError {
  *     exponentialBackoff: true,
  *   },
  * });
- * 
+ *
  * // With request cancellation
  * const controller = new AbortController();
  * const promise = authFetch('/api/products', { signal: controller.signal });
  * controller.abort(); // Cancel the request
- * 
+ *
  * // Skip authentication
  * const response = await authFetch('/public/health', { skipAuth: true });
  */
@@ -212,25 +211,22 @@ export async function authFetch<T = unknown>(
 
 /**
  * Type-safe wrapper that parses JSON response
- * 
+ *
  * @param url - The URL to fetch
  * @param config - Request configuration options
  * @returns A promise resolving to the parsed JSON data
  * @throws ApiError when the request fails
- * 
+ *
  * @example
  * // Basic usage
  * const products = await authFetchJson<Product[]>('/api/products');
- * 
+ *
  * // With query parameters
  * const response = await authFetchJson<{ data: Product[], meta: PaginationMeta }>(
  *   '/api/products?page=1&limit=10'
  * );
  */
-export async function authFetchJson<T>(
-  url: string,
-  config?: RequestConfig
-): Promise<T> {
+export async function authFetchJson<T>(url: string, config?: RequestConfig): Promise<T> {
   const response = await authFetch<T>(url, config);
   return response.data;
 }

@@ -1,5 +1,5 @@
 import { productCategoryCollection } from '@/entities/product';
-import { SomethingWentWrong } from '@/shared/ui';
+import { FailedRequestDisplay } from '@/shared/ui';
 import { CategoryCollectionView } from '@/views/product';
 
 export default async function Page() {
@@ -10,7 +10,7 @@ export default async function Page() {
       {response.success ? (
         <CategoryCollectionView collection={response.data} />
       ) : (
-        <SomethingWentWrong />
+        <FailedRequestDisplay status={response.error.status} />
       )}
     </>
   );

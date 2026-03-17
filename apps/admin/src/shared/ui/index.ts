@@ -61,4 +61,4 @@ export * from './molecules/userProfile/DropdownUserProfile';
 // Organisms
 export * from './organisms/app-table';
 export * from './organisms/form';
-export * from './organisms/errors/SomethingWentWrong';
+export * from './organisms/errors/FailedRequestDisplay';

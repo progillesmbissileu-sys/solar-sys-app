@@ -1,6 +1,6 @@
 import { productCategoryCollection, productCollection } from '@/entities/product';
 import { ProductCollectionView } from '@/views/product';
-import { SomethingWentWrong } from '@/shared/ui';
+import { FailedRequestDisplay, SomethingWentWrong } from '@/shared/ui';
 import { Suspense } from 'react';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: { searchParams: any }) {
           categories={productCategoryCollection()}
         />
       ) : (
-        <SomethingWentWrong />
+        <FailedRequestDisplay status={response.error.status} />
       )}
     </>
   );

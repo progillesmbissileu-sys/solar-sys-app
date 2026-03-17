@@ -15,6 +15,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    authInterrupts: true,
+  },
 };
 
 module.exports = nextConfig;
