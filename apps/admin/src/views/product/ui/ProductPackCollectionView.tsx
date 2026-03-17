@@ -8,6 +8,7 @@ import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
 import { routePaths } from '@/shared/routes';
+import { useNavigator } from '@/shared/lib';
 
 export function ProductPackCollectionView({
   collection,
@@ -15,7 +16,7 @@ export function ProductPackCollectionView({
   collection: CollectionResponseType<ProductPackCollectionPreview>;
 }) {
   const { openPanel } = useRightPanel();
-  const router = useRouter();
+  const navigator = useNavigator();
 
   return (
     <DesktopPageContainer
@@ -90,7 +91,9 @@ export function ProductPackCollectionView({
           },
         ]}
         collection={collection}
-        onRowClick={(record) => router.push(`/products/${record.id}`)}
+        onRowClick={(record) =>
+          navigator.navigate(routePaths.PRODUCTS_PACKAGES_DETAILS, { id: record.id })
+        }
       />
     </DesktopPageContainer>
   );

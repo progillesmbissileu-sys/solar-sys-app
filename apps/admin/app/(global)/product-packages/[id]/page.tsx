@@ -1,0 +1,18 @@
+import { getProductPack } from '@/entities/product';
+import { RouteLayoutProps } from '../../../_lib';
+import { FailedRequestDisplay } from '@/shared/ui';
+import { ProductPackDetailsView } from '@/views/product/ui/ProductPackDetailsView';
+
+export default async function Page({ params }: RouteLayoutProps) {
+  const { id } = await params;
+
+  const resp = await getProductPack(id);
+
+  console.log(resp);
+
+  return resp.success ? (
+    <ProductPackDetailsView productPackage={resp.data.data} />
+  ) : (
+    <FailedRequestDisplay status={resp.error.status} />
+  );
+}

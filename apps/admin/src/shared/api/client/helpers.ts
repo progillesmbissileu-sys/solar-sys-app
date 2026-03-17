@@ -114,8 +114,6 @@ export function callActionSafe<
     try {
       const queryString = query ? `?${CollectionHelpers.paramsToQueryString(query)}` : '';
 
-      console.log('API PAYLOAD', payload);
-
       const data = await authFetchJson<TReturn>(`${apiEndpoint}${path}${queryString}`, {
         ...options,
         method,
@@ -189,7 +187,7 @@ export function mutation<TData extends object = any>(
 
 export function mutationWithId<TData extends object = any>(
   path: string,
-  method: RequestConfig['method'] = 'post'
+  method: RequestConfig['method'] = 'put'
 ) {
   return (id: string, payload?: TData) => {
     return callActionWithIdSafe<void, any, TData>(path, method)(id, payload);

@@ -18,7 +18,7 @@ export const productPackCollection = callActionSafe<
 
 export const getProductPack = callActionWithIdSafe<{
   data: ProductPackage;
-}>('/api/product/{id}', 'get');
+}>('/api/product-packs/{id}', 'get');
 
 export const createProductPack = mutation<CreatePackPayload>('/api/product-packs', 'post');
 

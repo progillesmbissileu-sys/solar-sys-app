@@ -23,4 +23,5 @@ export type {
   UpdatePackPayload,
   CreatePackPayload,
   ProductPackageItem,
+  ProductPackage,
 } from './model/product-package';
