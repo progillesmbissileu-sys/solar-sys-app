@@ -1,8 +1,8 @@
 'use client';
 
 import { PanelComponentProps } from '@/widgets/container';
-import UpdateCategoryForm from '../forms/UpdateCategoryForm';
 import { ProductCategory } from '@/entities/product';
+import { UpdateCategoryForm } from '@/features/products';
 
 export type CategoryFormPanelProps = {
   categories?: ProductCategory[];

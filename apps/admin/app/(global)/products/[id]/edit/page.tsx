@@ -1,9 +1,8 @@
 import { getProduct } from '@/entities/product';
-import { ProductUpdateForm } from '@/views/product';
+import { ProductUpdateForm, ProductUpdateFormValues } from '@/features/products';
 import { RouteLayoutProps } from '../../../../_lib';
 import { ResourceNotFound } from '../../../../_ui/ResourceNotFound';
 import { productCategoryCollection } from '@/entities/product';
-import { ProductUpdateFormValues } from '@/views/product';
 
 export default async function EditPage({ params }: RouteLayoutProps) {
   const { id } = await params;
@@ -17,7 +16,7 @@ export default async function EditPage({ params }: RouteLayoutProps) {
 
   // Fetch categories for the select dropdown
   const categoriesResp = await productCategoryCollection();
-  const categories = categoriesResp?.data ?? [];
+  const categories = categoriesResp?.data?.data ?? [];
 
   const initialValues: ProductUpdateFormValues = {
     id: product.id,

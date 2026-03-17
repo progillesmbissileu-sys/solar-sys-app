@@ -18,4 +18,9 @@ export {
   ProductCategoryType,
 } from './model/product-category';
 
-export type { ProductPackCollectionPreview } from './model/product-package';
+export type {
+  ProductPackCollectionPreview,
+  UpdatePackPayload,
+  CreatePackPayload,
+  ProductPackageItem,
+} from './model/product-package';

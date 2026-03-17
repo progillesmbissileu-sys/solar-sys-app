@@ -2,7 +2,7 @@
 
 import { PanelComponentProps } from '@/widgets/container';
 import { ProductCategory, Product } from '@/entities/product';
-import ProductForm from '../forms/ProductForm';
+import { ProductForm } from '@/features/products';
 
 export type ProductFormPanelProps = {
   categories?: ProductCategory[];

@@ -6,10 +6,10 @@ import {
   mutationWithId,
 } from '@/shared/api';
 import {
-  createPackPayload,
+  CreatePackPayload,
   ProductPackage,
   ProductPackCollectionPreview,
-  updatePackPayload,
+  UpdatePackPayload,
 } from '../model/product-package';
 
 export const productPackCollection = callActionSafe<
@@ -20,9 +20,9 @@ export const getProductPack = callActionWithIdSafe<{
   data: ProductPackage;
 }>('/api/product/{id}', 'get');
 
-export const createProductPack = mutation<createPackPayload>('/api/product-packs', 'post');
+export const createProductPack = mutation<CreatePackPayload>('/api/product-packs', 'post');
 
-export const updateProductPack = mutationWithId<updatePackPayload>(
+export const updateProductPack = mutationWithId<UpdatePackPayload>(
   '/api/product-packs/{id}',
   'put'
 );

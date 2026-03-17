@@ -1,7 +1,6 @@
-'use client';
+// 'use client';
 
 import React from 'react';
-import { Input } from '../../atoms/Input';
 import { Popover, PopoverContent, PopoverAnchor } from '../../atoms/Popover';
 import { cx } from '@/shared/lib/utils';
 import { RiLoader2Line, RiSearchLine, RiCloseLine } from '@remixicon/react';
@@ -20,7 +19,7 @@ export type MultiSearchInputProps = {
   minSearchLength?: number;
   loadingText?: string;
   noResultsText?: string;
-  className?: string;
+  inputClassName?: string;
   disabled?: boolean;
   value?: string[];
   defaultValue?: string[];
@@ -37,7 +36,7 @@ export function MultiSearchInput({
   minSearchLength = 1,
   loadingText = 'Loading...',
   noResultsText = 'No results found',
-  className,
+  inputClassName,
   disabled = false,
   value: controlledValue,
   defaultValue = [],
@@ -56,55 +55,58 @@ export function MultiSearchInput({
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    (async () => {
+      await fetchAction('', true);
+    })();
+  }, []);
+
   // Sync controlled value changes
   React.useEffect(() => {
     if (controlledValue !== undefined) {
       // When controlled value changes, we need to update selectedItems
       // But we don't have the labels, so we keep existing items that match
-      setSelectedItems((prev) =>
-        prev.filter((item) => controlledValue.includes(item.value))
-      );
+      setSelectedItems((prev) => prev.filter((item) => controlledValue.includes(item.value)));
     }
   }, [controlledValue]);
 
-  const performSearch = React.useCallback(
-    async (query: string, skipMinLengthCheck = false) => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
+  const fetchAction = async (query: string = '', skipMinLengthCheck = false) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
-      if (!skipMinLengthCheck && query.length < minSearchLength) {
+    if (!skipMinLengthCheck && query.length < minSearchLength) {
+      setOptions([]);
+      setLoading(false);
+      return;
+    }
+
+    abortControllerRef.current = new AbortController();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const results = await onSearch(query);
+      setOptions(
+        parseCallback
+          ? (results.data?.data ?? []).map(parseCallback)
+          : (results.data?.data ?? []).map((item) => ({
+              label: item.designation,
+              value: item.id,
+            }))
+      );
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setError('Failed to search');
         setOptions([]);
-        setLoading(false);
-        return;
       }
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      abortControllerRef.current = new AbortController();
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        const results = await onSearch(query);
-        setOptions(
-          parseCallback
-            ? (results.data?.data ?? []).map(parseCallback)
-            : (results.data?.data ?? []).map((item) => ({
-                label: item.designation,
-                value: item.id,
-              }))
-        );
-      } catch (err) {
-        if (err instanceof Error && err.name !== 'AbortError') {
-          setError('Failed to search');
-          setOptions([]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    },
-    [onSearch, minSearchLength]
-  );
+  const performSearch = React.useCallback(fetchAction, [onSearch, minSearchLength]);
 
   const handleInputChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,10 +212,10 @@ export function MultiSearchInput({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={cx('relative', className)}>
+        <div className={cx('relative', inputClassName)}>
           <div
             className={cx(
-              'flex min-h-10 w-full flex-wrap items-center gap-1.5 rounded-md border px-2.5 py-1.5',
+              'flex h-full w-full flex-wrap items-center gap-1.5 rounded-md border px-2.5 py-1.5',
               'border-gray-300 dark:border-gray-800',
               'bg-white dark:bg-gray-950',
               'focus-within:ring-2 focus-within:ring-blue-200 focus-within:dark:ring-blue-800/20',
@@ -254,7 +256,7 @@ export function MultiSearchInput({
               onKeyDown={handleKeyDown}
               disabled={disabled}
               className={cx(
-                'flex-1 bg-transparent text-sm outline-none',
+                'h-full flex-1 bg-transparent text-sm outline-none',
                 'placeholder:text-gray-400 dark:placeholder:text-gray-500'
               )}
             />
@@ -306,7 +308,7 @@ export function MultiSearchInput({
                       className={cx(
                         'flex h-4 w-4 items-center justify-center rounded border',
                         isSelected
-                          ? 'bg-blue-500 border-blue-500 text-white'
+                          ? 'border-blue-500 bg-blue-500 text-white'
                           : 'border-gray-300 dark:border-gray-600'
                       )}
                     >

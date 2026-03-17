@@ -22,24 +22,7 @@ export type ProductPackageItem = {
   productMainImageUrl: string;
 };
 
-// PAYLOADS
-
-export type createPackPayload = {
-  designation: string;
-  description: string;
-  price: number;
-  mainImage?: File;
-  stockQuantity?: number;
-  lowStockThreshold?: number;
-  items: Array<{
-    productId: string;
-    quantity: number;
-  }>;
-};
-
-export type updatePackPayload = createPackPayload;
-
-//VIEW MODELS
+// VIEW MODELS
 
 export type ProductPackCollectionPreview = {
   id: string;
@@ -51,3 +34,21 @@ export type ProductPackCollectionPreview = {
   updatedAt?: any;
   items: ProductPackageItem[];
 };
+
+// PAYLOADS
+
+export type CreatePackPayload = {
+  designation: string;
+  description: string;
+  price: number;
+  mainImageId?: string;
+  stockQuantity?: number;
+  lowStockThreshold?: number;
+  // items: Array<{
+  //   productId: string;
+  //   quantity: number;
+  // }>;
+  items: string[];
+};
+
+export type UpdatePackPayload = CreatePackPayload & { id: string };
