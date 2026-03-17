@@ -35,7 +35,6 @@ export type UpdateProductInput = {
   designation: string;
   description: string;
   categoryId: string;
-  mainImageId: string;
   price: number;
   brand?: string;
   imageIds?: string[];

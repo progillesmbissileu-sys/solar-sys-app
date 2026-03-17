@@ -1,9 +1,9 @@
 'use server';
 
-import { callActionSafe, deleteImageMediaAction, uploadImageAction } from '@/shared/api';
+import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
 import { extractFormPayload } from '@/shared/ui';
-import { CreateProductInput } from '@/entities/product';
+import { createProduct, CreateProductInput } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
@@ -46,7 +46,7 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
           : [null],
     };
 
-    const resp = await callActionSafe<void>('/api/product', 'POST')(_payload);
+    const resp = await createProduct(_payload);
 
     resp.success
       ? revalidatePath(routePaths.PRODUCTS)

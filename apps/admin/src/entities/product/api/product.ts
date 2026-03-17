@@ -1,6 +1,12 @@
-import { callActionSafe, callActionWithIdSafe, CollectionResponseType } from '@/shared/api';
+import {
+  callActionSafe,
+  callActionWithIdSafe,
+  CollectionResponseType,
+  mutation,
+  mutationWithId,
+} from '@/shared/api';
 import { ProductCategory } from '../model/product-category';
-import { Product, ProductPreview } from '../model/product';
+import { CreateProductInput, Product, ProductPreview, UpdateProductInput } from '../model/product';
 
 export const productCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
   '/api/product',
@@ -10,6 +16,12 @@ export const productCollection = callActionSafe<CollectionResponseType<ProductPr
 export const getProduct = callActionWithIdSafe<{
   data: Product;
 }>('/api/product/{id}', 'get');
+
+export const createProduct = mutation<CreateProductInput>('/api/product', 'post');
+
+export const updateProduct = mutationWithId<UpdateProductInput>('/api/product/{id}', 'put');
+
+// CATEGORIES
 
 export const productCategoryCollection = callActionSafe<CollectionResponseType<ProductCategory>>(
   '/api/product-category',
