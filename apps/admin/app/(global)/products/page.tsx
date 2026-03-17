@@ -1,7 +1,6 @@
 import { productCategoryCollection, productCollection } from '@/entities/product';
 import { ProductCollectionView } from '@/views/product';
-import { FailedRequestDisplay, SomethingWentWrong } from '@/shared/ui';
-import { Suspense } from 'react';
+import { FailedRequestDisplay } from '@/shared/ui';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
   const query = await searchParams;
