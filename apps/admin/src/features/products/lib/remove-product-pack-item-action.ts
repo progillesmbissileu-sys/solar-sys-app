@@ -1,11 +1,11 @@
 'use server';
 
 import { routePaths } from '@/shared/routes';
-import { deleteProductPack } from '@/entities/product';
+import { removeProductPackItem } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
 
-export const deleteProductPackAction = async (packId: string) => {
-  const resp = await deleteProductPack(packId);
+export const removeProductPackItemAction = async (itemId: string) => {
+  const resp = await removeProductPackItem(itemId);
 
   resp.success && revalidatePath(routePaths.PRODUCTS_PACKAGES);
 

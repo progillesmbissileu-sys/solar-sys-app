@@ -5,6 +5,7 @@ import { formOptions } from '@tanstack/react-form';
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { marketProductCollection } from '@/entities/product';
 import { createProductPackAction } from '../../lib/create-product-pack-action';
+import { updateProductPackAction } from '../../lib/update-product-pack-action';
 import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-validators';
 import z from 'zod';
 
@@ -13,9 +14,11 @@ export default function ProductPackageForm({
 }: {
   initialValues?: Partial<z.infer<typeof updatePackFormSchema>>;
 }) {
+  const isUpdate = !!initialValues?.id;
+
   const formOpts = formOptions({
     validators: {
-      onSubmit: createPackFormSchema,
+      onSubmit: isUpdate ? updatePackFormSchema : createPackFormSchema,
     },
     defaultValues: initialValues,
   });
@@ -23,7 +26,7 @@ export default function ProductPackageForm({
   return (
     <FormWrapper
       formOptions={formOpts}
-      serverAction={createProductPackAction}
+      serverAction={isUpdate ? updateProductPackAction : createProductPackAction}
       onError={(error) => console.log(error)}
     >
       {/* hidden id for update */}
