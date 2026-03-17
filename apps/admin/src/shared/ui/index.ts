@@ -64,4 +64,4 @@ export * from './organisms/errors/FailedRequestDisplay';
 export { FormWrapper } from './organisms/form/FormWrapper';
 export * as FormField from './organisms/form/Field';
 export * as FormComponent from './organisms/form/Component';
-export * from './organisms/form/helpers';
+export { parseEnumOptions, extractFormPayload } from './organisms/form/helpers';
