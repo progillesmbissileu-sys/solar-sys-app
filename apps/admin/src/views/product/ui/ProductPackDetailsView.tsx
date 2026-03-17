@@ -23,7 +23,10 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
         designation: productPackage.designation,
         description: productPackage.description,
         price: productPackage.price,
-        items: productPackage.items.map((item) => item.productId),
+        items: productPackage.items.map((item) => ({
+          value: item.productId,
+          label: item.productName,
+        })),
       },
     });
   };

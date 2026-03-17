@@ -8,8 +8,6 @@ export default async function Page({ params }: RouteLayoutProps) {
 
   const resp = await getProductPack(id);
 
-  console.log(resp);
-
   return resp.success ? (
     <ProductPackDetailsView productPackage={resp.data.data} />
   ) : (

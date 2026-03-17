@@ -22,7 +22,7 @@ export type MultiSearchInputProps = {
   inputClassName?: string;
   disabled?: boolean;
   value?: string[];
-  defaultValue?: string[];
+  defaultValue?: string[] | MultiSearchInputOption[];
   name?: string;
   parseCallback?: (record: any) => MultiSearchInputOption;
   loadInitial?: boolean;
@@ -65,12 +65,17 @@ export function MultiSearchInput({
     })();
   }, []);
 
-  // Initialize form with empty array if no default value
   React.useEffect(() => {
-    if (safeDefaultValue.length === 0 && onChange) {
-      onChange([]);
-    }
-  }, []);
+    // if (safeDefaultValue.length === 0 && onChange) {
+    //   onChange([]);
+    // }
+    selectedItems.length == 0 &&
+      setSelectedItems(
+        safeDefaultValue.map((value) =>
+          typeof value === 'string' ? { value, label: value } : value
+        )
+      );
+  }, [defaultValue]);
 
   // Sync controlled value changes
   React.useEffect(() => {
