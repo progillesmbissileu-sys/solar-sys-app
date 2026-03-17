@@ -3,8 +3,8 @@
 import { FormField, FormWrapper, FormComponent, parseEnumOptions } from '@/shared/ui';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
-import { createProductCategoryAction } from '@/features/products';
 import { CategoryUpdatePayload, ProductCategory, ProductCategoryType } from '@/entities/product';
+import { createProductCategoryAction } from '../../lib/create-product-category-action';
 
 export default function UpdateCategoryForm({
   initialValues,

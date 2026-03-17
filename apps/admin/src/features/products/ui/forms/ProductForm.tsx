@@ -5,7 +5,7 @@ import { formOptions } from '@tanstack/react-form';
 import { FormComponent, FormField, FormWrapper, ImageItem } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-validators';
-import { createProductAction } from '@/features/products';
+import { createProductAction } from '../../lib/create-product-action';
 
 type ProductFormProps = {
   initialValues?: Partial<ProductFormValues>;

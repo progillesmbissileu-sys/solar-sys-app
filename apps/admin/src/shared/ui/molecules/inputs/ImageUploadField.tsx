@@ -52,9 +52,7 @@ function isFile(item: ImageUploadFieldItem): item is File {
 
 function normalizeValue(value: unknown): ImageUploadFieldItem[] {
   if (!Array.isArray(value)) return [];
-  return value.filter(
-    (v) => typeof v === 'string' || v instanceof File,
-  ) as ImageUploadFieldItem[];
+  return value.filter((v) => typeof v === 'string' || v instanceof File) as ImageUploadFieldItem[];
 }
 
 /**
@@ -82,13 +80,13 @@ function itemsEqual(a: ImageUploadFieldItem[], b: ImageUploadFieldItem[]): boole
 
 /**
  * ImageUploadField - A form-integrated image upload component
- * 
+ *
  * This component properly integrates with FormWrapper by:
  * 1. Using a single file input with `multiple` attribute for file submission
  * 2. Syncing files to the input using DataTransfer API (works because we set on DOM element)
  * 3. Rendering hidden inputs for existing URLs to be included in FormData
  * 4. Tracking files in form state for validation and previews
- * 
+ *
  * Key difference from ImageUploadInput: This component ensures that on form submit,
  * both new files AND existing URLs are properly included in the FormData by using
  * the DataTransfer API to sync files to a single file input.
@@ -109,7 +107,7 @@ export function ImageUploadField({
 }: ImageUploadFieldProps) {
   // Ref to the file input that will be submitted with the form
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-  
+
   // Ref to track if we're currently syncing files to prevent infinite loops
   const isSyncingRef = React.useRef(false);
 
@@ -123,7 +121,7 @@ export function ImageUploadField({
 
   // Internal state synced from form field value
   const [items, setItems] = React.useState<ImageUploadFieldItem[]>(() =>
-    normalizeValue(defaultValue),
+    normalizeValue(defaultValue)
   );
 
   const [isDragActive, setIsDragActive] = React.useState(false);
@@ -148,8 +146,7 @@ export function ImageUploadField({
 
   React.useEffect(() => {
     const urls = items.map((item) => {
-      if (isFile(item))
-        return { src: URL.createObjectURL(item), revoke: true };
+      if (isFile(item)) return { src: URL.createObjectURL(item), revoke: true };
       return { src: item, revoke: false };
     });
 
@@ -184,15 +181,13 @@ export function ImageUploadField({
     (next: ImageUploadFieldItem[]) => {
       const normalized = normalizeValue(next);
       const capped =
-        typeof effectiveMaxFiles === 'number'
-          ? normalized.slice(0, effectiveMaxFiles)
-          : normalized;
+        typeof effectiveMaxFiles === 'number' ? normalized.slice(0, effectiveMaxFiles) : normalized;
 
       lastCommittedRef.current = capped;
       setItems(capped);
       onChange?.(capped);
     },
-    [effectiveMaxFiles, onChange],
+    [effectiveMaxFiles, onChange]
   );
 
   // ── Remove item ──────────────────────────────────────────────────────────
@@ -205,7 +200,7 @@ export function ImageUploadField({
         void onRemove?.({ removed, index, nextValue });
       }
     },
-    [commit, items, onRemove],
+    [commit, items, onRemove]
   );
 
   // ── Open file picker ──────────────────────────────────────────────────────
@@ -226,11 +221,11 @@ export function ImageUploadField({
       if (filtered.length === 0) return;
 
       // Validate file formats
-      const invalidFormatFiles = filtered.filter(
-        (f) => !effectiveAcceptedFormats.includes(f.type),
-      );
+      const invalidFormatFiles = filtered.filter((f) => !effectiveAcceptedFormats.includes(f.type));
       if (invalidFormatFiles.length > 0) {
-        const formatList = effectiveAcceptedFormats.map((f) => f.replace('image/', '').toUpperCase()).join(', ');
+        const formatList = effectiveAcceptedFormats
+          .map((f) => f.replace('image/', '').toUpperCase())
+          .join(', ');
         const errorMsg = `Invalid file format. Accepted formats: ${formatList}`;
         setValidationError(errorMsg);
         onValidationError?.({ type: 'format', message: errorMsg });
@@ -257,19 +252,24 @@ export function ImageUploadField({
           : null;
 
       const cappedSelection =
-        remainingSlots === null
-          ? filtered
-          : filtered.slice(0, Math.max(0, remainingSlots));
+        remainingSlots === null ? filtered : filtered.slice(0, Math.max(0, remainingSlots));
 
       if (cappedSelection.length === 0) return;
 
-      const nextLocal = multiple
-        ? [...current, ...cappedSelection]
-        : [cappedSelection[0]];
+      const nextLocal = multiple ? [...current, ...cappedSelection] : [cappedSelection[0]];
 
       commit(nextLocal);
     },
-    [accept, commit, effectiveMaxFiles, items, multiple, effectiveAcceptedFormats, effectiveMaxFileSize, onValidationError],
+    [
+      accept,
+      commit,
+      effectiveMaxFiles,
+      items,
+      multiple,
+      effectiveAcceptedFormats,
+      effectiveMaxFileSize,
+      onValidationError,
+    ]
   );
 
   // ── File input change handler ─────────────────────────────────────────────
@@ -277,14 +277,14 @@ export function ImageUploadField({
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       // Ignore if we're syncing files
       if (isSyncingRef.current) return;
-      
+
       const selected = Array.from(evt.target.files ?? []);
       if (selected.length === 0) return;
       addFiles(selected);
       // Note: We don't clear the input here because we want to keep the files
       // The sync effect will update the input with all files
     },
-    [addFiles],
+    [addFiles]
   );
 
   // ── Drag & drop handlers ──────────────────────────────────────────────────
@@ -299,7 +299,7 @@ export function ImageUploadField({
       const files = Array.from(evt.dataTransfer.files ?? []);
       addFiles(files);
     },
-    [addFiles, disabled],
+    [addFiles, disabled]
   );
 
   const handleDragOver = React.useCallback(
@@ -308,22 +308,17 @@ export function ImageUploadField({
       evt.stopPropagation();
       if (!isDragActive) setIsDragActive(true);
     },
-    [isDragActive],
+    [isDragActive]
   );
 
-  const handleDragLeave = React.useCallback(
-    (evt: React.DragEvent<HTMLDivElement>) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      setIsDragActive(false);
-    },
-    [],
-  );
+  const handleDragLeave = React.useCallback((evt: React.DragEvent<HTMLDivElement>) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    setIsDragActive(false);
+  }, []);
 
   const canAddMore =
-    typeof effectiveMaxFiles !== 'number'
-      ? true
-      : items.length < effectiveMaxFiles;
+    typeof effectiveMaxFiles !== 'number' ? true : items.length < effectiveMaxFiles;
 
   // Separate items into files and URLs for rendering
   const urlItems = items.filter((item): item is string => typeof item === 'string');
@@ -356,12 +351,7 @@ export function ImageUploadField({
       {/* Hidden inputs for URL strings so they appear in FormData */}
       {/* FormData.getAll(name) will return both files from input and these URLs */}
       {urlItems.map((url, index) => (
-        <input
-          key={`url-${url}-${index}`}
-          type="hidden"
-          name={name}
-          value={url}
-        />
+        <input key={`url-${url}-${index}`} type="hidden" name={name} value={url} />
       ))}
 
       <div className="flex items-center justify-end gap-2">
@@ -370,9 +360,7 @@ export function ImageUploadField({
             {items.length}/{effectiveMaxFiles}
           </span>
         )}
-        {validationError && (
-          <span className="text-xs text-red-500">{validationError}</span>
-        )}
+        {validationError && <span className="text-xs text-red-500">{validationError}</span>}
       </div>
 
       <div
@@ -393,11 +381,9 @@ export function ImageUploadField({
         onDragLeave={handleDragLeave}
         className={cx(
           'mt-2 rounded-md border border-dashed p-3 transition-colors',
-          isDragActive
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 bg-white hover:bg-gray-50',
+          isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white hover:bg-gray-50',
           disabled && 'cursor-not-allowed opacity-60',
-          focusRing,
+          focusRing
         )}
         aria-disabled={disabled}
       >
@@ -406,7 +392,7 @@ export function ImageUploadField({
           <div
             className={cx(
               'flex aspect-square items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-600',
-              !canAddMore && 'hidden',
+              !canAddMore && 'hidden'
             )}
           >
             <div className="flex flex-col items-center gap-2 text-xs">
@@ -438,7 +424,7 @@ export function ImageUploadField({
                     'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/90 text-gray-900 shadow-sm transition-opacity',
                     'opacity-0 group-hover:opacity-100',
                     'disabled:cursor-not-allowed disabled:opacity-50',
-                    focusRing,
+                    focusRing
                   )}
                   aria-label="Remove image"
                 >

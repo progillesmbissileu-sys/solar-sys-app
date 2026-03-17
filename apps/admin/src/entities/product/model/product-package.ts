@@ -44,11 +44,10 @@ export type CreatePackPayload = {
   mainImageId?: string;
   stockQuantity?: number;
   lowStockThreshold?: number;
-  // items: Array<{
-  //   productId: string;
-  //   quantity: number;
-  // }>;
-  items: string[];
+  items: Array<{
+    productId: string;
+    quantity: number;
+  }>;
 };
 
 export type UpdatePackPayload = CreatePackPayload & { id: string };

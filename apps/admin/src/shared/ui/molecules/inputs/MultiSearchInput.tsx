@@ -39,11 +39,15 @@ export function MultiSearchInput({
   inputClassName,
   disabled = false,
   value: controlledValue,
-  defaultValue = [],
+  defaultValue,
   name,
   parseCallback,
   loadInitial = false,
 }: MultiSearchInputProps) {
+  // Ensure defaultValue is always an array
+  const safeDefaultValue = Array.isArray(defaultValue) ? defaultValue : [];
+  const safeControlledValue = Array.isArray(controlledValue) ? controlledValue : undefined;
+
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItems, setSelectedItems] = React.useState<MultiSearchInputOption[]>([]);
@@ -61,14 +65,21 @@ export function MultiSearchInput({
     })();
   }, []);
 
+  // Initialize form with empty array if no default value
+  React.useEffect(() => {
+    if (safeDefaultValue.length === 0 && onChange) {
+      onChange([]);
+    }
+  }, []);
+
   // Sync controlled value changes
   React.useEffect(() => {
-    if (controlledValue !== undefined) {
+    if (safeControlledValue !== undefined) {
       // When controlled value changes, we need to update selectedItems
       // But we don't have the labels, so we keep existing items that match
-      setSelectedItems((prev) => prev.filter((item) => controlledValue.includes(item.value)));
+      setSelectedItems((prev) => prev.filter((item) => safeControlledValue.includes(item.value)));
     }
-  }, [controlledValue]);
+  }, [safeControlledValue]);
 
   const fetchAction = async (query: string = '', skipMinLengthCheck = false) => {
     if (abortControllerRef.current) {
@@ -128,33 +139,33 @@ export function MultiSearchInput({
 
   const handleSelect = React.useCallback(
     (option: MultiSearchInputOption) => {
-      const isSelected = selectedItems.some((item) => item.value === option.value);
+      setSelectedItems((prev) => {
+        const isSelected = prev.some((item) => item.value === option.value);
+        const newItems = isSelected
+          ? prev.filter((item) => item.value !== option.value)
+          : [...prev, option];
 
-      let newItems: MultiSearchInputOption[];
-      if (isSelected) {
-        newItems = selectedItems.filter((item) => item.value !== option.value);
-      } else {
-        newItems = [...selectedItems, option];
-      }
+        // Call onChange with the new values
+        onChange?.(newItems.map((item) => item.value));
+        return newItems;
+      });
 
-      setSelectedItems(newItems);
       setInputValue('');
       setOptions([]);
-      onChange?.(newItems.map((item) => item.value));
-
-      // Keep focus on input
       inputRef.current?.focus();
     },
-    [selectedItems, onChange]
+    [onChange]
   );
 
   const handleRemove = React.useCallback(
     (value: string) => {
-      const newItems = selectedItems.filter((item) => item.value !== value);
-      setSelectedItems(newItems);
-      onChange?.(newItems.map((item) => item.value));
+      setSelectedItems((prev) => {
+        const newItems = prev.filter((item) => item.value !== value);
+        onChange?.(newItems.map((item) => item.value));
+        return newItems;
+      });
     },
-    [selectedItems, onChange]
+    [onChange]
   );
 
   const handleFocus = React.useCallback(() => {
@@ -246,8 +257,13 @@ export function MultiSearchInput({
               </span>
             ))}
             <input
-              ref={inputRef}
+              type="hidden"
               name={name}
+              value={selectedItems.map((item) => item.value).join(',')}
+            />
+            <input
+              ref={inputRef}
+              // name={name}
               type="text"
               placeholder={selectedItems.length === 0 ? placeholder : ''}
               value={inputValue}

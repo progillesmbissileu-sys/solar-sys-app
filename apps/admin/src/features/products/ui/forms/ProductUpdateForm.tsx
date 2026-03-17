@@ -5,7 +5,7 @@ import { formOptions } from '@tanstack/react-form';
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
 import { productUpdateFormSchema, ProductUpdateFormValues } from '../../model/product-validators';
-import { updateProductAction } from '@/features/products';
+import { updateProductAction } from '../../lib/update-product-action';
 
 type ProductUpdateFormProps = {
   initialValues: ProductUpdateFormValues;

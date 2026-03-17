@@ -128,6 +128,8 @@ export async function authFetch<T = unknown>(
         validateStatus: (status) => status < 500, // Don't throw on 4xx/5xx
       });
 
+      console.log('AXIOS RESPONSE', JSON.stringify(response.data, null, 2));
+
       // Handle 401 - try to refresh token
       if (response.status === 401 && retryConfig.enabled && !skipAuth) {
         const newAccessToken = await refreshAccessToken();

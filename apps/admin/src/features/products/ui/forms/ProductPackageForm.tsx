@@ -4,7 +4,7 @@ import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { marketProductCollection } from '@/entities/product';
-import { createProductPackAction } from '../../lib/update-product-pack-action';
+import { createProductPackAction } from '../../lib/create-product-pack-action';
 import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-validators';
 import z from 'zod';
 

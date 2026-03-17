@@ -1,7 +1,3 @@
-export { createProductAction } from './lib/create-product-action';
-export { updateProductAction } from './lib/update-product-action';
-export { createProductCategoryAction } from './lib/create-product-category-action';
-
 //UI
 export { default as ProductForm } from './ui/forms/ProductForm';
 export { default as ProductPackageForm } from './ui/forms/ProductPackageForm';

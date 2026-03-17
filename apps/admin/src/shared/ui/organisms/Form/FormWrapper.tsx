@@ -26,7 +26,7 @@ export function FormWrapper<TSchema extends ZodSchema<any>, TResult = unknown>(
   // Handle success/error callbacks when state changes
   React.useEffect(() => {
     if (!state || currentActionId === prevActionIdRef.current) return;
-    
+
     prevActionIdRef.current = currentActionId;
 
     // Check if state has a result structure
@@ -64,7 +64,8 @@ export function FormWrapper<TSchema extends ZodSchema<any>, TResult = unknown>(
     <FormContext value={form as any}>
       <form
         action={action}
-        onSubmit={() => {
+        onSubmit={(evt) => {
+          console.log('Form submitted', evt);
           form.handleSubmit().catch((error) => console.error(error));
         }}
       >
