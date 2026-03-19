@@ -1,10 +1,10 @@
 import { getProduct } from '@/entities/product';
 import { ProductUpdateForm, ProductUpdateFormValues } from '@/features/products';
-import { RouteLayoutProps } from '../../../../_lib';
+import { AppRouterProps } from '../../../../_lib';
 import { ResourceNotFound } from '../../../../_ui/ResourceNotFound';
 import { productCategoryCollection } from '@/entities/product';
 
-export default async function EditPage({ params }: RouteLayoutProps) {
+export default async function EditPage({ params }: AppRouterProps) {
   const { id } = await params;
 
   const resp = await getProduct(id);

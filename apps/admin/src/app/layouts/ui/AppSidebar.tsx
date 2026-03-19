@@ -25,10 +25,11 @@ import { useLayout } from '../lib/use-layout';
 import { locationModuleConfig } from '@/views/location';
 import { dashboardModuleConfig } from '@/views/dashboard';
 import { productModuleConfig } from '@/views/product';
+import { marketServiceModuleConfig } from '@/views/market-services';
 
 const navigation = [dashboardModuleConfig, locationModuleConfig];
 
-const navigation2 = [productModuleConfig];
+const navigation2 = [productModuleConfig, marketServiceModuleConfig];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const context = useLayout();
@@ -83,7 +84,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu className="space-y-4">
               {navigation2.map((item) => (
                 <SidebarMenuItem key={item.key}>
-                  {/* @CHRIS/SEV: discussion whether to componentize (-> state mgmt) */}
                   <button
                     onClick={() =>
                       setOpenMenus((prev) =>

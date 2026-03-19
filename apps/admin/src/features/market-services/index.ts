@@ -1,1 +1,1 @@
-export { MarketServiceForm } from './ui/MarketServiceForm';
+export { default as MarketServiceForm } from './ui/MarketServiceForm';

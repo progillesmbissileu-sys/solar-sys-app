@@ -122,7 +122,7 @@ export function callActionSafe<
 
       return { success: true, data };
     } catch (error) {
-      return { success: false, error: error as ApiError, data: null };
+      return { success: false, error: error as ApiError };
     }
   };
 }
@@ -171,7 +171,7 @@ export function callActionWithIdSafe<
 
       return { success: true, data };
     } catch (error) {
-      return { success: false, error: error as ApiError, data: null };
+      return { success: false, error: error as ApiError };
     }
   };
 }

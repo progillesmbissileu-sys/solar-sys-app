@@ -1,9 +1,9 @@
 import { getProduct } from '@/entities/product';
-import { RouteLayoutProps } from '../../../_lib';
+import { AppRouterProps } from '../../../_lib';
 import { ProductDetailsView } from '@/views/product';
 import { FailedRequestDisplay } from '@/shared/ui';
 
-export default async function Page({ params }: RouteLayoutProps) {
+export default async function Page({ params }: AppRouterProps) {
   const { id } = await params;
 
   const resp = await getProduct(id);

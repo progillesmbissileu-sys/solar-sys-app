@@ -13,7 +13,7 @@ export function SubscribeButton({ label, className, ...props }: ButtonProps & { 
         <Button
           type="submit"
           disabled={isSubmitting}
-          className={cx('w-full', className)}
+          className={cx('h-12 w-full', className)}
           {...props}
         >
           {label}

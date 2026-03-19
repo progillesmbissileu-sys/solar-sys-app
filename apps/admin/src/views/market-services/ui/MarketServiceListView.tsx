@@ -31,9 +31,9 @@ export function MarketServiceListView({
             <Button
               className="cursor-pointer gap-x-2"
               onClick={() => {
-                openPanel('PRODUCT_FORM', {
+                openPanel('MARKET_SERVICE_FORM', {
                   title: 'Nouveau service',
-                  width: '35vw',
+                  width: '75vw',
                 });
               }}
             >

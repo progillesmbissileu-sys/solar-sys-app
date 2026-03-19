@@ -21,7 +21,7 @@ export type CreateMarketServicePayload = {
   features: Array<MarketServiceFeature>;
 };
 
-export type UpdateMarketServicePayload = CreateMarketServicePayload;
+export type UpdateMarketServicePayload = Omit<CreateMarketServicePayload, 'thumbnailId'>;
 
 export type MarketServiceCollectionItem = {
   id: string;
