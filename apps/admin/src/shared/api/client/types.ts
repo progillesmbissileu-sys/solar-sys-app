@@ -78,9 +78,7 @@ export interface RequestConfig extends Omit<AxiosRequestConfig, 'signal'> {
 /**
  * Result type for type-safe error handling
  */
-export type Result<T, E = ApiError> =
-  | { success: true; data: T }
-  | { success: false; error: E; data: null };
+export type Result<T, E = ApiError> = { success: true; data: T } | { success: false; error: E };
 
 /**
  * Interceptor manager interface for type-safe interceptor management

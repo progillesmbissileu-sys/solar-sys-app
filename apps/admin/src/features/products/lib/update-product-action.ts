@@ -1,14 +1,14 @@
 'use server';
 
 import { routePaths } from '@/shared/routes';
-import { extractFormPayload } from '@/shared/ui';
 import { redirect } from 'next/navigation';
 import { UpdateProductInput } from '@/entities/product';
 import { buildRoute } from '@/shared/lib/router';
 import { updateProduct } from '@/entities/product/api/product';
+import { extractFormData } from '@/shared/ui';
 
 export const updateProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormPayload<UpdateProductInput & { id: string }>(formData);
+  const payload = extractFormData<UpdateProductInput & { id: string }>(formData);
 
   const _payload = {
     designation: payload.designation,

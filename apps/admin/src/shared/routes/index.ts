@@ -20,6 +20,9 @@ export const routePaths = {
   PRODUCTS_CATEGORIES_ADD: '/product-categories/create',
   PRODUCTS_CATEGORIES_DETAILS: '/product-categories/:id',
 
+  MARKET_SERVICES: '/market-services',
+  MARKET_SERVICES_DETAILS: '/market-services/:id',
+
   USERS: '/users',
   USERS_ADD: '/users/add',
   USERS_VIEW: '/users/view/:id',

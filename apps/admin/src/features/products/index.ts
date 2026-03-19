@@ -5,7 +5,7 @@ export { default as ProductUpdateForm } from './ui/forms/ProductUpdateForm';
 export { default as UpdateCategoryForm } from './ui/forms/UpdateCategoryForm';
 
 //MODEL
-export * from './model/product-validators';
+export * from './model/product-form-schemas';
 
 //SERVER ACTIONS
 export { createProductPackAction } from './lib/create-product-pack-action';

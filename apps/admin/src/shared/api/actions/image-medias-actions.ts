@@ -1,11 +1,11 @@
 'use server';
 
-import { callAction } from '../client/helpers';
+import { callAction, callActionSafe } from '../client/helpers';
 
-type UploadImageActionResponse = { url: string; id: string; signedUrl: string };
-
-export async function uploadImageAction(formData: FormData): Promise<UploadImageActionResponse> {
-  const response = await callAction<UploadImageActionResponse>(
+export async function uploadImageAction(
+  formData: FormData
+): Promise<{ url: string; id: string; signedUrl: string } | null> {
+  const response = await callActionSafe<{ url: string; id: string; signedUrl: string }>(
     '/api/image-media',
     'POST',
     {
@@ -13,9 +13,9 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
         'Content-Type': 'multipart/form-data',
       },
     }
-  )(formData);
+  )(undefined, formData);
 
-  return response;
+  return response.success ? response.data : null;
 }
 
 export async function deleteImageMediaAction(imageId: string): Promise<unknown> {

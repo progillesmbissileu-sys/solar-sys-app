@@ -4,12 +4,9 @@ import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { marketProductCollection } from '@/entities/product';
-import { createProductPackAction } from '../../lib/create-product-pack-action';
-import { updateProductPackAction } from '../../lib/update-product-pack-action';
-import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-form-schemas';
 import z from 'zod';
 
-export default function ProductPackageForm({
+export default function MarketServiceForm({
   initialValues,
 }: {
   initialValues?: Partial<z.infer<typeof updatePackFormSchema>>;
@@ -41,21 +38,6 @@ export default function ProductPackageForm({
             placeholder="common.designation"
             inputClassName="!h-12"
           />
-        </div>
-
-        <div className="w-full" data-testid="product-items">
-          <FormField.MultiSearch
-            name="items"
-            placeholder="common.itemsList"
-            inputClassName="h-20"
-            onSearch={async (query: string) =>
-              await marketProductCollection({ q: query, page: 1, limit: 10 })
-            }
-          />
-        </div>
-
-        <div className="w-full" data-testid="price">
-          <FormField.Number name="price" placeholder="common.price" inputClassName="!h-12" />
         </div>
 
         <div className="w-full" data-testid="description">

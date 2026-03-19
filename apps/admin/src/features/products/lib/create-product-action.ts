@@ -2,12 +2,12 @@
 
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
-import { extractFormPayload } from '@/shared/ui';
+import { extractFormData } from '@/shared/ui';
 import { createProduct, CreateProductInput } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormPayload<CreateProductInput>(formData);
+  const payload = extractFormData<CreateProductInput>(formData);
 
   const images = formData.getAll('images') as File[];
 

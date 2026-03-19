@@ -180,7 +180,7 @@ export function mutation<TData extends object = any>(
   path: string,
   method: RequestConfig['method'] = 'post'
 ) {
-  return (payload?: TData) => {
+  return (payload: TData) => {
     return callActionSafe<void, any, TData>(path, method)(null, payload);
   };
 }
@@ -189,7 +189,7 @@ export function mutationWithId<TData extends object = any>(
   path: string,
   method: RequestConfig['method'] = 'put'
 ) {
-  return (id: string, payload?: TData) => {
+  return (id: string, payload: TData) => {
     return callActionWithIdSafe<void, any, TData>(path, method)(id, payload);
   };
 }

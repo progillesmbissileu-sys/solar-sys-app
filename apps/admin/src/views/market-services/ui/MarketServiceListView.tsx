@@ -1,18 +1,19 @@
 'use client';
 
-import { ProductPackCollectionPreview } from '@/entities/product';
-import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
+import { AppImage, Button, DateDisplay, Label } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType } from '@/shared/api';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
+import { MarketServiceCollectionItem } from '@/entities/market-service';
+import _ from 'lodash';
 import { routePaths } from '@/shared/routes';
 import { useNavigator } from '@/shared/lib';
 
-export function ProductPackCollectionView({
-  collection,
+export function MarketServiceListView({
+  collectionData: collection,
 }: {
-  collection: CollectionResponseType<ProductPackCollectionPreview>;
+  collectionData: CollectionResponseType<MarketServiceCollectionItem>;
 }) {
   const { openPanel } = useRightPanel();
   const navigator = useNavigator();
@@ -21,18 +22,18 @@ export function ProductPackCollectionView({
     <DesktopPageContainer
       breadcrumbs={[
         { label: 'Acceuil', href: '/' },
-        { label: 'Packages', href: routePaths.PRODUCTS_PACKAGES },
+        { label: 'Services', href: routePaths.MARKET_SERVICES },
       ]}
       pageHeader={{
-        title: 'product.pageTitle',
+        title: 'marketService.pageTitle',
         actions: (
           <div>
             <Button
               className="cursor-pointer gap-x-2"
               onClick={() => {
-                openPanel('PRODUCT_PACKAGE_FORM', {
-                  title: 'Nouveau package',
-                  width: '50vw',
+                openPanel('PRODUCT_FORM', {
+                  title: 'Nouveau service',
+                  width: '35vw',
                 });
               }}
             >
@@ -43,16 +44,15 @@ export function ProductPackCollectionView({
         ),
       }}
     >
-      <CollectionManager<ProductPackCollectionPreview>
+      <CollectionManager<MarketServiceCollectionItem>
         columns={[
           {
             key: 'thumbnail',
             title: '',
-            render: (pack) => (
+            render: (record) => (
               <AppImage
-                src={pack.mainImageUrl}
-                alt={pack.designation}
-                title={pack.designation}
+                src={record.thumbnailUrl}
+                alt={record.designation}
                 width={40}
                 height={40}
                 unoptimized
@@ -65,33 +65,26 @@ export function ProductPackCollectionView({
             dataIndex: 'designation',
           },
           {
-            key: 'price',
-            title: 'common.price',
-            align: 'end',
-            render: (pack) => <PriceDisplay amount={pack.price} />,
+            key: 'description',
+            title: 'common.shortDescription',
+            render: (record) => _.truncate(record.shortDescription, { length: 50 }),
           },
           {
-            key: 'count',
-            title: 'common.countItems',
-            align: 'center',
-            render: (pack) => pack.items.length,
-          },
-          {
-            key: 'created',
-            title: 'common.createdAt',
+            key: 'added',
+            title: 'common.addedAt',
             align: 'end',
-            render: (pack) => <DateDisplay date={pack.createdAt} />,
+            render: (record) => <DateDisplay date={record.createdAt} />,
           },
           {
             key: 'updated',
             title: 'common.lastUpdated',
             align: 'end',
-            render: (pack) => <DateDisplay date={pack.updatedAt} />,
+            render: (record) => <DateDisplay date={record.updatedAt} />,
           },
         ]}
         collection={collection}
         onRowClick={(record) =>
-          navigator.navigate(routePaths.PRODUCTS_PACKAGES_DETAILS, { id: record.id })
+          navigator.navigate(routePaths.MARKET_SERVICES_DETAILS, { id: record.id })
         }
       />
     </DesktopPageContainer>
