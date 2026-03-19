@@ -33,7 +33,7 @@ export function MarketServiceListView({
               onClick={() => {
                 openPanel('MARKET_SERVICE_FORM', {
                   title: 'Nouveau service',
-                  width: '75vw',
+                  width: '40vw',
                 });
               }}
             >

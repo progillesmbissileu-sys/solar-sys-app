@@ -11,4 +11,5 @@ export {
   marketServiceCreate,
   marketServiceUpdate,
   marketServiceDelete,
+  replaceServiceThumbnail,
 } from './api';

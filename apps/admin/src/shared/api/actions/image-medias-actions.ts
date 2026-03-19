@@ -1,6 +1,6 @@
 'use server';
 
-import { callAction, callActionSafe } from '../client/helpers';
+import { callActionSafe } from '../client/helpers';
 
 export async function uploadImageAction(
   formData: FormData
@@ -19,7 +19,7 @@ export async function uploadImageAction(
 }
 
 export async function deleteImageMediaAction(imageId: string): Promise<unknown> {
-  const response = await callAction(`/api/image-media/${imageId}`, 'DELETE')();
+  const response = await callActionSafe(`/api/image-media/${imageId}`, 'DELETE')();
 
   return response;
 }

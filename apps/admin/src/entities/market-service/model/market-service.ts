@@ -16,9 +16,9 @@ export type MarketServiceFeature = string;
 export type CreateMarketServicePayload = {
   designation: string;
   thumbnailId: string;
-  contentDescription: string;
+  contentDescription?: string;
   shortDescription: string;
-  features: Array<MarketServiceFeature>;
+  features?: Array<MarketServiceFeature>;
 };
 
 export type UpdateMarketServicePayload = Omit<CreateMarketServicePayload, 'thumbnailId'>;

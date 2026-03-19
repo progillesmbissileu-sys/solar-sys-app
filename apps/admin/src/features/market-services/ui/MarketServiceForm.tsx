@@ -33,48 +33,54 @@ export default function MarketServiceForm({
         <FormField.Text name="id" className="h-0" />
       </div>
 
-      <div className="grid lg:grid-cols-2 lg:gap-6">
-        <aside className="space-y-6">
-          <div className="w-full" data-testid="designation">
-            <FormField.Text
-              name="designation"
-              placeholder="common.designation"
-              inputClassName="!h-12"
+      <aside className="space-y-6">
+        <div className="w-full" data-testid="designation">
+          <FormField.Text
+            name="designation"
+            placeholder="common.designation"
+            inputClassName="!h-12"
+          />
+        </div>
+
+        <div className="w-full" data-testid="description">
+          <FormField.Textarea name="shortDescription" placeholder="common.description" />
+        </div>
+
+        <div className="space-y-6">
+          <div className="" data-testid="picture">
+            <FormField.ImageField
+              name="thumbnail"
+              maxFiles={1}
+              multiple={false}
+              className="w-full"
             />
           </div>
-
-          <div className="w-full" data-testid="description">
-            <FormField.Textarea name="shortDescription" placeholder="common.description" />
-          </div>
-
-          <div className="space-y-6">
-            <div className="w-full" data-testid="picture">
-              <FormField.ImageField name="thumbnail" maxFiles={1} multiple={false} />
+          <div className="grid grid-cols-2 gap-3">
+            <div data-testid="picture-title">
+              <FormField.Text
+                name="thumbnailTitle"
+                placeholder="common.imageTitle"
+                inputClassName="!h-12"
+              />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div data-testid="picture-title">
-                <FormField.Text
-                  name="thumbnailTitle"
-                  placeholder="common.imageTitle"
-                  inputClassName="!h-12"
-                />
-              </div>
-              <div data-testid="picture-alt">
-                <FormField.Text
-                  name="thumbnailAlt"
-                  placeholder="common.imageAlt"
-                  inputClassName="!h-12"
-                />
-              </div>
+            <div data-testid="picture-alt">
+              <FormField.Text
+                name="thumbnailAlt"
+                placeholder="common.imageAlt"
+                inputClassName="!h-12"
+              />
             </div>
           </div>
+        </div>
 
-          <div>
-            <FormComponent.SubmitButton label="actions.submit" className="w-full" />
-          </div>
-        </aside>
-        <aside className="border border-dashed border-gray-200">CONTENT</aside>
-      </div>
+        <div className="h-full">
+          <FormField.RichText name="contentDescription" editorClassName="min-h-72" />
+        </div>
+
+        <div>
+          <FormComponent.SubmitButton label="actions.submit" className="w-full" />
+        </div>
+      </aside>
     </FormWrapper>
   );
 }

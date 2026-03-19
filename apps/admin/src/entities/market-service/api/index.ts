@@ -32,3 +32,8 @@ export const marketServiceUpdate = mutationWithId<UpdateMarketServicePayload>(
 );
 
 export const marketServiceDelete = callActionWithIdSafe('/api/market-services/:id', 'DELETE');
+
+export const replaceServiceThumbnail = mutationWithId<{ thumbnailId: string }>(
+  '/api/market-services/:serviceId/thumbnail',
+  'PUT'
+);

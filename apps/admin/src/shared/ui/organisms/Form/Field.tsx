@@ -8,6 +8,7 @@ import {
   ImageUploadFieldProps,
   MultiSearchInputProps,
   NumberInputProps,
+  RichTextInputProps,
   SearchInputProps,
   SelectInputProps,
   TextInputProps,
@@ -80,6 +81,12 @@ function MultiSearch(props: MultiSearchInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.MultiSearch {...props} />} />;
 }
 
+function RichText(props: RichTextInputProps & WithFormBlockProps) {
+  const form = useFormContext();
+
+  return <form.AppField name={props.name} children={(field) => <field.RichText {...props} />} />;
+}
+
 export {
   Text,
   Number,
@@ -92,4 +99,5 @@ export {
   Textarea,
   Search,
   MultiSearch,
+  RichText,
 };

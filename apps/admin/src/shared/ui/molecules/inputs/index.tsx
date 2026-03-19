@@ -19,3 +19,4 @@ export {
   type ImageUploadFieldItem,
   ImageUploadField,
 } from './ImageUploadField';
+export { type RichTextInputProps, RichTextInput } from './RichTextInput';

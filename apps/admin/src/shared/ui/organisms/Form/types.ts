@@ -14,6 +14,7 @@ export type InputType =
   | 'switch'
   | 'search_input'
   | 'textarea_input'
+  | 'richtext_input'
   | 'enum_select'
   | 'date_input'
   | 'upload_input'
@@ -47,12 +48,16 @@ export interface BuilderInputProps {
  * Result type for server actions used with FormWrapper.
  * Server actions should return an object with optional data and error fields.
  */
-export type FormActionResult<T = unknown> = 
+export type FormActionResult<T = unknown> =
   | { data: T; error?: undefined }
   | { data?: undefined; error: string; errors?: any[] }
   | void;
 
-export interface FormBuilderProps<TSchema extends ZodSchema<any>, TFormData = any, TResult = unknown> {
+export interface FormBuilderProps<
+  TSchema extends ZodSchema<any>,
+  TFormData = any,
+  TResult = unknown,
+> {
   initialValues?: TFormData;
   onSubmit?: (payload: TFormData) => Promise<void>;
   /**

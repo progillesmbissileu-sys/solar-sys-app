@@ -20,6 +20,7 @@ export async function createServiceAction(_prev: unknown, formData: FormData) {
     imageUploadObject.append('alt', _payload['thumbnailAlt']);
   }
 
+
   const uploadResponse = await uploadImageAction(imageUploadObject);
 
   if (uploadResponse) {

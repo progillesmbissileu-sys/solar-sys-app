@@ -17,6 +17,8 @@ import {
   NumberInputProps,
   PasswordInput,
   PasswordInputProps,
+  RichTextInput,
+  RichTextInputProps,
   SearchInput,
   SearchInputProps,
   SelectInput,
@@ -49,5 +51,6 @@ export const { useAppForm } = createFormHook({
     ImageUpload: withFieldContext<ImageUploadInputProps>(ImageUploadInput),
     ImageField: withFieldContext<ImageUploadFieldProps>(ImageUploadField),
     Textarea: withFieldContext<TextareaInputProps>(TextareaInput),
+    RichText: withFieldContext<RichTextInputProps>(RichTextInput),
   },
 });
