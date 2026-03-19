@@ -4,7 +4,7 @@ import { FormField, FormWrapper, FormComponent } from '@/shared/ui';
 import loginAction from '../api/actions';
 import { formOpts } from '../config/shared';
 
-export default function LoginView() {
+export default function LoginView({ redirectTo }: { redirectTo?: string }) {
   return (
     <div className="h-screen w-screen content-center">
       <div className="mx-auto flex h-2/3 flex-col justify-center gap-y-12 rounded-md p-3 xl:w-1/3">
@@ -12,7 +12,7 @@ export default function LoginView() {
           <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-100">login.pageTitle</h1>
         </div>
         <div className="mx-auto w-4/5">
-          <FormWrapper formOptions={formOpts} serverAction={loginAction}>
+          <FormWrapper formOptions={formOpts} serverAction={loginAction.bind(null, redirectTo)}>
             <div className="space-y-6">
               <div className="flex items-center space-x-2" data-testid="email">
                 <div className="w-full">
