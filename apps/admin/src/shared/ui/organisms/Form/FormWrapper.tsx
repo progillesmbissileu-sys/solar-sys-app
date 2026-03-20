@@ -7,8 +7,9 @@ import { ZodSchema } from 'zod';
 import { useAppForm } from './form-config';
 import { FormContext } from './use-form-context';
 import { initialFormState, useTransform, mergeForm } from '@tanstack/react-form-nextjs';
+import { Result } from '@/shared/api';
 
-export function FormWrapper<TSchema extends ZodSchema<any>, TResult = unknown>(
+export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends ZodSchema<any> = any>(
   props: FormBuilderProps<TSchema, any, TResult>
 ) {
   const [state, action] = React.useActionState(props.serverAction, initialFormState);
@@ -31,28 +32,30 @@ export function FormWrapper<TSchema extends ZodSchema<any>, TResult = unknown>(
 
     // Check if state has a result structure
     if (typeof state === 'object' && state !== null) {
-      // Check for error
-      if ('error' in state && state.error) {
-        props.onError?.({
-          message: state.error as string,
-          errors: 'errors' in state ? (state.errors as any[]) : undefined,
-        });
-        return;
+      // Check for server action result
+      if ('success' in state) {
+        if ('error' in state && !state.success) {
+          props.onError?.({
+            message: state.error as string,
+            errors: 'errors' in state ? (state.errors as any[]) : undefined,
+          });
+          return;
+        }
+
+        // Check for success data
+        if ('data' in state && state.success) {
+          props.onSuccess?.(state.data as TResult);
+          return;
+        }
       }
 
-      // Check for success data
-      if ('data' in state && state.data !== undefined) {
-        props.onSuccess?.(state.data as TResult);
-        return;
-      }
-
-      // If state is the result directly (no error property), treat as success
-      if (!('error' in state)) {
-        // The entire state might be the result (e.g., { id: '123' })
-        props.onSuccess?.(state as TResult);
-      }
+      // // If state is the result directly (no error property), treat as success
+      // if (!('error' in state)) {
+      //   // The entire state might be the result (e.g., { id: '123' })
+      //   props.onSuccess?.(state as TResult);
+      // }
     }
-  }, [state, currentActionId, props]);
+  }, [state]);
 
   const form = useAppForm({
     ...props.formOptions,
@@ -65,7 +68,6 @@ export function FormWrapper<TSchema extends ZodSchema<any>, TResult = unknown>(
       <form
         action={action}
         onSubmit={(evt) => {
-          console.log('Form submitted', evt);
           form.handleSubmit().catch((error) => console.error(error));
         }}
       >
