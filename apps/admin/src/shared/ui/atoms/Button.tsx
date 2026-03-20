@@ -3,6 +3,7 @@
 // Tremor Button [v0.2.0]
 
 import React from 'react';
+import './Button.css';
 import { Slot } from '@radix-ui/react-slot';
 import { RiLoader2Fill } from '@remixicon/react';
 import { tv, type VariantProps } from 'tailwind-variants';
@@ -126,9 +127,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {isLoading ? (
           <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
-            <RiLoader2Fill className="size-4 shrink-0 animate-spin" aria-hidden="true" />
-            <span className="sr-only">{loadingText ? loadingText : 'Loading'}</span>
-            {loadingText ? loadingText : children}
+            <RiLoader2Fill className="button-spinner size-4 shrink-0" aria-hidden="true" />
+            <span className="sr-only">{loadingText ?? 'Loading'}</span>
+            {loadingText}
           </span>
         ) : (
           children

@@ -1,9 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Product, ProductImage } from '@/entities/product';
-import { AppImage, Badge, Button, Card, PriceDisplay, DateDisplay, Divider } from '@/shared/ui';
+import {
+  AppImage,
+  Badge,
+  Button,
+  Card,
+  PriceDisplay,
+  DateDisplay,
+  Divider,
+  DeleteConfirmationModal,
+} from '@/shared/ui';
+import { deleteImageMediaAction } from '@/shared/api';
 import {
   RiStockLine,
   RiPriceTag3Line,
@@ -28,9 +38,27 @@ export function ProductDetailsView({ product }: { product: Product }) {
   const allImages = [product.mainImage, ...(product.images || [])];
   const [selectedImage, setSelectedImage] = useState<ProductImage>(product.mainImage);
 
+  const [isPending, startTransition] = useTransition();
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    image: ProductImage | null;
+  }>({
+    isOpen: false,
+    image: null,
+  });
+
   const handleDeleteImage = (image: ProductImage) => {
-    // TODO: Implement delete logic with API call
-    console.log('Delete image:', image.id || image.url);
+    setDeleteModal({ isOpen: true, image });
+  };
+
+  const confirmDeleteImage = () => {
+    if (!deleteModal.image?.id) return;
+
+    startTransition(async () => {
+      await deleteImageMediaAction(deleteModal.image!.id!);
+      setDeleteModal({ isOpen: false, image: null });
+      router.refresh();
+    });
   };
 
   const handleEdit = () => {
@@ -93,6 +121,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
                         }}
                         className="absolute right-1 top-1 rounded-full bg-red-500 p-1.5 text-white opacity-0 shadow-lg transition-opacity hover:bg-red-600 group-hover:opacity-100"
                         title="Delete image"
+                        disabled={isPending}
                       >
                         <RiDeleteBinLine className="size-3.5" />
                       </button>
@@ -240,6 +269,14 @@ export function ProductDetailsView({ product }: { product: Product }) {
           </div>
         </div>
       </div>
+
+      <DeleteConfirmationModal
+        open={deleteModal.isOpen}
+        loading={isPending}
+        content={<p className="text-center">Êtes-vous sûr de vouloir supprimer cette image ?</p>}
+        onConfirm={confirmDeleteImage}
+        onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, isOpen: open }))}
+      />
     </main>
   );
 }
