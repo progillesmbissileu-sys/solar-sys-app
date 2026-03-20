@@ -26,7 +26,6 @@ export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends Zod
 
   // Handle success/error callbacks when state changes
   React.useEffect(() => {
-    console.log({ state });
     if (!state || currentActionId === prevActionIdRef.current) return;
 
     prevActionIdRef.current = currentActionId;
