@@ -21,7 +21,7 @@ export type Product = {
   images?: ProductImage[];
 };
 
-export type CreateProductInput = {
+export type CreateProductPayload = {
   designation: string;
   description: string;
   categoryId: string;
@@ -31,7 +31,7 @@ export type CreateProductInput = {
   imageIds?: string[];
 };
 
-export type UpdateProductInput = {
+export type UpdateProductPayload = {
   designation: string;
   description: string;
   categoryId: string;

@@ -6,7 +6,12 @@ import {
   mutationWithId,
 } from '@/shared/api';
 import { ProductCategory } from '../model/product-category';
-import { CreateProductInput, Product, ProductPreview, UpdateProductInput } from '../model/product';
+import {
+  CreateProductPaylaod,
+  Product,
+  ProductPreview,
+  UpdateProductPayload,
+} from '../model/product';
 
 export const productCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
   '/api/product',
@@ -17,9 +22,9 @@ export const getProduct = callActionWithIdSafe<{
   data: Product;
 }>('/api/product/{id}', 'get');
 
-export const createProduct = mutation<CreateProductInput>('/api/product', 'post');
+export const createProduct = mutation<CreateProductPaylaod>('/api/product', 'post');
 
-export const updateProduct = mutationWithId<UpdateProductInput>('/api/product/{id}', 'put');
+export const updateProduct = mutationWithId<UpdateProductPayload>('/api/product/{id}', 'put');
 
 // CATEGORIES
 

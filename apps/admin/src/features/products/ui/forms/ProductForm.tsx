@@ -3,22 +3,21 @@
 import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
-import { ProductCategory } from '@/entities/product';
-import { ProductFormValues, productFormSchema } from '../../model/product-form-schemas';
+import { ProductFormValues, createProductSchema } from '../../model/product-form-schemas';
 import { createProductAction } from '../../lib/create-product-action';
 import { useEvents } from '@repo/ui/event-provider';
+import { getCategoriesAction } from '../../lib/category-collection-action';
 
 type ProductFormProps = {
   initialValues?: Partial<ProductFormValues>;
-  categories: ProductCategory[];
 };
 
-export default function ProductForm({ initialValues, categories }: ProductFormProps) {
+export default function ProductForm({ initialValues }: ProductFormProps) {
   const event = useEvents();
 
   const formOpts = formOptions({
     validators: {
-      onSubmit: productFormSchema,
+      onSubmit: createProductSchema,
     },
     defaultValues: initialValues,
   });
@@ -26,7 +25,6 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
   return (
     <FormWrapper
       formOptions={formOpts}
-      // serverAction={!initialValues?.id ? createProductAction : updateProductAction}
       serverAction={createProductAction}
       onSuccess={() => event.success('Product created successfully')}
       onError={() => event.error('Failed to create product')}
@@ -45,15 +43,14 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
           />
         </div>
 
-        <div className="w-full" data-testid="categoryId">
-          <FormField.Select
+        <div className="w-full" data-testid="product-items">
+          <FormField.Search
             name="categoryId"
-            placeholder="common.category"
-            options={(categories ?? []).map((category) => ({
-              value: category.id as string,
-              label: category.designation,
-            }))}
-            classNames={{ trigger: 'h-12' }}
+            placeholder="common.selectCategory"
+            inputClassName="h-12"
+            onSearchAction={async (query: string) =>
+              await getCategoriesAction({ q: query, page: 1, limit: 10 })
+            }
           />
         </div>
 

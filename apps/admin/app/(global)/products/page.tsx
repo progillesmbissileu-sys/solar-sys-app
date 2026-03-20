@@ -14,10 +14,7 @@ export default async function Page({ searchParams }: { searchParams: any }) {
   return (
     <>
       {response.success ? (
-        <ProductCollectionView
-          collection={response.data}
-          categories={productCategoryCollection()}
-        />
+        <ProductCollectionView collection={response.data} />
       ) : (
         <FailedRequestDisplay status={response.error.status} />
       )}

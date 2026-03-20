@@ -104,14 +104,15 @@ export function MultiSearchInput({
 
     try {
       const results = await onSearch(query);
-      setOptions(
-        parseCallback
-          ? (results.data?.data ?? []).map(parseCallback)
-          : (results.data?.data ?? []).map((item) => ({
-              label: item.designation,
-              value: item.id,
-            }))
-      );
+      results.success &&
+        setOptions(
+          parseCallback
+            ? (results.data?.data ?? []).map(parseCallback)
+            : (results.data?.data ?? []).map((item) => ({
+                label: item.designation,
+                value: item.id,
+              }))
+        );
     } catch (err) {
       if (err instanceof Error && err.name !== 'AbortError') {
         setError('Failed to search');

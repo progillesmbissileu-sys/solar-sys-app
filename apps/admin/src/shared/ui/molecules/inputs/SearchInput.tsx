@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Input } from '../../atoms/Input';
 import { Popover, PopoverContent, PopoverAnchor } from '../../atoms/Popover';
 import { cx } from '@/shared/lib/utils';
 import { RiLoader2Line, RiSearchLine } from '@remixicon/react';
@@ -13,38 +12,40 @@ export type SearchInputOption = {
 };
 
 export type SearchInputProps = {
-  onChange?: (value: string) => void;
-  onSearch: (query: string) => Promise<Result<CollectionResponseType<any>>>;
+  onChange?: any;
+  onSearchAction: (query: string) => Promise<Result<CollectionResponseType<any>>>;
   placeholder?: string;
   debounceMs?: number;
   minSearchLength?: number;
   loadingText?: string;
   noResultsText?: string;
   className?: string;
+  inputClassName?: string;
   disabled?: boolean;
   value?: string;
   defaultValue?: string;
   name?: string;
   displayValue?: string;
-  parseCallback?: (record: any) => SearchInputOption;
+  parseCallbackAction?: (record: any) => SearchInputOption;
   loadInitial?: boolean;
 };
 
 export function SearchInput({
   onChange,
-  onSearch,
+  onSearchAction: onSearch,
   placeholder = 'Search...',
   debounceMs = 300,
   minSearchLength = 1,
   loadingText = 'Loading...',
   noResultsText = 'No results found',
   className,
+  inputClassName,
   disabled = false,
   value: controlledValue,
   defaultValue,
   name,
   displayValue: controlledDisplayValue,
-  parseCallback,
+  parseCallbackAction: parseCallback,
   loadInitial = false,
 }: SearchInputProps) {
   const [open, setOpen] = React.useState(false);
@@ -56,6 +57,49 @@ export function SearchInput({
 
   const debounceRef = React.useRef<number | null>(null);
   const abortControllerRef = React.useRef<AbortController | null>(null);
+
+  const fetchAction = async (query: string, skipMinLengthCheck = false) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    if (!skipMinLengthCheck && query.length < minSearchLength) {
+      setOptions([]);
+      setLoading(false);
+      return;
+    }
+
+    abortControllerRef.current = new AbortController();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const results = await onSearch(query);
+      results.success &&
+        setOptions(
+          parseCallback
+            ? (results.data?.data ?? []).map(parseCallback)
+            : (results.data?.data ?? []).map((item) => ({
+                label: item.designation,
+                value: item.id,
+              }))
+        );
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setError('Failed to search');
+        setOptions([]);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    (async () => {
+      await fetchAction('', true);
+    })();
+  }, []);
 
   // Sync controlled value changes
   React.useEffect(() => {
@@ -71,44 +115,7 @@ export function SearchInput({
     }
   }, [controlledDisplayValue]);
 
-  const performSearch = React.useCallback(
-    async (query: string, skipMinLengthCheck = false) => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-
-      if (!skipMinLengthCheck && query.length < minSearchLength) {
-        setOptions([]);
-        setLoading(false);
-        return;
-      }
-
-      abortControllerRef.current = new AbortController();
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        const results = await onSearch(query);
-        setOptions(
-          parseCallback
-            ? (results.data?.data ?? []).map(parseCallback)
-            : (results.data?.data ?? []).map((item) => ({
-                label: item.designation,
-                value: item.id,
-              }))
-        );
-      } catch (err) {
-        if (err instanceof Error && err.name !== 'AbortError') {
-          setError('Failed to search');
-          setOptions([]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    },
-    [onSearch, minSearchLength]
-  );
+  const performSearch = React.useCallback(fetchAction, [onSearch, minSearchLength]);
 
   const handleInputChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,6 +143,7 @@ export function SearchInput({
 
   const handleSelect = React.useCallback(
     (option: SearchInputOption) => {
+      console.log({ option });
       setSelectedValue(option.value);
       setInputValue(option.label);
       setOptions([]);
@@ -194,23 +202,37 @@ export function SearchInput({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={cx('relative', className)}>
-          <Input
-            name={name}
-            type="text"
-            placeholder={placeholder}
-            value={inputValue}
-            onChange={handleInputChange}
-            onFocus={handleFocus}
-            disabled={disabled}
-            className="pr-8"
-          />
-          <div className="pointer-events-none absolute right-0 top-0 flex h-full items-center justify-center px-3">
-            {loading ? (
-              <RiLoader2Line className="size-4 animate-spin text-gray-400" />
-            ) : (
-              <RiSearchLine className="size-4 text-gray-400" />
+        <div className={cx('relative', inputClassName)}>
+          <div
+            className={cx(
+              'flex h-full w-full flex-wrap items-center gap-1.5 rounded-md border px-2.5 py-1.5',
+              'border-gray-300 dark:border-gray-800',
+              'bg-white dark:bg-gray-950',
+              'focus-within:ring-2 focus-within:ring-blue-200 focus-within:dark:ring-blue-800/20',
+              'disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400',
+              disabled && 'cursor-not-allowed opacity-50'
             )}
+          >
+            <input type="text" className="hidden" name={name} value={selectedValue} />
+            <input
+              type="text"
+              placeholder={placeholder}
+              value={inputValue}
+              onChange={handleInputChange}
+              onFocus={handleFocus}
+              disabled={disabled}
+              className={cx(
+                'h-full flex-1 bg-transparent text-sm outline-none',
+                'placeholder:text-gray-400 dark:placeholder:text-gray-500'
+              )}
+            />
+            <div className="pointer-events-none flex items-center">
+              {loading ? (
+                <RiLoader2Line className="size-4 animate-spin text-gray-400" />
+              ) : (
+                <RiSearchLine className="size-4 text-gray-400" />
+              )}
+            </div>
           </div>
         </div>
       </PopoverAnchor>

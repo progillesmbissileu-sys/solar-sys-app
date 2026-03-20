@@ -4,7 +4,7 @@ import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
-import { productUpdateFormSchema, ProductUpdateFormValues } from '../../model/product-form-schemas';
+import { updateProductSchema, ProductUpdateFormValues } from '../../model/product-form-schemas';
 import { updateProductAction } from '../../lib/update-product-action';
 import { useEvents } from '@repo/ui/event-provider';
 
@@ -17,7 +17,7 @@ export default function ProductUpdateForm({ initialValues, categories }: Product
   const event = useEvents();
   const formOpts = formOptions({
     validators: {
-      onSubmit: productUpdateFormSchema,
+      onSubmit: updateProductSchema,
     },
     defaultValues: initialValues,
   });

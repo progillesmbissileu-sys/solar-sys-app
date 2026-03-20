@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const productFormSchema = z.object({
+export const createProductSchema = z.object({
   id: z.string().optional(),
   designation: z.string().min(1),
   description: z.string().min(1),
@@ -12,7 +12,7 @@ export const productFormSchema = z.object({
   pictureAlt: z.string().optional(),
 });
 
-export const productUpdateFormSchema = z.object({
+export const updateProductSchema = z.object({
   id: z.string().min(1),
   designation: z.string().min(1),
   description: z.string().min(1),
@@ -21,6 +21,6 @@ export const productUpdateFormSchema = z.object({
   brand: z.string().optional(),
 });
 
-export type ProductUpdateFormValues = z.infer<typeof productUpdateFormSchema>;
+export type ProductUpdateFormValues = z.infer<typeof updateProductSchema>;
 
-export type ProductFormValues = z.infer<typeof productFormSchema>;
+export type ProductFormValues = z.infer<typeof createProductSchema>;

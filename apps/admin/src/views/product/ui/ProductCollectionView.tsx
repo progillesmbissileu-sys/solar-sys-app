@@ -11,12 +11,9 @@ import { useRouter } from 'next/navigation';
 
 export function ProductCollectionView({
   collection,
-  categories,
 }: {
   collection: CollectionResponseType<ProductPreview>;
-  categories: Promise<Result<CollectionResponseType<ProductCategory>>>;
 }) {
-  const _categories = use(categories);
   const { openPanel } = useRightPanel();
   const router = useRouter();
 
@@ -35,7 +32,6 @@ export function ProductCollectionView({
               onClick={() => {
                 openPanel('PRODUCT_FORM', {
                   title: 'Nouveau produit',
-                  categories: _categories?.data,
                   width: '35vw',
                 });
               }}

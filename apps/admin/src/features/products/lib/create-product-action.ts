@@ -3,11 +3,11 @@
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
 import { extractFormData } from '@/shared/ui';
-import { createProduct, CreateProductInput } from '@/entities/product';
+import { createProduct, CreateProductPayload } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
 
 export const createProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormData<CreateProductInput>(formData);
+  const payload = extractFormData<CreateProductPayload>(formData);
 
   const images = formData.getAll('images') as File[];
 
@@ -33,14 +33,14 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
     .filter(Boolean);
 
   if (uploadedPictures.length > 0) {
-    const _payload = {
+    const _payload: CreateProductPayload = {
       designation: payload.designation,
       description: payload.description,
       categoryId: payload.categoryId,
       price: payload.price,
       brand: payload.brand,
       mainImageId: uploadedPictures[0]?.id as string,
-      imagesIds:
+      imageIds:
         uploadedPictures.length > 1
           ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
           : [null],
@@ -53,6 +53,9 @@ export const createProductAction = async (_prev: unknown, formData: FormData) =>
       : await Promise.allSettled(
           uploadedPictures.map((picture) => deleteImageMediaAction(picture?.id ?? ''))
         );
+
     return resp;
   }
+
+  return { success: false };
 };

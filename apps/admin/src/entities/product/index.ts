@@ -6,8 +6,8 @@ export * from './api/product-pack';
 export type {
   Product,
   ProductPreview,
-  CreateProductInput,
-  UpdateProductInput,
+  CreateProductPayload,
+  UpdateProductPayload,
 } from './model/product';
 export type { ProductImage } from './model/product-image';
 export {
