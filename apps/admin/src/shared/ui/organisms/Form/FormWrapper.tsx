@@ -43,7 +43,7 @@ export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends Zod
         }
 
         // Check for success data
-        if ('data' in state && state.success) {
+        if (state.success) {
           props.onSuccess?.(state.data as TResult);
           return;
         }
