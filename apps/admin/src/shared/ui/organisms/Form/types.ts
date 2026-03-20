@@ -64,7 +64,7 @@ export interface FormBuilderProps<
    * Callback fired when the server action completes successfully.
    * Receives the data returned by the server action.
    */
-  onSuccess?: (data: TResult) => void;
+  onSuccess?: (data?: TResult) => void;
   /**
    * Callback fired when the server action returns an error.
    */

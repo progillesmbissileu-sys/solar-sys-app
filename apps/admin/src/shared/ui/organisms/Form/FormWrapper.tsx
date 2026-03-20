@@ -44,7 +44,7 @@ export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends Zod
 
         // Check for success data
         if (state.success) {
-          props.onSuccess?.(state.data as TResult);
+          props.onSuccess?.('data' in state ? (state.data as TResult) : undefined);
           return;
         }
       }
@@ -68,6 +68,12 @@ export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends Zod
       <form
         action={action}
         onSubmit={(evt) => {
+          console.log(form.state);
+
+          if (!form.state.isFormValid) {
+            evt.preventDefault();
+            return;
+          }
           form.handleSubmit().catch((error) => console.error(error));
         }}
       >
