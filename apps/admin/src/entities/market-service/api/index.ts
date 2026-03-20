@@ -4,6 +4,7 @@ import {
   callActionWithIdSafe,
   mutation,
   mutationWithId,
+  Result,
 } from '@/shared/api';
 import {
   CreateMarketServicePayload,

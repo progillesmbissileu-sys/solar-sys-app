@@ -6,6 +6,7 @@ import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
 import { ProductFormValues, productFormSchema } from '../../model/product-form-schemas';
 import { createProductAction } from '../../lib/create-product-action';
+import { useEvents } from '@repo/ui/event-provider';
 
 type ProductFormProps = {
   initialValues?: Partial<ProductFormValues>;
@@ -13,6 +14,8 @@ type ProductFormProps = {
 };
 
 export default function ProductForm({ initialValues, categories }: ProductFormProps) {
+  const event = useEvents();
+
   const formOpts = formOptions({
     validators: {
       onSubmit: productFormSchema,
@@ -25,7 +28,8 @@ export default function ProductForm({ initialValues, categories }: ProductFormPr
       formOptions={formOpts}
       // serverAction={!initialValues?.id ? createProductAction : updateProductAction}
       serverAction={createProductAction}
-      onError={(error) => console.log(error)}
+      onSuccess={() => event.success('Product created successfully')}
+      onError={() => event.error('Failed to create product')}
     >
       {/* hidden id for update */}
       <div data-testid="id">

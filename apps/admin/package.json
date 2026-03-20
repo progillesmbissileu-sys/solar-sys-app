@@ -55,6 +55,7 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@repo/ui": "workspace:*",
     "@types/node": "^22.18.9",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",

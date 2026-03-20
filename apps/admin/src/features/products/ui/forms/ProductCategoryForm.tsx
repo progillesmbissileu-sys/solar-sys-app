@@ -3,16 +3,17 @@
 import { FormField, FormWrapper, FormComponent, parseEnumOptions } from '@/shared/ui';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
-import { CategoryUpdatePayload, ProductCategory, ProductCategoryType } from '@/entities/product';
+import { CategoryUpdatePayload, ProductCategoryType } from '@/entities/product';
 import { createProductCategoryAction } from '../../lib/create-product-category-action';
+import { useEvents } from '@repo/ui/event-provider';
 
 export default function UpdateCategoryForm({
   initialValues,
-  // categories,
 }: {
   initialValues?: CategoryUpdatePayload;
-  categories?: ProductCategory[];
 }) {
+  const event = useEvents();
+
   const formOpts = formOptions({
     validators: {
       onSubmit: z.object({
@@ -26,7 +27,12 @@ export default function UpdateCategoryForm({
   });
 
   return (
-    <FormWrapper formOptions={formOpts} serverAction={createProductCategoryAction}>
+    <FormWrapper
+      formOptions={formOpts}
+      serverAction={createProductCategoryAction}
+      onSuccess={() => event.success('Category created successfully')}
+      onError={() => event.error('Failed to create category')}
+    >
       <div data-testid="id">
         <FormField.Text name="id" className="h-0" />
       </div>

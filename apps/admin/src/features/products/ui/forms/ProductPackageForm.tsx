@@ -8,6 +8,7 @@ import { createProductPackAction } from '../../lib/create-product-pack-action';
 import { updateProductPackAction } from '../../lib/update-product-pack-action';
 import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-form-schemas';
 import z from 'zod';
+import { useEvents } from '@repo/ui/event-provider';
 
 export default function ProductPackageForm({
   initialValues,
@@ -15,6 +16,7 @@ export default function ProductPackageForm({
   initialValues?: Partial<z.infer<typeof updatePackFormSchema>>;
 }) {
   const isUpdate = !!initialValues?.id;
+  const event = useEvents();
 
   const formOpts = formOptions({
     validators: {
@@ -27,7 +29,8 @@ export default function ProductPackageForm({
     <FormWrapper
       formOptions={formOpts}
       serverAction={isUpdate ? updateProductPackAction : createProductPackAction}
-      onError={(error) => console.log(error)}
+      onSuccess={() => event.success('Product package updated successfully')}
+      onError={() => event.error('Failed to update product package')}
     >
       {/* hidden id for update */}
       <div data-testid="id">

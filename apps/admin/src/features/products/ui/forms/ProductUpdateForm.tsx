@@ -6,6 +6,7 @@ import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { ProductCategory } from '@/entities/product';
 import { productUpdateFormSchema, ProductUpdateFormValues } from '../../model/product-form-schemas';
 import { updateProductAction } from '../../lib/update-product-action';
+import { useEvents } from '@repo/ui/event-provider';
 
 type ProductUpdateFormProps = {
   initialValues: ProductUpdateFormValues;
@@ -13,6 +14,7 @@ type ProductUpdateFormProps = {
 };
 
 export default function ProductUpdateForm({ initialValues, categories }: ProductUpdateFormProps) {
+  const event = useEvents();
   const formOpts = formOptions({
     validators: {
       onSubmit: productUpdateFormSchema,
@@ -24,7 +26,8 @@ export default function ProductUpdateForm({ initialValues, categories }: Product
     <FormWrapper
       formOptions={formOpts}
       serverAction={updateProductAction}
-      onError={(error) => console.log(error)}
+      onSuccess={() => event.success('Product updated successfully')}
+      onError={() => event.error('Failed to update product')}
     >
       {/* hidden id for update */}
       <div data-testid="id">

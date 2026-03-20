@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import '@splidejs/react-splide/css/core';
 import { AppLayout } from '@/widgets/layout';
+import { EventProvider } from '@repo/ui/event-provider';
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppLayout>{children}</AppLayout>
+        <EventProvider>
+          <AppLayout>{children}</AppLayout>
+        </EventProvider>
       </body>
     </html>
   );

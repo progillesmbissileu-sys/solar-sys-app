@@ -176,21 +176,21 @@ export function callActionWithIdSafe<
   };
 }
 
-export function mutation<TData extends object = any>(
+export function mutation<TData extends object = any, TReturn = void>(
   path: string,
   method: RequestConfig['method'] = 'post'
 ) {
   return (payload: TData) => {
-    return callActionSafe<void, any, TData>(path, method)(null, payload);
+    return callActionSafe<TReturn, any, TData>(path, method)(null, payload);
   };
 }
 
-export function mutationWithId<TData extends object = any>(
+export function mutationWithId<TData extends object = any, TReturn = void>(
   path: string,
   method: RequestConfig['method'] = 'put'
 ) {
   return (id: string, payload: TData) => {
-    return callActionWithIdSafe<void, any, TData>(path, method)(id, payload);
+    return callActionWithIdSafe<TReturn, any, TData>(path, method)(id, payload);
   };
 }
 
