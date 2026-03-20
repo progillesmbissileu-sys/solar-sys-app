@@ -1,7 +1,8 @@
 export interface MarketService {
   id: string;
   slug: string;
-  thumbnail: { id: string; url: string };
+  thumbnailUrl: string;
+  thumbnailId: string;
   designation: string;
   shortDescription: string;
   contentDescription: string;

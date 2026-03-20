@@ -46,32 +46,34 @@ export default function MarketServiceForm({
           <FormField.Textarea name="shortDescription" placeholder="common.description" />
         </div>
 
-        <div className="space-y-6">
-          <div className="" data-testid="picture">
-            <FormField.ImageField
-              name="thumbnail"
-              maxFiles={1}
-              multiple={false}
-              className="w-full"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div data-testid="picture-title">
-              <FormField.Text
-                name="thumbnailTitle"
-                placeholder="common.imageTitle"
-                inputClassName="!h-12"
+        {!initialValues?.id && (
+          <div className="space-y-6">
+            <div className="" data-testid="picture">
+              <FormField.ImageField
+                name="thumbnail"
+                maxFiles={1}
+                multiple={false}
+                className="w-full"
               />
             </div>
-            <div data-testid="picture-alt">
-              <FormField.Text
-                name="thumbnailAlt"
-                placeholder="common.imageAlt"
-                inputClassName="!h-12"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div data-testid="picture-title">
+                <FormField.Text
+                  name="thumbnailTitle"
+                  placeholder="common.imageTitle"
+                  inputClassName="!h-12"
+                />
+              </div>
+              <div data-testid="picture-alt">
+                <FormField.Text
+                  name="thumbnailAlt"
+                  placeholder="common.imageAlt"
+                  inputClassName="!h-12"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="h-full">
           <FormField.RichText name="contentDescription" editorClassName="min-h-72" />
