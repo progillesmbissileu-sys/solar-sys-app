@@ -2,20 +2,19 @@
 
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
-import { extractFormData } from '@/shared/ui';
 import { createProduct, CreateProductPayload } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
+import { createProductSchema } from '../model/product-form-schemas';
+import z from 'zod';
 
-export const createProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormData<CreateProductPayload>(formData);
-
-  const images = formData.getAll('images') as File[];
+export const createProductAction = async (payload: z.infer<typeof createProductSchema>) => {
+  const images = payload.images;
 
   const imagesUploadObjectList = images.map((image) => {
     const uploadDataObject = new FormData();
     uploadDataObject.append('image', image);
-    uploadDataObject.append('title', formData.get('pictureTitle') as string);
-    uploadDataObject.append('alt', formData.get('pictureAlt') as string);
+    uploadDataObject.append('title', payload.pictureTitle ?? '');
+    uploadDataObject.append('alt', payload.pictureAlt ?? '');
     return uploadDataObject;
   });
 

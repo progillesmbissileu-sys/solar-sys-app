@@ -7,11 +7,12 @@ import {
 } from '@/shared/api';
 import { ProductCategory } from '../model/product-category';
 import {
-  CreateProductPaylaod,
+  CreateProductPayload,
   Product,
   ProductPreview,
   UpdateProductPayload,
 } from '../model/product';
+import { CreateCategoryPayload, UpdateCategoryPayload } from '../model/product-category';
 
 export const productCollection = callActionSafe<CollectionResponseType<ProductPreview>>(
   '/api/product',
@@ -22,7 +23,7 @@ export const getProduct = callActionWithIdSafe<{
   data: Product;
 }>('/api/product/{id}', 'get');
 
-export const createProduct = mutation<CreateProductPaylaod>('/api/product', 'post');
+export const createProduct = mutation<CreateProductPayload>('/api/product', 'post');
 
 export const updateProduct = mutationWithId<UpdateProductPayload>('/api/product/{id}', 'put');
 
@@ -36,6 +37,13 @@ export const productCategoryCollection = callActionSafe<CollectionResponseType<P
 export const getProductCategory = callActionWithIdSafe<{ data: ProductCategory }>(
   '/api/product-category/{id}',
   'get'
+);
+
+export const createCategory = mutation<CreateCategoryPayload>('/api/product-category', 'post');
+
+export const updateCategory = mutationWithId<UpdateCategoryPayload>(
+  '/api/product-category/{id}',
+  'put'
 );
 
 // MARKET ROUTES (unprotected routes)

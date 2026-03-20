@@ -2,13 +2,11 @@
 
 import { routePaths } from '@/shared/routes';
 import { revalidatePath } from 'next/cache';
-import { UpdateProductPayload } from '@/entities/product';
 import { updateProduct } from '@/entities/product/api/product';
-import { extractFormData } from '@/shared/ui';
+import { updateProductSchema } from '../model/product-form-schemas';
+import z from 'zod';
 
-export const updateProductAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormData<UpdateProductPayload & { id: string }>(formData);
-
+export const updateProductAction = async (payload: z.infer<typeof updateProductSchema>) => {
   const _payload = {
     designation: payload.designation,
     description: payload.description,

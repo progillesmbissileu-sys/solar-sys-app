@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { ZodSchema } from 'zod';
 import { FormOptions } from '@tanstack/react-form';
+import { ApiError } from '@/shared/api';
 
 export type InputType =
   | 'text_input'
@@ -46,12 +47,19 @@ export interface BuilderInputProps {
 
 /**
  * Result type for server actions used with FormWrapper.
- * Server actions should return an object with optional data and error fields.
+ * Compatible with Result type from API layer.
  */
 export type FormActionResult<T = unknown> =
-  | { data: T; error?: undefined }
-  | { data?: undefined; error: string; errors?: any[] }
-  | void;
+  | { success: true; data?: T }
+  | { success: false; error?: ApiError | string; errors?: any[] };
+
+/**
+ * Server action signature for TanStack Form integration.
+ * Actions receive typed payload directly (no FormData).
+ */
+export type ServerAction<TPayload, TResult = unknown> = (
+  payload: TPayload
+) => Promise<FormActionResult<TResult>>;
 
 export interface FormBuilderProps<
   TSchema extends ZodSchema<any>,
@@ -59,7 +67,6 @@ export interface FormBuilderProps<
   TResult = unknown,
 > {
   initialValues?: TFormData;
-  onSubmit?: (payload: TFormData) => Promise<void>;
   /**
    * Callback fired when the server action completes successfully.
    * Receives the data returned by the server action.
@@ -70,7 +77,7 @@ export interface FormBuilderProps<
    */
   onError?: (error: { message: string; errors?: any[] }) => void;
   children: React.ReactNode;
-  serverAction: any;
+  serverAction: ServerAction<TFormData, TResult>;
   formOptions: Omit<FormOptions<any, any, any, any, any, any, any, any, any, any, any>, 'onSubmit'>;
 }
 

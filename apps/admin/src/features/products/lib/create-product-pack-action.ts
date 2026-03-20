@@ -1,18 +1,20 @@
 'use server';
 
 import { routePaths } from '@/shared/routes';
-import { CreatePackPayload, createProductPack } from '@/entities/product';
+import { createProductPack } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
-import { extractFormData } from '@/shared/ui';
+import { createPackFormSchema } from '../model/product-pack-form-schemas';
+import z from 'zod';
 
-export const createProductPackAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormData<CreatePackPayload>(formData, ['id'], (_entries) => ({
-    ..._entries,
-    price: parseInt(_entries.price as string),
-    items: (_entries.items as string).split(',').map((item) => ({ productId: item, quantity: 1 })),
-  }));
+export const createProductPackAction = async (payload: z.infer<typeof createPackFormSchema>) => {
+  const _payload = {
+    designation: payload.designation,
+    description: payload.description,
+    price: payload.price,
+    items: payload.items.map((item) => ({ productId: item, quantity: 1 })),
+  };
 
-  const resp = await createProductPack(payload);
+  const resp = await createProductPack(_payload);
 
   resp.success && revalidatePath(routePaths.PRODUCTS_PACKAGES);
 

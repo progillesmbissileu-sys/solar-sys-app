@@ -1,17 +1,15 @@
 'use server';
 
-import { CategoryCreatePayload } from '@/entities/product';
-import { mutation } from '@/shared/api';
 import { routePaths } from '@/shared/routes';
-import { extractFormData } from '@/shared/ui';
 import { revalidatePath } from 'next/cache';
+import { createCategory } from '@/entities/product';
+import z from 'zod';
+import { categorySchema } from '../ui/forms/ProductCategoryForm';
 
-export const createProductCategoryAction = async (_prev: unknown, formData: FormData) => {
-  const payload = extractFormData<CategoryCreatePayload>(formData);
+export const createProductCategoryAction = async (payload: z.infer<typeof categorySchema>) => {
+  const resp = await createCategory(payload);
 
-  const resp = await mutation('/api/product-category', 'POST')(payload);
-
-  !resp.success && revalidatePath(routePaths.PRODUCTS_CATEGORIES);
+  resp.success && revalidatePath(routePaths.PRODUCTS_CATEGORIES);
 
   return resp;
 };

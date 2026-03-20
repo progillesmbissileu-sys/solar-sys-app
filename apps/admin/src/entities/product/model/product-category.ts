@@ -8,9 +8,9 @@ export type ProductCategory = {
   updatedAt?: Date | string;
 };
 
-export type UpdateCategoryInput = Pick<ProductCategory, 'designation' | 'type' | 'parentId'>;
+export type UpdateCategoryPayload = Pick<ProductCategory, 'designation' | 'type' | 'parentId'>;
 
-export type CreateCategoryInput = Pick<ProductCategory, 'designation' | 'type' | 'parentId'>;
+export type CreateCategoryPayload = Pick<ProductCategory, 'designation' | 'type' | 'parentId'>;
 
 export enum ProductCategoryType {
   CATEGORY = 'CATEGORY',

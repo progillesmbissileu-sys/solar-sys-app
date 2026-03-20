@@ -262,14 +262,14 @@ export function MultiSearchInput({
                 </button>
               </span>
             ))}
-            <input
+            {/*<input
               type="hidden"
               name={name}
               value={selectedItems.map((item) => item.value).join(',')}
-            />
+            />*/}
             <input
               ref={inputRef}
-              // name={name}
+              name={name}
               type="text"
               placeholder={selectedItems.length === 0 ? placeholder : ''}
               value={inputValue}

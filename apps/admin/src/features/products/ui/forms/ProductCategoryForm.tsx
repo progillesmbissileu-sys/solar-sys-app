@@ -3,25 +3,23 @@
 import { FormField, FormWrapper, FormComponent, parseEnumOptions } from '@/shared/ui';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
-import { CategoryUpdatePayload, ProductCategoryType } from '@/entities/product';
+import { ProductCategoryType } from '@/entities/product';
 import { createProductCategoryAction } from '../../lib/create-product-category-action';
 import { useEvents } from '@repo/ui/event-provider';
 
-export default function UpdateCategoryForm({
-  initialValues,
-}: {
-  initialValues?: CategoryUpdatePayload;
-}) {
+export const categorySchema = z.object({
+  id: z.uuid().optional(),
+  designation: z.string().min(1),
+  type: z.enum(ProductCategoryType),
+  parentId: z.uuid().optional(),
+});
+
+export default function UpdateCategoryForm({ initialValues }: { initialValues?: any }) {
   const event = useEvents();
 
   const formOpts = formOptions({
     validators: {
-      onSubmit: z.object({
-        id: z.uuid(),
-        designation: z.string().min(1),
-        type: z.enum(ProductCategoryType),
-        parentId: z.uuid().optional(),
-      }),
+      onSubmit: categorySchema,
     },
     defaultValues: initialValues,
   });
@@ -34,7 +32,7 @@ export default function UpdateCategoryForm({
       onError={() => event.error('Failed to create category')}
     >
       <div data-testid="id">
-        <FormField.Text name="id" className="h-0" />
+        <FormField.Text name="id" className="hidden" />
       </div>
       <div className="space-y-6">
         <div className="w-full" data-testid="designation">

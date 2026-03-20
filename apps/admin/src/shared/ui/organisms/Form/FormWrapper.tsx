@@ -2,79 +2,45 @@
 
 import React from 'react';
 
-import type { FormBuilderProps, FormActionResult } from './types';
-import { ZodSchema } from 'zod';
+import type { FormBuilderProps } from './types';
+import z from 'zod';
 import { useAppForm } from './form-config';
 import { FormContext } from './use-form-context';
-import { initialFormState, useTransform, mergeForm } from '@tanstack/react-form-nextjs';
-import { Result } from '@/shared/api';
+import { ApiError } from '@/shared/api';
 
-export function FormWrapper<TResult = Promise<Result<void>>, TSchema extends ZodSchema<any> = any>(
+function getErrorMessage(error: ApiError | string | undefined): string {
+  if (!error) return "Echec de l'opération";
+  if (typeof error === 'string') return error;
+  return error.message ?? "Echec de l'opération";
+}
+
+export function FormWrapper<TResult = unknown, TSchema extends z.ZodType<any> = any>(
   props: FormBuilderProps<TSchema, any, TResult>
 ) {
-  const [state, action] = React.useActionState(props.serverAction, initialFormState);
-
-  // Track previous state to detect changes
-  const prevActionIdRef = React.useRef(0);
-  const currentActionId = React.useMemo(() => {
-    // Increment action ID when state changes (after form submission)
-    if (state && typeof state === 'object' && !Array.isArray(state)) {
-      return prevActionIdRef.current + 1;
-    }
-    return prevActionIdRef.current;
-  }, [state]);
-
-  // Handle success/error callbacks when state changes
-  React.useEffect(() => {
-    if (!state || currentActionId === prevActionIdRef.current) return;
-
-    prevActionIdRef.current = currentActionId;
-
-    // Check if state has a result structure
-    if (typeof state === 'object' && state !== null) {
-      // Check for server action result
-      if ('success' in state) {
-        if (!state.success) {
-          props.onError?.({
-            message: 'error' in state ? (state.error as string) : "Echec de l'opération",
-            errors: 'errors' in state ? (state.errors as any[]) : undefined,
-          });
-          return;
-        }
-
-        // Check for success data
-        if (state.success) {
-          props.onSuccess?.('data' in state ? (state.data as TResult) : undefined);
-          return;
-        }
-      }
-
-      // // If state is the result directly (no error property), treat as success
-      // if (!('error' in state)) {
-      //   // The entire state might be the result (e.g., { id: '123' })
-      //   props.onSuccess?.(state as TResult);
-      // }
-    }
-  }, [state]);
-
   const form = useAppForm({
     ...props.formOptions,
-    onSubmit: async ({ value }) => props.onSubmit?.(value),
-    transform: useTransform((baseForm) => mergeForm(baseForm, state!), [state]) as any,
+    onSubmit: async ({ value }) => {
+      console.log('SUBMITTED', { value });
+      const result = await props.serverAction(value);
+
+      if (result?.success) {
+        props.onSuccess?.('data' in result ? (result.data as TResult) : undefined);
+      } else {
+        props.onError?.({
+          message: getErrorMessage(result?.error),
+          errors: result?.errors,
+        });
+      }
+    },
   });
 
   return (
     <FormContext value={form as any}>
       <form
-        action={action}
         onSubmit={(evt) => {
-          console.log(form.state);
-
-          if (!form.state.isFormValid) {
-            evt.preventDefault();
-            return;
-          }
-          form.handleSubmit().catch((error) => console.error(error));
+          console.log({ evt });
+          evt.preventDefault();
+          form.handleSubmit();
         }}
       >
         <form.AppForm>{props.children}</form.AppForm>
