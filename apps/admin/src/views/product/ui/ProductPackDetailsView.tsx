@@ -1,11 +1,20 @@
 'use client';
 
 import { ProductPackage, ProductPackageItem } from '@/entities/product';
-import { AppImage, Badge, Button, Card, PriceDisplay, DateDisplay, Divider } from '@/shared/ui';
+import {
+  AppImage,
+  Badge,
+  Button,
+  Card,
+  PriceDisplay,
+  DateDisplay,
+  Divider,
+  DeleteConfirmationModal,
+} from '@/shared/ui';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiDeleteBinLine, RiPencilLine, RiBox1Line } from '@remixicon/react';
 import { removeProductPackItemAction, deleteProductPackAction } from '@/features/products';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { routePaths } from '@/shared/routes';
 
@@ -13,6 +22,15 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
   const { openPanel } = useRightPanel();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [deleteModal, setDeleteModal] = useState<{
+    handle: any;
+    isOpen: boolean;
+    message: any;
+  }>({
+    isOpen: false,
+    handle: null,
+    message: null,
+  });
 
   const handleEdit = () => {
     openPanel('PRODUCT_PACKAGE_FORM', {
@@ -32,23 +50,25 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
   };
 
   const handleDeleteItem = (item: ProductPackageItem) => {
-    if (confirm(`Supprimer "${item.productName}" du package ?`)) {
-      startTransition(async () => {
-        await removeProductPackItemAction(item.id);
-        router.refresh();
-      });
-    }
+    startTransition(async () => {
+      await removeProductPackItemAction(item.id);
+      setDeleteModal((prevState) => ({ ...prevState, isOpen: false }));
+      router.refresh();
+    });
   };
 
+  // const handleDelete = React.useCallback(async () => {
+  //   const result = await deleteServiceAction(service.id);
+  //   setIsModalOpen(result.success);
+  // }, [service.id, setIsModalOpen]);
+
   const handleDeletePackage = () => {
-    if (confirm('Supprimer ce package ? Cette action est irréversible.')) {
-      startTransition(async () => {
-        const result = await deleteProductPackAction(productPackage.id);
-        if (result.success) {
-          router.push(routePaths.PRODUCTS_PACKAGES);
-        }
-      });
-    }
+    startTransition(async () => {
+      const result = await deleteProductPackAction(productPackage.id);
+      if (result.success) {
+        router.push(routePaths.PRODUCTS_PACKAGES);
+      }
+    });
   };
 
   return (
@@ -71,7 +91,13 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
             </Button>
             <Button
               variant="destructive"
-              onClick={handleDeletePackage}
+              onClick={() =>
+                setDeleteModal((prevState) => ({
+                  isOpen: !prevState.isOpen,
+                  handle: handleDeletePackage,
+                  message: 'Supprimer ce package ? Cette action est irréversible.',
+                }))
+              }
               className="gap-x-2"
               disabled={isPending}
             >
@@ -184,7 +210,13 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
                       </div>
                       <Button
                         variant="ghost"
-                        onClick={() => handleDeleteItem(item)}
+                        onClick={() =>
+                          setDeleteModal((prevState) => ({
+                            isOpen: !prevState.isOpen,
+                            handle: () => handleDeleteItem(item),
+                            message: `Supprimer "${item.productName}" du package ?`,
+                          }))
+                        }
                         className="text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
                         disabled={isPending}
                       >
@@ -244,6 +276,15 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
           </div>
         </div>
       </main>
+      <DeleteConfirmationModal
+        loading={isPending}
+        open={deleteModal.isOpen}
+        content={<p className="text-center">{deleteModal.message}</p>}
+        onConfirm={deleteModal.handle}
+        onOpenChange={() =>
+          setDeleteModal((prevState) => ({ ...prevState, isOpen: !prevState.isOpen }))
+        }
+      />
     </DesktopPageContainer>
   );
 }

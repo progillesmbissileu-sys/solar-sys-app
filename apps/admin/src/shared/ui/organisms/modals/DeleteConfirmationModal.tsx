@@ -7,6 +7,7 @@ export const DeleteConfirmationModal = (props: {
   content: React.ReactNode;
   onConfirm: any;
   onOpenChange: (open: boolean) => void;
+  loading?: boolean;
 }) => {
   return (
     <>
@@ -32,7 +33,12 @@ export const DeleteConfirmationModal = (props: {
               >
                 Annuler
               </Button>
-              <Button variant="destructive" className="w-full" onClick={props.onConfirm}>
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={props.onConfirm}
+                isLoading={props.loading}
+              >
                 Confirmer
               </Button>
             </div>
