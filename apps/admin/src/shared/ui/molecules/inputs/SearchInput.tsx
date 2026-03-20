@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverAnchor } from '../../atoms/Popover';
 import { cx } from '@/shared/lib/utils';
 import { RiLoader2Line, RiSearchLine } from '@remixicon/react';
 import { CollectionResponseType, Result } from '@/shared/api';
+import { se } from 'date-fns/locale';
 
 export type SearchInputOption = {
   label: string;
@@ -94,6 +95,12 @@ export function SearchInput({
       setLoading(false);
     }
   };
+
+  React.useEffect(() => {
+    if (options.length > 0 && !inputValue) {
+      setInputValue(options.find((option) => option.value === selectedValue)?.label ?? '');
+    }
+  }, [options]);
 
   React.useEffect(() => {
     (async () => {

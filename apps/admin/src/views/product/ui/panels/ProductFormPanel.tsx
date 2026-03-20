@@ -10,7 +10,7 @@ export type ProductFormPanelProps = {
 };
 
 export function ProductFormPanel({ panelProps }: PanelComponentProps) {
-  const { categories, initialValues } = (panelProps || {}) as ProductFormPanelProps;
+  const { initialValues } = (panelProps || {}) as ProductFormPanelProps;
 
-  return <ProductForm categories={categories || []} initialValues={initialValues as any} />;
+  return <ProductForm initialValues={initialValues as any} />;
 }

@@ -1,7 +1,6 @@
 //UI
 export { default as ProductForm } from './ui/forms/ProductForm';
 export { default as ProductPackageForm } from './ui/forms/ProductPackageForm';
-export { default as ProductUpdateForm } from './ui/forms/ProductUpdateForm';
 export { default as UpdateCategoryForm } from './ui/forms/ProductCategoryForm';
 
 //MODEL

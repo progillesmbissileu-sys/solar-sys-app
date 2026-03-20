@@ -3,13 +3,15 @@
 import { formOptions } from '@tanstack/react-form';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
-import { ProductFormValues, createProductSchema } from '../../model/product-form-schemas';
+import { createProductSchema, updateProductSchema } from '../../model/product-form-schemas';
 import { createProductAction } from '../../lib/create-product-action';
+import { updateProductAction } from '../../lib/update-product-action';
 import { useEvents } from '@repo/ui/event-provider';
 import { getCategoriesAction } from '../../lib/category-collection-action';
+import z from 'zod';
 
 type ProductFormProps = {
-  initialValues?: Partial<ProductFormValues>;
+  initialValues?: Partial<z.infer<typeof updateProductSchema>>;
 };
 
 export default function ProductForm({ initialValues }: ProductFormProps) {
@@ -17,7 +19,7 @@ export default function ProductForm({ initialValues }: ProductFormProps) {
 
   const formOpts = formOptions({
     validators: {
-      onSubmit: createProductSchema,
+      onSubmit: initialValues?.id ? updateProductSchema : createProductSchema,
     },
     defaultValues: initialValues,
   });
@@ -25,9 +27,19 @@ export default function ProductForm({ initialValues }: ProductFormProps) {
   return (
     <FormWrapper
       formOptions={formOpts}
-      serverAction={createProductAction}
-      onSuccess={() => event.success('Product created successfully')}
-      onError={() => event.error('Failed to create product')}
+      serverAction={initialValues?.id ? updateProductAction : createProductAction}
+      onSuccess={() =>
+        event.success(
+          !initialValues?.id ? 'Product ajoute avec succes' : 'Product modifie avec succes'
+        )
+      }
+      onError={() =>
+        event.error(
+          !initialValues?.id
+            ? 'Echec de la creation du produit'
+            : 'Echec de la modification du produit'
+        )
+      }
     >
       {/* hidden id for update */}
       <div data-testid="id">
@@ -62,30 +74,30 @@ export default function ProductForm({ initialValues }: ProductFormProps) {
           <FormField.Textarea name="description" placeholder="common.description" />
         </div>
 
-        <div className="space-y-3">
-          <div className="w-full" data-testid="picture">
-            <FormField.ImageField
-              label="common.pictures"
-              name="images"
-              maxFiles={3}
-              multiple={true}
-              // disabled={isResolvingImageId}
-              // defaultValue={imageItems}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div data-testid="picture-title">
-              <FormField.Text
-                name="pictureTitle"
-                placeholder="common.title"
-                inputClassName="!h-12"
+        {!initialValues?.id && (
+          <div className="space-y-3">
+            <div className="w-full" data-testid="picture">
+              <FormField.ImageField
+                label="common.pictures"
+                name="images"
+                maxFiles={3}
+                multiple={true}
               />
             </div>
-            <div data-testid="picture-alt">
-              <FormField.Text name="pictureAlt" placeholder="common.alt" inputClassName="!h-12" />
+            <div className="grid grid-cols-2 gap-3">
+              <div data-testid="picture-title">
+                <FormField.Text
+                  name="pictureTitle"
+                  placeholder="common.title"
+                  inputClassName="!h-12"
+                />
+              </div>
+              <div data-testid="picture-alt">
+                <FormField.Text name="pictureAlt" placeholder="common.alt" inputClassName="!h-12" />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="w-full" data-testid="brand">
           <FormField.Text name="brand" placeholder="common.brand" inputClassName="!h-12" />

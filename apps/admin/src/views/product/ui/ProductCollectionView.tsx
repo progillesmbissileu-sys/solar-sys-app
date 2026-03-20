@@ -1,12 +1,11 @@
 'use client';
 
-import { ProductCategory, ProductPreview } from '@/entities/product';
+import { ProductPreview } from '@/entities/product';
 import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
 import { CollectionResponseType, Result } from '@/shared/api';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
-import { use } from 'react';
 import { useRouter } from 'next/navigation';
 
 export function ProductCollectionView({
