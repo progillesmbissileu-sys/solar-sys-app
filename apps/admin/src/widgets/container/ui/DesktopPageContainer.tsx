@@ -1,33 +1,25 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { useBreadcrumbs } from '../lib/use-breadcrumbs';
-import { PageContainerProps } from './types';
-import { useRightPanelStore } from '../model/right-panel-store';
-import { cx } from '@/shared/lib/utils';
 import { XIcon } from 'lucide-react';
-import { useSidebar } from '@/shared/lib';
+import { useEffect, useRef, useState } from 'react';
+
+import { cx } from '@/shared/lib/utils';
+
+import { useBreadcrumbs } from '../lib/use-breadcrumbs';
+import { useRightPanel } from '../lib/use-right-panel';
+import { useRightPanelStore } from '../model/right-panel-store';
 import { RightPanelContent } from './RigthPanelComponent';
+import { PageContainerProps } from './types';
 
 const RIGHT_PANEL_WIDTH = '24rem';
 const TRANSITION_DURATION = 300; // ms
 
-function DesktopPageContainerInner({
-  children,
-  breadcrumbs,
-  pageHeader,
-  tabs,
-  defaultTab,
-}: PageContainerProps) {
+function DesktopPageContainerInner({ children, breadcrumbs, pageHeader }: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
-  const rightPanelOpen = useRightPanelStore((state) => state.open);
-  const closePanel = useRightPanelStore((state) => state.closePanel);
+  const { rightPanelOpen, closePanel, panelProps } = useRightPanel();
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const sidebar = useSidebar();
-
-  const panelProps = useRightPanelStore((state) => state.panelProps);
 
   useEffect(() => {
     if (breadcrumbs) {
@@ -62,17 +54,20 @@ function DesktopPageContainerInner({
     }
 
     return () => {
+      setIsVisible(false);
+
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
       }
-      // closePanel();
     };
   }, [rightPanelOpen, shouldRender]);
 
   return (
     <div className="relative flex h-full w-full overflow-hidden">
       <div
-        style={{ marginRight: isVisible ? panelProps?.width || RIGHT_PANEL_WIDTH : 0 }}
+        style={{
+          marginRight: isVisible && rightPanelOpen ? (panelProps?.width ?? RIGHT_PANEL_WIDTH) : 0,
+        }}
         className={cx(
           'flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out'
         )}
@@ -93,7 +88,7 @@ function DesktopPageContainerInner({
         className={cx(
           'absolute right-0 top-0 h-full overflow-hidden border-l bg-white shadow-lg dark:bg-dark',
           'transition-transform duration-300 ease-in-out',
-          isVisible ? 'translate-x-0' : 'translate-x-full'
+          isVisible && rightPanelOpen ? 'translate-x-0' : 'translate-x-full'
         )}
         style={{ width: panelProps?.width || RIGHT_PANEL_WIDTH }}
       >
@@ -106,10 +101,7 @@ function DesktopPageContainerInner({
                 </h1>
                 <button
                   className="rounded-md border border-zinc-300 p-2 dark:border-zinc-700 dark:bg-dark dark:text-white"
-                  onClick={() => {
-                    closePanel();
-                    sidebar.setOpen(true);
-                  }}
+                  onClick={() => closePanel()}
                 >
                   <XIcon className="h-4 w-4" />
                 </button>
