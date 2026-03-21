@@ -1,11 +1,12 @@
 'use client';
 
-import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import * as React from 'react';
+
 import type { MarketService } from '@/entities/market-service';
-import { useRightPanel } from '@/widgets/container';
 import { replaceServiceThumbnailAction } from '@/features/market-services';
 import { deleteServiceAction } from '@/features/market-services/lib/delete-service-action';
+import { useRightPanel } from '@/widgets/container';
 
 type MarketServiceDetailsControllerState = {
   isUploading: boolean;

@@ -1,28 +1,30 @@
 'use client';
 
+import {
+  RiCalendarLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiPriceTag3Line,
+  RiStockLine,
+  RiStore2Line,
+} from '@remixicon/react';
+import { PlusIcon } from 'lucide-react';
+
 import type { Product } from '@/entities/product';
+import { routePaths } from '@/shared/routes';
 import {
   AppImage,
   Badge,
   Button,
   Card,
-  PriceDisplay,
   DateDisplay,
-  Divider,
   DeleteConfirmationModal,
+  Divider,
+  PriceDisplay,
   UploadImageModal,
 } from '@/shared/ui';
-import {
-  RiStockLine,
-  RiPriceTag3Line,
-  RiStore2Line,
-  RiCalendarLine,
-  RiDeleteBinLine,
-  RiPencilLine,
-} from '@remixicon/react';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
-import { routePaths } from '@/shared/routes';
-import { PlusIcon } from 'lucide-react';
+
 import { useProductDetailsController } from '../lib/use-product-controller';
 
 export function ProductDetailsView({ product }: { product: Product }) {

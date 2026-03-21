@@ -1,8 +1,8 @@
 import {
-  AxiosRequestConfig,
   AxiosInterceptorOptions,
-  InternalAxiosRequestConfig,
+  AxiosRequestConfig,
   AxiosResponse,
+  InternalAxiosRequestConfig,
 } from 'axios';
 
 /**

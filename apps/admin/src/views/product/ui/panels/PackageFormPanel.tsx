@@ -1,8 +1,8 @@
 'use client';
 
-import { PanelComponentProps } from '@/widgets/container';
 import { Product } from '@/entities/product';
 import { ProductPackageForm } from '@/features/products';
+import { PanelComponentProps } from '@/widgets/container';
 
 export type ProductPackageFormPanelProps = {
   initialValues?: Partial<Product>;

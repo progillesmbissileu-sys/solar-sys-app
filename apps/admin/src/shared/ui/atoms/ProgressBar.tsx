@@ -107,4 +107,4 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
 
 ProgressBar.displayName = 'ProgressBar';
 
-export { ProgressBar, progressBarVariants, type ProgressBarProps };
+export { ProgressBar, type ProgressBarProps,progressBarVariants };

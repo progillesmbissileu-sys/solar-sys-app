@@ -1,12 +1,13 @@
 'use client';
 
 import { formOptions } from '@tanstack/react-form';
+import z from 'zod';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
-import z from 'zod';
-import { createServiceSchema, updateServiceSchema } from '../model/form-schemas';
+
 import { createServiceAction } from '../lib/create-service-action';
 import { updateServiceAction } from '../lib/update-service-action';
+import { createServiceSchema, updateServiceSchema } from '../model/form-schemas';
 
 export default function MarketServiceForm({
   initialValues,

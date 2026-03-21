@@ -2,6 +2,7 @@
 
 import { chartColors, getColorClassName } from '@/shared/lib/chartUtils';
 import { cx, formatters } from '@/shared/lib/utils';
+
 import { TooltipProps } from '../atoms/BarChart';
 import { TooltipProps as TooltipComboBarChartProps } from './ComboChart';
 

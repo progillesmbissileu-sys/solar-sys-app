@@ -1,7 +1,8 @@
 "use client";
 
-import { Checkbox } from '../../atoms/Checkbox';
 import { CheckboxProps } from '@radix-ui/react-checkbox';
+
+import { Checkbox } from '../../atoms/Checkbox';
 
 export type CheckboxInputProps = CheckboxProps;
 

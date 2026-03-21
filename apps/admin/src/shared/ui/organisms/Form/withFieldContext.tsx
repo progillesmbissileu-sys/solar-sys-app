@@ -1,9 +1,11 @@
 'use client';
 
-import { cx } from '@/shared/lib/utils';
-import { useFieldContext } from './form-config';
-import { Label } from '../../atoms/Label';
 import React from 'react';
+
+import { cx } from '@/shared/lib/utils';
+
+import { Label } from '../../atoms/Label';
+import { useFieldContext } from './form-config';
 
 type WithFormFieldProps = {
   name: string;

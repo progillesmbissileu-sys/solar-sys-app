@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { LayoutContext } from '../model';
 import { createJSONStorage, persist } from 'zustand/middleware';
+
+import { LayoutContext } from '../model';
 
 export const useLayoutStore = create<LayoutContext>()(
   persist(

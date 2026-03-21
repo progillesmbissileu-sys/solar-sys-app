@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosInterceptorOptions, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosInterceptorOptions, AxiosResponse,InternalAxiosRequestConfig } from 'axios';
+
 import { InterceptorManager } from './types';
 
 /**

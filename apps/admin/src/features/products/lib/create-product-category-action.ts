@@ -1,9 +1,11 @@
 'use server';
 
-import { routePaths } from '@/shared/routes';
 import { revalidatePath } from 'next/cache';
-import { createCategory } from '@/entities/product';
 import z from 'zod';
+
+import { createCategory } from '@/entities/product';
+import { routePaths } from '@/shared/routes';
+
 import { categorySchema } from '../ui/forms/ProductCategoryForm';
 
 export const createProductCategoryAction = async (payload: z.infer<typeof categorySchema>) => {

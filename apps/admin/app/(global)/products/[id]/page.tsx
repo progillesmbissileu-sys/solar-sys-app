@@ -1,7 +1,8 @@
 import { getProduct } from '@/entities/product';
-import { AppRouterProps } from '../../../_lib';
-import { ProductDetailsView } from '@/views/product';
 import { FailedRequestDisplay } from '@/shared/ui';
+import { ProductDetailsView } from '@/views/product';
+
+import { AppRouterProps } from '../../../_lib';
 
 export default async function Page({ params }: AppRouterProps) {
   const { id } = await params;

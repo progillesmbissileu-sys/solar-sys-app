@@ -1,4 +1,5 @@
 import { Trash2Icon } from 'lucide-react';
+
 import { Button } from '../../atoms/Button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../../atoms/Dialog';
 

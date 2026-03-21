@@ -1,9 +1,10 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { callActionWithIdSafe } from '@/shared/api';
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
-import { revalidatePath } from 'next/cache';
 
 export const addProductImageAction = async (
   image: { file: File[]; alt?: string; title?: string },

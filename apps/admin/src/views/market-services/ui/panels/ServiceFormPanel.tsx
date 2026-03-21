@@ -1,8 +1,8 @@
 'use client';
 
-import { PanelComponentProps } from '@/widgets/container';
-import { MarketServiceForm } from '@/features/market-services';
 import { MarketService } from '@/entities/market-service';
+import { MarketServiceForm } from '@/features/market-services';
+import { PanelComponentProps } from '@/widgets/container';
 
 export type FormPanelProps = {
   initialValues?: Partial<MarketService>;

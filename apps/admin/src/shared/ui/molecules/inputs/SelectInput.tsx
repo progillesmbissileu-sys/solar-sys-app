@@ -1,6 +1,9 @@
 "use client";
 
 import { SelectProps } from '@radix-ui/react-select';
+
+import { cx } from '@/shared/lib/utils';
+
 import {
   Select,
   SelectContent,
@@ -8,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../atoms/Select';
-import { cx } from '@/shared/lib/utils';
 
 export type SelectInputProps = SelectProps & {
   onChange?: (value: string) => void;

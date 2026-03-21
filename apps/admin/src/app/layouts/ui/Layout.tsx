@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
-import { AppSidebar } from './AppSidebar';
+
 import { Breadcrumbs, SidebarTrigger } from '@/shared/ui';
+
+import { AppSidebar } from './AppSidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,6 +1,6 @@
 import { productPackCollection } from '@/entities/product';
-import { ProductPackCollectionView } from '@/views/product';
 import { FailedRequestDisplay } from '@/shared/ui';
+import { ProductPackCollectionView } from '@/views/product';
 
 export default async function Page({ searchParams }: { searchParams: any }) {
   const query = await searchParams;

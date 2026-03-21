@@ -5,13 +5,14 @@ import {
   mutation,
   mutationWithId,
 } from '@/shared/api';
-import { ProductCategory } from '../model/product-category';
+
 import {
   CreateProductPayload,
   Product,
   ProductPreview,
   UpdateProductPayload,
 } from '../model/product';
+import { ProductCategory } from '../model/product-category';
 import { CreateCategoryPayload, UpdateCategoryPayload } from '../model/product-category';
 
 export const productCollection = callActionSafe<CollectionResponseType<ProductPreview>>(

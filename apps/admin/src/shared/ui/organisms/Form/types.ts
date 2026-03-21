@@ -1,6 +1,7 @@
+import { FormOptions } from '@tanstack/react-form';
 import React, { ReactNode } from 'react';
 import { ZodSchema } from 'zod';
-import { FormOptions } from '@tanstack/react-form';
+
 import { ApiError } from '@/shared/api';
 
 export type InputType =

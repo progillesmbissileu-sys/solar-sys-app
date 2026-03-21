@@ -2,10 +2,11 @@
 
 // Tremor Button [v0.2.0]
 
-import React from 'react';
 import './Button.css';
+
 import { Slot } from '@radix-ui/react-slot';
 import { RiLoader2Fill } from '@remixicon/react';
+import React from 'react';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 import { cx, focusRing } from '@/shared/lib/utils';
@@ -141,4 +142,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-export { Button, buttonVariants, type ButtonProps };
+export { Button, type ButtonProps,buttonVariants };

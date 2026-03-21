@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
-import { Popover, PopoverContent, PopoverAnchor } from '../../atoms/Popover';
-import { cx } from '@/shared/lib/utils';
 import { RiLoader2Line, RiSearchLine } from '@remixicon/react';
-import { CollectionResponseType, Result } from '@/shared/api';
 import { se } from 'date-fns/locale';
+import React from 'react';
+
+import { CollectionResponseType, Result } from '@/shared/api';
+import { cx } from '@/shared/lib/utils';
+
+import { Popover, PopoverAnchor,PopoverContent } from '../../atoms/Popover';
 
 export type SearchInputOption = {
   label: string;

@@ -2,8 +2,8 @@
 
 // Tremor Input [v1.0.5]
 
-import React from 'react';
 import { RiEyeFill, RiEyeOffFill, RiSearchLine } from '@remixicon/react';
+import React from 'react';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 import { cx, focusInput, focusRing, hasErrorInput } from '@/shared/lib/utils';
@@ -129,4 +129,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-export { Input, inputStyles, type InputProps };
+export { Input, type InputProps,inputStyles };

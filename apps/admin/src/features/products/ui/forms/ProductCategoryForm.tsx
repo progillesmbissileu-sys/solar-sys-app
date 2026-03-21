@@ -1,11 +1,13 @@
 'use client';
 
-import { FormField, FormWrapper, FormComponent, parseEnumOptions } from '@/shared/ui';
+import { useEvents } from '@repo/core';
 import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
+
 import { ProductCategoryType } from '@/entities/product';
+import { FormComponent, FormField, FormWrapper, parseEnumOptions } from '@/shared/ui';
+
 import { createProductCategoryAction } from '../../lib/create-product-category-action';
-import { useEvents } from '@repo/core';
 
 export const categorySchema = z.object({
   id: z.uuid().optional(),

@@ -2,7 +2,6 @@
 
 'use client';
 
-import * as React from 'react';
 import * as DropdownMenuPrimitives from '@radix-ui/react-dropdown-menu';
 import {
   RiArrowRightSLine,
@@ -10,6 +9,7 @@ import {
   RiCheckLine,
   RiRadioButtonFill,
 } from '@remixicon/react';
+import * as React from 'react';
 
 import { cx } from '@/shared/lib/utils';
 
@@ -335,17 +335,17 @@ DropdownMenuIconWrapper.displayName = 'DropdownMenuIconWrapper';
 
 export {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuSubMenuTrigger,
-  DropdownMenuSubMenu,
-  DropdownMenuSubMenuContent,
-  DropdownMenuGroup,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuIconWrapper,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuIconWrapper,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSubMenu,
+  DropdownMenuSubMenuContent,
+  DropdownMenuSubMenuTrigger,
+  DropdownMenuTrigger,
 };

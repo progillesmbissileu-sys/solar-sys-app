@@ -1,11 +1,13 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+import z from 'zod';
+
+import { createProduct, CreateProductPayload } from '@/entities/product';
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
-import { createProduct, CreateProductPayload } from '@/entities/product';
-import { revalidatePath } from 'next/cache';
+
 import { createProductSchema } from '../model/product-form-schemas';
-import z from 'zod';
 
 export const createProductAction = async (payload: z.infer<typeof createProductSchema>) => {
   const images = payload.images;

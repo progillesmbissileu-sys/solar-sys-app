@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
-import { RetryConfig, DEFAULT_RETRY_CONFIG } from './types';
+
+import { DEFAULT_RETRY_CONFIG,RetryConfig } from './types';
 
 /**
  * Calculates the delay before the next retry attempt

@@ -6,9 +6,9 @@ import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react';
 import React from 'react';
 import {
   Bar,
+  BarChart as RechartsBarChart,
   CartesianGrid,
   Label,
-  BarChart as RechartsBarChart,
   Legend as RechartsLegend,
   ResponsiveContainer,
   Tooltip,

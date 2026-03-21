@@ -1,5 +1,11 @@
 'use client';
 
+import { RiArrowDownSFill } from '@remixicon/react';
+import Image from 'next/image';
+import * as React from 'react';
+
+import { companyConfig } from '@/shared/config';
+import { cx, focusRing } from '@/shared/lib/utils';
 import {
   Divider,
   Input,
@@ -16,16 +22,12 @@ import {
   SidebarSubLink,
   UserProfile,
 } from '@/shared/ui';
-import { cx, focusRing } from '@/shared/lib/utils';
-import { RiArrowDownSFill } from '@remixicon/react';
-import * as React from 'react';
-import { companyConfig } from '@/shared/config';
-import Image from 'next/image';
-import { useLayout } from '../lib/use-layout';
-import { locationModuleConfig } from '@/views/location';
 import { dashboardModuleConfig } from '@/views/dashboard';
-import { productModuleConfig } from '@/views/product';
+import { locationModuleConfig } from '@/views/location';
 import { marketServiceModuleConfig } from '@/views/market-services';
+import { productModuleConfig } from '@/views/product';
+
+import { useLayout } from '../lib/use-layout';
 
 const navigation = [dashboardModuleConfig, locationModuleConfig];
 

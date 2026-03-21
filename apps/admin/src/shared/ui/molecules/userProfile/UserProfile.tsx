@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '../../atoms/Button';
-import { cx, focusRing } from '@/shared/lib/utils';
 import { ChevronsUpDown } from 'lucide-react';
 
+import { cx, focusRing } from '@/shared/lib/utils';
+
+import { Button } from '../../atoms/Button';
 import { DropdownUserProfile } from './DropdownUserProfile';
 
 export function UserProfile() {

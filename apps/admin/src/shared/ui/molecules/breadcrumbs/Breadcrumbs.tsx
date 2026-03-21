@@ -1,10 +1,11 @@
 'use client';
 
-import { cx } from '@/shared/lib/utils';
-import { useBreadcrumbs } from '@/widgets/container';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+
+import { cx } from '@/shared/lib/utils';
+import { useBreadcrumbs } from '@/widgets/container';
 
 export function Breadcrumbs() {
   const { breadcrumbs } = useBreadcrumbs('page-header');

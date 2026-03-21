@@ -1,10 +1,11 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { replaceServiceThumbnail } from '@/entities/market-service';
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { buildRoute } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
-import { revalidatePath } from 'next/cache';
 
 export async function replaceServiceThumbnailAction(serviceId: string, thumbnail: File) {
   const formData = new FormData();

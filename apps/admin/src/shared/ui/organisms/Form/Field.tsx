@@ -1,19 +1,19 @@
 'use client';
 
-import { WithFormBlockProps } from './types';
-import { useFormContext } from './use-form-context';
 import {
   CheckboxInputProps,
-  ImageUploadInputProps,
   ImageUploadFieldProps,
+  ImageUploadInputProps,
   MultiSearchInputProps,
   NumberInputProps,
   RichTextInputProps,
   SearchInputProps,
   SelectInputProps,
-  TextInputProps,
   TextareaInputProps,
+  TextInputProps,
 } from '../../molecules/inputs';
+import { WithFormBlockProps } from './types';
+import { useFormContext } from './use-form-context';
 
 function Text(props: TextInputProps & WithFormBlockProps) {
   const form = useFormContext();
@@ -88,16 +88,16 @@ function RichText(props: RichTextInputProps & WithFormBlockProps) {
 }
 
 export {
-  Text,
+  Checkbox,
+  Email,
+  ImageField,
+  ImageUploadInput,
+  MultiSearch,
   Number,
   Password,
-  Email,
-  Select,
-  Checkbox,
-  ImageUploadInput,
-  ImageField,
-  Textarea,
-  Search,
-  MultiSearch,
   RichText,
+  Search,
+  Select,
+  Text,
+  Textarea,
 };

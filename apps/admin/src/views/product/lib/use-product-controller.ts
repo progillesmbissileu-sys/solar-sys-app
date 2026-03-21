@@ -1,12 +1,13 @@
 'use client';
 
-import * as React from 'react';
+import { useEvents } from '@repo/core';
 import { useRouter } from 'next/navigation';
+import * as React from 'react';
+
 import type { Product, ProductImage } from '@/entities/product';
 import { MAX_PRODUCT_IMAGES } from '@/entities/product';
-import { deleteImageMediaAction } from '@/shared/lib';
 import { addProductImageAction } from '@/features/products';
-import { useEvents } from '@repo/core';
+import { deleteImageMediaAction } from '@/shared/lib';
 
 type DeleteModalState = {
   isOpen: boolean;

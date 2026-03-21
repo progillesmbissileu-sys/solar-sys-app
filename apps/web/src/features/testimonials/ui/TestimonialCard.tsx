@@ -1,6 +1,8 @@
 import React from 'react';
-import { TestimonialType } from '../model/TestimonialType';
+
 import { generateHundred } from '@/shared/lib';
+
+import { TestimonialType } from '../model/TestimonialType';
 
 export const TestimonialCard = (props: TestimonialType) => {
   const random = generateHundred();

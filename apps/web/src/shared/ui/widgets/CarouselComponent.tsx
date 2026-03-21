@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
-import { Options as CarouselConfigType } from '@splidejs/splide';
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
+import { Options as CarouselConfigType } from '@splidejs/splide';
+import React from 'react';
+
 import { useViewPort } from '@/shared/hooks/use-view-port';
 
 interface CarouselComponentProps<T> {

@@ -1,8 +1,9 @@
 'use client';
 
-import { routePaths } from '@/shared/routes';
 import { redirect, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
+import { routePaths } from '@/shared/routes';
 
 export default function Page() {
   const router = useRouter();

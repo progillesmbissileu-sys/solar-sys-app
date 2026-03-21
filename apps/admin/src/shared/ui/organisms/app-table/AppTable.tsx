@@ -1,5 +1,7 @@
 'use client';
 
+import { Fragment } from 'react';
+
 import {
   Table,
   TableBody,
@@ -9,9 +11,8 @@ import {
   TableRoot,
   TableRow,
 } from '../../atoms/Table';
-import { Fragment } from 'react';
-import { AppTableProps } from './types';
 import { extractRecordValue } from './helpers';
+import { AppTableProps } from './types';
 
 export function AppTable<T>({
   columns,

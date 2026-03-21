@@ -1,6 +1,6 @@
-import { PageContainer } from '@/widgets/layout/ui/PageContainer';
 import { ProductBrowserComponent } from '@/features/products';
 import { APP_ROUTES } from '@/shared/config/app-routes';
+import { PageContainer } from '@/widgets/layout/ui/PageContainer';
 
 export default function CatalogPage() {
   return (

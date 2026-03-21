@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
+import { ReactNode } from 'react';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

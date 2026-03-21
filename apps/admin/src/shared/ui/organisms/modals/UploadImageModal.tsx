@@ -1,8 +1,8 @@
 import { Button } from '../../atoms/Button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../../atoms/Dialog';
-import { FormWrapper } from '../form/FormWrapper';
-import * as Field from '../form/Field';
 import { SubmitButton } from '../form/Component';
+import * as Field from '../form/Field';
+import { FormWrapper } from '../form/FormWrapper';
 
 export const UploadImageModal = (props: {
   open: boolean;

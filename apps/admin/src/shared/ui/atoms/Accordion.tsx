@@ -2,9 +2,9 @@
 
 // Tremor Accordion [v0.0.1]
 
-import React from 'react';
 import * as AccordionPrimitives from '@radix-ui/react-accordion';
 import { RiArrowDownSLine } from '@remixicon/react';
+import React from 'react';
 
 import { cx } from '@/shared/lib/utils';
 

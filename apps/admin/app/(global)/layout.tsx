@@ -1,8 +1,8 @@
-import { AppContextProvider } from '@/app/entrypoint/provider';
-import { callActionSafe } from '@/shared/api';
-
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+import { AppContextProvider } from '@/app/entrypoint/provider';
+import { callActionSafe } from '@/shared/api';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();

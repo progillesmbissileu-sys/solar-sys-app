@@ -1,7 +1,9 @@
 import React from 'react';
-import { CollectionFilterType } from './types';
-import { AppCollapsible } from '../../core/AppCollpasible/AppCollapsible';
+
 import { Checkbox } from '@/shared/ui/core/checkbox';
+
+import { AppCollapsible } from '../../core/AppCollpasible/AppCollapsible';
+import { CollectionFilterType } from './types';
 
 export const CollectionFilterGroup = (props: CollectionFilterType & { defaultOpen?: boolean }) => {
   return (

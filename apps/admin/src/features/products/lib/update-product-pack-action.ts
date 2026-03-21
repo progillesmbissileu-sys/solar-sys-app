@@ -1,10 +1,12 @@
 'use server';
 
-import { routePaths } from '@/shared/routes';
-import { updateProductPack } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
-import { updatePackFormSchema } from '../model/product-pack-form-schemas';
 import z from 'zod';
+
+import { updateProductPack } from '@/entities/product';
+import { routePaths } from '@/shared/routes';
+
+import { updatePackFormSchema } from '../model/product-pack-form-schemas';
 
 export const updateProductPackAction = async (payload: z.infer<typeof updatePackFormSchema>) => {
   const _payload = {

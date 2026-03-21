@@ -1,12 +1,13 @@
 'use client';
 
-import { ProductPreview } from '@/entities/product';
-import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
-import { CollectionManager } from '@/widgets/collection';
-import { CollectionResponseType, Result } from '@/shared/api';
-import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { RiBox1Line } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
+
+import { ProductPreview } from '@/entities/product';
+import { CollectionResponseType, Result } from '@/shared/api';
+import { AppImage, Button, DateDisplay, Label, PriceDisplay } from '@/shared/ui';
+import { CollectionManager } from '@/widgets/collection';
+import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 
 export function ProductCollectionView({
   collection,

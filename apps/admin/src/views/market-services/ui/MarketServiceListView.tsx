@@ -1,14 +1,15 @@
 'use client';
 
+import { RiBox1Line } from '@remixicon/react';
+import _ from 'lodash';
+
+import { MarketServiceCollectionItem } from '@/entities/market-service';
+import { CollectionResponseType } from '@/shared/api';
+import { useNavigator } from '@/shared/lib';
+import { routePaths } from '@/shared/routes';
 import { AppImage, Button, DateDisplay, Label } from '@/shared/ui';
 import { CollectionManager } from '@/widgets/collection';
-import { CollectionResponseType } from '@/shared/api';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
-import { RiBox1Line } from '@remixicon/react';
-import { MarketServiceCollectionItem } from '@/entities/market-service';
-import _ from 'lodash';
-import { routePaths } from '@/shared/routes';
-import { useNavigator } from '@/shared/lib';
 
 export function MarketServiceListView({
   collectionData: collection,

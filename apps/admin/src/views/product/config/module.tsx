@@ -1,9 +1,11 @@
+import { PackageSearch } from 'lucide-react';
+
 import { AppModuleConfig } from '@/shared/config';
 import { routePaths } from '@/shared/routes';
-import { PackageSearch } from 'lucide-react';
+
 import { CategoryFormPanel } from '../ui/panels/CategoryFormPanel';
-import { ProductFormPanel } from '../ui/panels/ProductFormPanel';
 import { ProductPackageFormPanel } from '../ui/panels/PackageFormPanel';
+import { ProductFormPanel } from '../ui/panels/ProductFormPanel';
 
 export const productModuleConfig: AppModuleConfig = {
   icon: PackageSearch,

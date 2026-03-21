@@ -1,8 +1,10 @@
-import type { Metadata } from 'next';
 import './globals.css';
 import '@splidejs/react-splide/css/core';
-import { AppLayout } from '@/widgets/layout';
+
 import { EventProvider } from '@repo/core';
+import type { Metadata } from 'next';
+
+import { AppLayout } from '@/widgets/layout';
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",

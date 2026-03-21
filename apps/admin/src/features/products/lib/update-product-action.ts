@@ -1,10 +1,12 @@
 'use server';
 
-import { routePaths } from '@/shared/routes';
 import { revalidatePath } from 'next/cache';
-import { updateProduct } from '@/entities/product/api/product';
-import { updateProductSchema } from '../model/product-form-schemas';
 import z from 'zod';
+
+import { updateProduct } from '@/entities/product/api/product';
+import { routePaths } from '@/shared/routes';
+
+import { updateProductSchema } from '../model/product-form-schemas';
 
 export const updateProductAction = async (payload: z.infer<typeof updateProductSchema>) => {
   const _payload = {

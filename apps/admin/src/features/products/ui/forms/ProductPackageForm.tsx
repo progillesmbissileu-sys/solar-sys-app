@@ -1,14 +1,15 @@
 'use client';
 
+import { useEvents } from '@repo/core';
 import { formOptions } from '@tanstack/react-form';
+import z from 'zod';
 
-import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { marketProductCollection } from '@/entities/product';
+import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
+
 import { createProductPackAction } from '../../lib/create-product-pack-action';
 import { updateProductPackAction } from '../../lib/update-product-pack-action';
 import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-form-schemas';
-import z from 'zod';
-import { useEvents } from '@repo/core';
 
 export default function ProductPackageForm({
   initialValues,

@@ -1,6 +1,8 @@
+import { PackageSearch } from 'lucide-react';
+
 import { AppModuleConfig } from '@/shared/config';
 import { routePaths } from '@/shared/routes';
-import { PackageSearch } from 'lucide-react';
+
 import { MarketServiceFormPanel } from '../ui/panels/ServiceFormPanel';
 
 export const marketServiceModuleConfig: AppModuleConfig = {

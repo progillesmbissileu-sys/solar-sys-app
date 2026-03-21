@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
-import { ProjectItemCard, ProjectItemType } from './ProjectItemCard';
-import { CarouselComponent } from '@/shared/ui/widgets/CarouselComponent';
+
 import { projects } from '@/shared/assets/data/projects';
+import { CarouselComponent } from '@/shared/ui/widgets/CarouselComponent';
+
+import { ProjectItemCard, ProjectItemType } from './ProjectItemCard';
 
 export function ProjectPreviewComponent(
   props: { previewList: ProjectItemType[] } = { previewList: projects }

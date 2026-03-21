@@ -5,9 +5,9 @@
 import React from 'react';
 import {
   Bar,
+  BarChart as RechartsBarChart,
   CartesianGrid,
   Label,
-  BarChart as RechartsBarChart,
   Legend as RechartsLegend,
   ResponsiveContainer,
   Tooltip,
@@ -629,4 +629,4 @@ const ConditionalBarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
 
 ConditionalBarChart.displayName = 'ConditionalBarChart';
 
-export { ConditionalBarChart, type BarChartEventProps, type TooltipProps };
+export { type BarChartEventProps, ConditionalBarChart, type TooltipProps };

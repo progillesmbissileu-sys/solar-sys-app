@@ -6,11 +6,11 @@ import React from 'react';
 import {
   Bar,
   CartesianGrid,
+  ComposedChart as RechartsComposedChart,
   Dot,
   Label,
-  Line,
-  ComposedChart as RechartsComposedChart,
   Legend as RechartsLegend,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,

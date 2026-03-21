@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
-import { ProductCard } from './ProductCard';
-import { ProductType } from '../model/ProductType';
+
 import { CarouselComponent } from '@/shared/ui/widgets/CarouselComponent';
+
+import { ProductType } from '../model/ProductType';
+import { ProductCard } from './ProductCard';
 
 export const ProductPreviewComponent = (props: { previewList: ProductType[]; path?: string }) => {
   return (

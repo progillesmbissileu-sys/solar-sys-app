@@ -1,7 +1,8 @@
 import { CalendarCheck, MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
-import { APP_ROUTES } from '@/shared/config/app-routes';
 import Link from 'next/link';
+
+import { APP_ROUTES } from '@/shared/config/app-routes';
 
 const menu = [
   {

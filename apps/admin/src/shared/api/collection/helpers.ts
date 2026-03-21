@@ -1,4 +1,4 @@
-import { CollectionQueryParams, SortItem, FilterParams } from './types';
+import { CollectionQueryParams, FilterParams,SortItem } from './types';
 
 export class CollectionHelpers {
   static paramsToQueryString(params?: CollectionQueryParams): string {

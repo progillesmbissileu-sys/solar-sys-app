@@ -7,9 +7,12 @@
     "build:web": "turbo run web#build",
     "dev:web": "turbo run web#dev",
     "dev:admin": "turbo run admin#dev",
-    "lint": "turbo run lint",
+    "start:web": "turbo run web#start",
+    "start:admin": "turbo run admin#start",
     "start:admin:prod": "turbo run admin#start",
     "start:web:prod": "turbo run web#start",
+    "lint:check": "turbo run lint",
+    "lint:fix": "turbo run lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },

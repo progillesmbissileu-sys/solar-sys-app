@@ -1,4 +1,10 @@
 import React from 'react';
+
+import { products } from '@/shared/assets/data/products';
+import { cn } from '@/shared/lib/utils';
+import AppPagination from '@/shared/ui/core/AppPagination';
+
+import { Input } from '../../core/input';
 import {
   Select,
   SelectContent,
@@ -7,12 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../core/select';
-import { Input } from '../../core/input';
-import { CollectionBrowserWidgetProps } from './types';
 import { CollectionFilterGroup } from './CollectionFilterGroup';
-import { cn } from '@/shared/lib/utils';
-import { products } from '@/shared/assets/data/products';
-import AppPagination from '@/shared/ui/core/AppPagination';
+import { CollectionBrowserWidgetProps } from './types';
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

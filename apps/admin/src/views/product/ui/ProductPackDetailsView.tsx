@@ -1,19 +1,21 @@
 'use client';
 
+import { RiBox1Line,RiDeleteBinLine, RiPencilLine } from '@remixicon/react';
+
 import { ProductPackage } from '@/entities/product';
+import { routePaths } from '@/shared/routes';
 import {
   AppImage,
   Badge,
   Button,
   Card,
-  PriceDisplay,
   DateDisplay,
-  Divider,
   DeleteConfirmationModal,
+  Divider,
+  PriceDisplay,
 } from '@/shared/ui';
 import { DesktopPageContainer } from '@/widgets/container';
-import { RiDeleteBinLine, RiPencilLine, RiBox1Line } from '@remixicon/react';
-import { routePaths } from '@/shared/routes';
+
 import { useProductPackDetailsController } from '../lib/use-product-pack-controller';
 
 export function ProductPackDetailsView({ productPackage }: { productPackage: ProductPackage }) {

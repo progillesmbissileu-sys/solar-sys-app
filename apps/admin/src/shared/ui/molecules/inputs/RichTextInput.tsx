@@ -1,38 +1,39 @@
 'use client';
 
-import { useEditor, EditorContent, type Editor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Placeholder from '@tiptap/extension-placeholder';
 import Heading from '@tiptap/extension-heading';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import Underline from '@tiptap/extension-underline';
+import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
-import React, { useEffect, useRef, useState } from 'react';
+import Underline from '@tiptap/extension-underline';
+import { type Editor,EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
   Bold,
-  Italic,
-  List,
-  ListOrdered,
   Code,
-  Quote,
-  Undo,
-  Redo,
-  Strikethrough,
   Heading1,
   Heading2,
   Heading3,
   Heading4,
   Heading5,
   ImageIcon,
+  Italic,
   Link as LinkIcon,
+  List,
+  ListOrdered,
+  Quote,
+  Redo,
+  Strikethrough,
   Underline as UnderlineIcon,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  AlignJustify,
+  Undo,
   Unlink,
 } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import { cx, focusInput, hasErrorInput } from '@/shared/lib/utils';
 
 export interface RichTextInputProps {

@@ -1,12 +1,13 @@
 'use client';
 
-import { SidebarProvider } from '@/shared/ui';
-import { PanelRegistryProvider } from '@/widgets/container';
-import { Layout } from '@/app/layouts';
-import { ThemeProvider } from 'next-themes';
-import { productModulePanels } from '@/views/product';
-import { marketServiceModulePanels } from '@/views/market-services';
 import { EventProvider } from '@repo/core';
+import { ThemeProvider } from 'next-themes';
+
+import { Layout } from '@/app/layouts';
+import { SidebarProvider } from '@/shared/ui';
+import { marketServiceModulePanels } from '@/views/market-services';
+import { productModulePanels } from '@/views/product';
+import { PanelRegistryProvider } from '@/widgets/container';
 
 export const rightPanelRegistry = {
   ...productModulePanels,

@@ -1,5 +1,5 @@
 import { env } from '@/shared/config';
-import { REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
+import { ACCESS_TOKEN_COOKIE_NAME,REFRESH_TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
 
 /**
  * Login function - call your API and store tokens in cookies
@@ -54,4 +54,4 @@ async function getRefreshToken(): Promise<string | null> {
   return token?.value || null;
 }
 
-export { getAccessToken, getRefreshToken, setAuthTokens, setAccessToken, setRefreshToken };
+export { getAccessToken, getRefreshToken, setAccessToken, setAuthTokens, setRefreshToken };

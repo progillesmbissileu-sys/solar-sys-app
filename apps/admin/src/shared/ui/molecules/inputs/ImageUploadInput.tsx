@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
 import { RiDeleteBinLine, RiImageAddLine, RiLoader2Fill } from '@remixicon/react';
-import { cx, focusRing } from '@/shared/lib/utils';
 import Image from 'next/image';
+import React from 'react';
+
+import { cx, focusRing } from '@/shared/lib/utils';
 
 export type ImageItem = File | string;
 

@@ -1,7 +1,8 @@
-import { callAction } from '@/shared/api';
-import { REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+
+import { callAction } from '@/shared/api';
+import { ACCESS_TOKEN_COOKIE_NAME,REFRESH_TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
 
 export async function DELETE() {
   const cookieStore = await cookies();

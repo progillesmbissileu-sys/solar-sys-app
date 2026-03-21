@@ -1,6 +1,9 @@
 'use client';
 
+import { RiDeleteBinLine, RiImageLine,RiPencilLine } from '@remixicon/react';
+
 import { MarketService } from '@/entities/market-service';
+import { routePaths } from '@/shared/routes';
 import {
   AppImage,
   Badge,
@@ -11,8 +14,7 @@ import {
   Divider,
 } from '@/shared/ui';
 import { DesktopPageContainer } from '@/widgets/container';
-import { RiDeleteBinLine, RiPencilLine, RiImageLine } from '@remixicon/react';
-import { routePaths } from '@/shared/routes';
+
 import { useMarketServiceDetailsController } from '../lib/useMarketServiceDetailsController';
 
 export function MarketServiceDetailsView({ service }: { service: MarketService }) {

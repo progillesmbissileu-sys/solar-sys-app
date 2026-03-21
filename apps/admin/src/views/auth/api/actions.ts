@@ -1,10 +1,11 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
+
 import { callActionSafe } from '@/shared/api';
 import { AuthTokens, setAuthTokens } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
 
 const loginSchema = z.object({ email: z.email(), password: z.string().min(6) });
 

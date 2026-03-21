@@ -1,7 +1,8 @@
-import { Fragment, ReactNode } from 'react';
-import Link from 'next/link';
-import { APP_ROUTES } from '@/shared/config/app-routes';
 import { ArrowRight, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { Fragment, ReactNode } from 'react';
+
+import { APP_ROUTES } from '@/shared/config/app-routes';
 
 export const PageContainer = ({ children }: { children: ReactNode }) => {
   return (

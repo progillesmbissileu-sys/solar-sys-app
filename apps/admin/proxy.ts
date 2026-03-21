@@ -1,6 +1,7 @@
-import { getAccessToken } from '@/shared/lib';
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+import { getAccessToken } from '@/shared/lib';
 
 export async function proxy(request: NextRequest) {
   const token = await getAccessToken();

@@ -1,4 +1,5 @@
 import { LoginView } from '@/views/auth';
+
 import { AppRouterProps } from '../../_lib';
 
 export default async function Page({ searchParams }: AppRouterProps) {

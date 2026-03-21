@@ -1,5 +1,6 @@
-import type { AppRoutePath } from '@/shared/routes';
 import React from 'react';
+
+import type { AppRoutePath } from '@/shared/routes';
 
 export type AppModuleConfig = {
   key: string;

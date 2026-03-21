@@ -1,7 +1,8 @@
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../collapsible';
-import React from 'react';
-import { Button } from '../button';
 import { Minus, Plus } from 'lucide-react';
+import React from 'react';
+
+import { Button } from '../button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../collapsible';
 
 export type AppCollapsibleProps = {
   label: React.ReactNode | string;

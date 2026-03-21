@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+
 import { useIsMobile } from '@/shared/lib/useMobile';
 import { cx } from '@/shared/lib/utils';
 

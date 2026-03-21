@@ -1,10 +1,11 @@
 'use client';
 
-import { AppTable } from '@/shared/ui';
-import type { ColumnType } from '@/shared/ui';
 import type { CollectionResponseType } from '@/shared/api';
-import { Controls, type FilterConfig } from './Controls';
 import { cx } from '@/shared/lib/utils';
+import type { ColumnType } from '@/shared/ui';
+import { AppTable } from '@/shared/ui';
+
+import { Controls, type FilterConfig } from './Controls';
 
 export type CollectionManagerProps<TData> = {
   collection: CollectionResponseType<TData>;

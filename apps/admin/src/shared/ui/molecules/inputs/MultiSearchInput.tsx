@@ -1,10 +1,12 @@
 // 'use client';
 
+import { RiCloseLine,RiLoader2Line, RiSearchLine } from '@remixicon/react';
 import React from 'react';
-import { Popover, PopoverContent, PopoverAnchor } from '../../atoms/Popover';
-import { cx } from '@/shared/lib/utils';
-import { RiLoader2Line, RiSearchLine, RiCloseLine } from '@remixicon/react';
+
 import { CollectionResponseType, Result } from '@/shared/api';
+import { cx } from '@/shared/lib/utils';
+
+import { Popover, PopoverAnchor,PopoverContent } from '../../atoms/Popover';
 
 export type MultiSearchInputOption = {
   label: string;

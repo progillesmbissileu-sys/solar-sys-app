@@ -1,14 +1,15 @@
 'use client';
 
+import { useEvents } from '@repo/core';
 import { formOptions } from '@tanstack/react-form';
+import z from 'zod';
 
 import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
-import { createProductSchema, updateProductSchema } from '../../model/product-form-schemas';
+
+import { getCategoriesAction } from '../../lib/category-collection-action';
 import { createProductAction } from '../../lib/create-product-action';
 import { updateProductAction } from '../../lib/update-product-action';
-import { useEvents } from '@repo/core';
-import { getCategoriesAction } from '../../lib/category-collection-action';
-import z from 'zod';
+import { createProductSchema, updateProductSchema } from '../../model/product-form-schemas';
 
 type ProductFormProps = {
   initialValues?: Partial<z.infer<typeof updateProductSchema>>;

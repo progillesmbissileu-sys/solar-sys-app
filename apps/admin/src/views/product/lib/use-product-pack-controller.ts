@@ -1,10 +1,11 @@
 'use client';
 
-import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import * as React from 'react';
+
 import type { ProductPackage, ProductPackageItem } from '@/entities/product';
+import { deleteProductPackAction,removeProductPackItemAction } from '@/features/products';
 import { routePaths } from '@/shared/routes';
-import { removeProductPackItemAction, deleteProductPackAction } from '@/features/products';
 import { useRightPanel } from '@/widgets/container';
 
 type DeleteModalState = {

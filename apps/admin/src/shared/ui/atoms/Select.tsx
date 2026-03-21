@@ -2,7 +2,6 @@
 
 // Tremor Select [v0.0.3]
 
-import React from 'react';
 import * as SelectPrimitives from '@radix-ui/react-select';
 import {
   RiArrowDownSLine,
@@ -10,6 +9,7 @@ import {
   RiCheckLine,
   RiExpandUpDownLine,
 } from '@remixicon/react';
+import React from 'react';
 
 import { cx, focusInput, hasErrorInput } from '@/shared/lib/utils';
 

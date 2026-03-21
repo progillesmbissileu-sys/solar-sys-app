@@ -1,7 +1,8 @@
+import Image from 'next/image';
 import React from 'react';
 import { Rotate } from 'react-awesome-reveal';
+
 import { ServiceType } from '../model/ServiceType';
-import Image from 'next/image';
 
 export const CompanyServiceCard = (props: ServiceType & { rootPath: string }) => {
   return (

@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
 
-import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
 import { cx } from '@/shared/lib/utils';
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
 
 export type FilterOption = {
   label: string;

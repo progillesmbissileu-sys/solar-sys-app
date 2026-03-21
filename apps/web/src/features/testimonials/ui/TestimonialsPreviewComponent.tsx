@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import { TestimonialCard } from './TestimonialCard';
 import { Fade } from 'react-awesome-reveal';
+
 import { CarouselComponent } from '@/shared/ui/widgets/CarouselComponent';
+
 import { TestimonialType } from '../model/TestimonialType';
+import { TestimonialCard } from './TestimonialCard';
 
 export const TestimonialsPreviewComponent = (props: { previewList: TestimonialType[] }) => {
   return (

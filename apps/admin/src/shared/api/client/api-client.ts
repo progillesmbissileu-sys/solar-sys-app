@@ -1,21 +1,23 @@
 import { AxiosError, AxiosResponse } from 'axios';
+
 import { getAccessToken } from '@/shared/lib/auth/helpers/server-token';
+
 import { refreshAccessToken } from '../../lib/auth/helpers/session';
 import { apiClient, interceptors } from './axios-instance';
 import { requestCancellation } from './cancellation';
-import { calculateRetryDelay, shouldRetry, sleep, normalizeRetryConfig } from './retry';
+import { calculateRetryDelay, normalizeRetryConfig,shouldRetry, sleep } from './retry';
 import {
   ApiError,
   ApiResponse,
-  RequestConfig,
-  RetryConfig,
-  Result,
   DEFAULT_RETRY_CONFIG,
+  RequestConfig,
+  Result,
+  RetryConfig,
 } from './types';
 
 // Re-export types and utilities
-export type { ApiError, ApiResponse, RequestConfig, RetryConfig, Result };
-export { interceptors, requestCancellation, DEFAULT_RETRY_CONFIG };
+export type { ApiError, ApiResponse, RequestConfig, Result,RetryConfig };
+export { DEFAULT_RETRY_CONFIG,interceptors, requestCancellation };
 
 /**
  * Converts an AxiosError to a structured ApiError

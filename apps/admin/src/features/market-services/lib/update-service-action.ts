@@ -1,11 +1,13 @@
 'use server';
 
-import { marketServiceUpdate } from '@/entities/market-service';
-import { routePaths } from '@/shared/routes';
 import { revalidatePath } from 'next/cache';
-import { updateServiceSchema } from '../model/form-schemas';
-import { buildRoute } from '@/shared/lib/router';
 import z from 'zod';
+
+import { marketServiceUpdate } from '@/entities/market-service';
+import { buildRoute } from '@/shared/lib/router';
+import { routePaths } from '@/shared/routes';
+
+import { updateServiceSchema } from '../model/form-schemas';
 
 export async function updateServiceAction(payload: z.infer<typeof updateServiceSchema>) {
   const response = await marketServiceUpdate(payload.id, {

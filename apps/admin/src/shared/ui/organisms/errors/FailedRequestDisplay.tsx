@@ -1,8 +1,9 @@
 'use client';
 
-import { routePaths } from '@/shared/routes';
 import { TriangleAlert, XCircle } from 'lucide-react';
 import Link from 'next/link';
+
+import { routePaths } from '@/shared/routes';
 
 export const FailedRequestDisplay = ({ status }: { status: number }) => {
   switch (status) {

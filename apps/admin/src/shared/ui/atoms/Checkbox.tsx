@@ -2,9 +2,10 @@
 
 // Tremor Raw Checkbox [v0.0.0]
 
-import { cx, focusRing } from '@/shared/lib/utils';
 import * as CheckboxPrimitives from '@radix-ui/react-checkbox';
 import React from 'react';
+
+import { cx, focusRing } from '@/shared/lib/utils';
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitives.Root>,

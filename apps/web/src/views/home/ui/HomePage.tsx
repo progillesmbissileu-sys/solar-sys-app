@@ -1,17 +1,19 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
-import { HeroSectionComponent } from './section/HeroSectionComponent';
-import { ProductPreviewComponent } from '@/features/products';
-import { products } from '@/shared/assets/data/products';
-import { APP_ROUTES } from '@/shared/config/app-routes';
 import Link from 'next/link';
-import { CompanyServicePreviewComponent } from '@/features/services';
-import { services } from '@/shared/assets/data/services';
-import { TestimonialsPreviewComponent } from '@/features/testimonials/ui/TestimonialsPreviewComponent';
-import { testimonials } from '@/shared/assets/data/testimonials';
+
+import { ProductPreviewComponent } from '@/features/products';
 import { ProjectPreviewComponent } from '@/features/projects/ui/ProjectPreviewComponent';
+import { CompanyServicePreviewComponent } from '@/features/services';
+import { TestimonialsPreviewComponent } from '@/features/testimonials/ui/TestimonialsPreviewComponent';
+import { products } from '@/shared/assets/data/products';
 import { projects } from '@/shared/assets/data/projects';
+import { services } from '@/shared/assets/data/services';
+import { testimonials } from '@/shared/assets/data/testimonials';
+import { APP_ROUTES } from '@/shared/config/app-routes';
+
+import { HeroSectionComponent } from './section/HeroSectionComponent';
 // import {EmbeddedMap} from "@repo/core/map/EmbeddedMap";
 
 export default function HomePage() {

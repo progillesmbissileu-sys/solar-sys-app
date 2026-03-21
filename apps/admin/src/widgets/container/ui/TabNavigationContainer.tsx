@@ -1,7 +1,9 @@
+import Link from 'next/link';
+
 import { TabNavigation } from '@/shared/ui';
 import { TabNavigationLink } from '@/shared/ui/atoms/TabNavigation';
+
 import { TabNavigationContainerProps } from './types';
-import Link from 'next/link';
 
 export const TabNavigationContainer = ({
   children,

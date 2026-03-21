@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { RiDeleteBinLine, RiImageAddLine } from '@remixicon/react';
+import React from 'react';
+
 import { cx, focusRing } from '@/shared/lib/utils';
 
 export type ImageUploadFieldItem = File | string;

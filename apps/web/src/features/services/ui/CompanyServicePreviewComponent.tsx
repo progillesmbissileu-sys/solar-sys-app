@@ -1,5 +1,6 @@
 import React from 'react';
 import { Fade } from 'react-awesome-reveal';
+
 import { ServiceType } from '../model/ServiceType';
 import { CompanyServiceCard } from './CompanyServiceCard';
 

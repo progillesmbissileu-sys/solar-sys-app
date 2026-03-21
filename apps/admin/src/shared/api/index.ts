@@ -2,27 +2,27 @@
 export {
   authFetch,
   authFetchJson,
+  DEFAULT_RETRY_CONFIG,
   interceptors,
   requestCancellation,
-  DEFAULT_RETRY_CONFIG,
 } from './client/api-client';
 
 // Type exports
 export type {
   ApiError,
-  ApiResponse,
-  RequestConfig,
-  RetryConfig,
-  Result,
   ApiErrorDetail,
+  ApiResponse,
   InterceptorManager,
+  RequestConfig,
+  Result,
+  RetryConfig,
 } from './client/types';
 
 // Helper function exports
 export {
   callAction,
-  callActionWithId,
   callActionSafe,
+  callActionWithId,
   callActionWithIdSafe,
   mutation,
   mutationWithId,

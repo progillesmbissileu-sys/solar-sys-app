@@ -4,24 +4,23 @@ export * from './api/product-pack';
 
 // MODELS
 export type {
+  CreateProductPayload,
   Product,
   ProductPreview,
-  CreateProductPayload,
   UpdateProductPayload,
 } from './model/product';
-export { MAX_PRODUCT_IMAGES, type ProductImage } from './model/product-image';
 export {
+  type CreateCategoryPayload,
   type ProductCategory,
   type ProductCategoryPreview,
-  type UpdateCategoryPayload,
-  type CreateCategoryPayload,
   ProductCategoryType,
+  type UpdateCategoryPayload,
 } from './model/product-category';
-
+export { MAX_PRODUCT_IMAGES, type ProductImage } from './model/product-image';
 export type {
+  CreatePackPayload,
+  ProductPackage,
+  ProductPackageItem,
   ProductPackCollectionPreview,
   UpdatePackPayload,
-  CreatePackPayload,
-  ProductPackageItem,
-  ProductPackage,
 } from './model/product-package';

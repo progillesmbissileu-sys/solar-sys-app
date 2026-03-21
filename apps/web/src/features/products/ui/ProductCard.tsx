@@ -1,7 +1,9 @@
 import React from 'react';
-import { ProductType } from '../model/ProductType';
-import { cn } from '@/shared/lib/utils';
+
 import { generateHundred } from '@/shared/lib';
+import { cn } from '@/shared/lib/utils';
+
+import { ProductType } from '../model/ProductType';
 
 export const ProductCard = (props: ProductType & { color: 'dark' | 'primary' }) => {
   const random = generateHundred();

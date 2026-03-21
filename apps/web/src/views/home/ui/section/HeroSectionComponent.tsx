@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
 import { Options } from '@splidejs/splide';
+import React from 'react';
+
 import { useViewPort } from '@/shared/hooks/use-view-port';
-import AppButton from '@/shared/ui/core/AppButton/AppButton';
 import { generateHundred } from '@/shared/lib';
+import AppButton from '@/shared/ui/core/AppButton/AppButton';
 
 export type HeroSectionComponentProps = {
   picturesList: string[];

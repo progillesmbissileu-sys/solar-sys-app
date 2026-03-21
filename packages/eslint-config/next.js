@@ -6,6 +6,7 @@ import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
 import pluginNext from "@next/eslint-plugin-next";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 const baseRules = {
   "turbo/no-undeclared-env-vars": "off",
@@ -63,6 +64,15 @@ export const nextJsConfig = [
     },
   },
   {
-    rules: baseRules,
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      ...baseRules,
+
+      // Import sorting
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
+    },
   },
 ];

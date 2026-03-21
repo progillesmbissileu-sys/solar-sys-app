@@ -1,5 +1,6 @@
-import { env } from '@/shared/config';
 import { redirect } from 'next/navigation';
+
+import { env } from '@/shared/config';
 
 export async function refreshAccessToken(): Promise<string | void> {
   const refreshToken = await import('./server-token').then(({ getRefreshToken }) =>

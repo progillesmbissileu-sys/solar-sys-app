@@ -1,8 +1,8 @@
 'use client';
 
-import { PanelComponentProps } from '@/widgets/container';
-import { ProductCategory, Product } from '@/entities/product';
+import { Product,ProductCategory } from '@/entities/product';
 import { ProductForm } from '@/features/products';
+import { PanelComponentProps } from '@/widgets/container';
 
 export type ProductFormPanelProps = {
   categories?: ProductCategory[];

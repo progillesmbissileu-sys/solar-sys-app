@@ -5,16 +5,15 @@ export { TabNavigationContainer } from './ui/TabNavigationContainer';
 export { useBreadcrumbs } from './lib/use-breadcrumbs';
 
 // Store
-export { useRightPanelStore } from './model/right-panel-store';
 export { useRightPanel } from './lib/use-right-panel';
-
 export type {
-  RightPanelStoreType,
-  RightPanelState,
   RightPanelActions,
+  RightPanelState,
+  RightPanelStoreType,
   RightPanelType,
 } from './model/right-panel-store';
+export { useRightPanelStore } from './model/right-panel-store';
 
 // Panel Registry
+export type { PanelComponentProps,PanelRegistryConfig } from './model/panel-registry';
 export { PanelRegistryProvider, usePanelComponent, usePanelRegistry } from './model/panel-registry';
-export type { PanelRegistryConfig, PanelComponentProps } from './model/panel-registry';
