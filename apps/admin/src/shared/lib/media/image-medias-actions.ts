@@ -1,11 +1,11 @@
 'use server';
 
-import { callActionSafe } from '../../api/client/helpers';
+import { callAction } from '../../api/client/helpers';
 
 export async function uploadImageAction(
   formData: FormData
 ): Promise<{ url: string; id: string; signedUrl: string } | null> {
-  const response = await callActionSafe<{ url: string; id: string; signedUrl: string }>(
+  const response = await callAction<{ url: string; id: string; signedUrl: string }>(
     '/api/image-media',
     'POST',
     {
@@ -19,7 +19,7 @@ export async function uploadImageAction(
 }
 
 export async function deleteImageMediaAction(imageId: string) {
-  const response = await callActionSafe(`/api/image-media/${imageId}`, 'DELETE')();
+  const response = await callAction(`/api/image-media/${imageId}`, 'DELETE')();
 
   return response;
 }

@@ -7,16 +7,19 @@ This plan outlines the refactoring of the API utilities in the admin application
 ## Current Implementation Analysis
 
 ### Files to Refactor
+
 - [`api-client.ts`](apps/admin/src/shared/api/client/api-client.ts) - Core fetch functions
 - [`helpers.ts`](apps/admin/src/shared/api/client/helpers.ts) - Action helper functions
 
 ### Current Functions
+
 1. **`authFetch`** - Base authenticated fetch with retry support
 2. **`authFetchJson`** - JSON wrapper for authFetch
 3. **`callAction`** - Higher-order function for API calls
 4. **`callActionWithId`** - Higher-order function for API calls with ID parameter
 
 ### Current Issues
+
 - Uses `TData` generic parameter that should be removed
 - Error handling is not type-safe (returns `error as any`)
 - No centralized axios instance
@@ -33,19 +36,19 @@ graph TD
     A --> C[Axios Instance]
     A --> D[Core Functions]
     A --> E[Helper Functions]
-    
+
     B --> B1[ApiError]
     B --> B2[ApiResponse]
     B --> B3[RequestConfig]
     B --> B4[RetryConfig]
-    
+
     C --> C1[Request Interceptors]
     C --> C2[Response Interceptors]
     C --> C3[Auth Injection]
-    
+
     D --> D1[authFetch]
     D --> D2[authFetchJson]
-    
+
     E --> E1[callAction]
     E --> E2[callActionWithId]
 ```
@@ -91,7 +94,7 @@ export interface RetryConfig {
 }
 
 // Request configuration extending AxiosRequestConfig
-export interface RequestConfig extends Omit<AxiosRequestConfig, 'signal'> {
+export interface RequestConfig extends Omit<AxiosRequestConfig, "signal"> {
   skipAuth?: boolean;
   retry?: RetryConfig | boolean;
   signal?: AbortSignal;
@@ -103,17 +106,25 @@ export interface RequestConfig extends Omit<AxiosRequestConfig, 'signal'> {
 ```typescript
 // axios-instance.ts
 
-import axios, { AxiosInstance, AxiosInterceptorOptions } from 'axios';
+import axios, { AxiosInstance, AxiosInterceptorOptions } from "axios";
 
 // Interceptor manager types
 export interface InterceptorManager {
   request: {
-    use: (onFulfilled?, onRejected?, options?: AxiosInterceptorOptions) => number;
+    use: (
+      onFulfilled?,
+      onRejected?,
+      options?: AxiosInterceptorOptions,
+    ) => number;
     eject: (id: number) => void;
     clear: () => void;
   };
   response: {
-    use: (onFulfilled?, onRejected?, options?: AxiosInterceptorOptions) => number;
+    use: (
+      onFulfilled?,
+      onRejected?,
+      options?: AxiosInterceptorOptions,
+    ) => number;
     eject: (id: number) => void;
     clear: () => void;
   };
@@ -124,7 +135,7 @@ function createAxiosInstance(): AxiosInstance {
   const instance = axios.create({
     timeout: 30000,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
@@ -137,13 +148,13 @@ export const apiClient = createAxiosInstance();
 // Export interceptor manager
 export const interceptors: InterceptorManager = {
   request: {
-    use: (onFulfilled, onRejected, options) => 
+    use: (onFulfilled, onRejected, options) =>
       apiClient.interceptors.request.use(onFulfilled, onRejected, options),
     eject: (id) => apiClient.interceptors.request.eject(id),
     clear: () => apiClient.interceptors.request.clear(),
   },
   response: {
-    use: (onFulfilled, onRejected, options) => 
+    use: (onFulfilled, onRejected, options) =>
       apiClient.interceptors.response.use(onFulfilled, onRejected, options),
     eject: (id) => apiClient.interceptors.response.eject(id),
     clear: () => apiClient.interceptors.response.clear(),
@@ -156,7 +167,7 @@ export const interceptors: InterceptorManager = {
 ```typescript
 // cancellation.ts
 
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from "axios";
 
 // Request cancellation manager
 export class RequestCancellation {
@@ -199,7 +210,7 @@ export const requestCancellation = new RequestCancellation();
 ```typescript
 // retry.ts
 
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
 const DEFAULT_RETRY_CONFIG: RetryConfig = {
   enabled: true,
@@ -211,7 +222,7 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
 
 export function calculateRetryDelay(
   attempt: number,
-  config: RetryConfig
+  config: RetryConfig,
 ): number {
   if (!config.exponentialBackoff) {
     return config.retryDelay;
@@ -225,7 +236,7 @@ export function calculateRetryDelay(
 export function shouldRetry(
   error: AxiosError,
   config: RetryConfig,
-  attempt: number
+  attempt: number,
 ): boolean {
   if (!config.enabled || attempt >= config.maxRetries) {
     return false;
@@ -245,25 +256,36 @@ export async function sleep(ms: number): Promise<void> {
 ```typescript
 // api-client.ts
 
-import { AxiosResponse, AxiosError } from 'axios';
-import { getAccessToken } from '@/shared/lib/auth/helpers/server-token';
-import { refreshAccessToken } from '../../lib/auth/helpers/session';
-import { apiClient, interceptors } from './axios-instance';
-import { requestCancellation } from './cancellation';
-import { calculateRetryDelay, shouldRetry, sleep, DEFAULT_RETRY_CONFIG } from './retry';
+import { AxiosResponse, AxiosError } from "axios";
+import { getAccessToken } from "@/shared/lib/auth/helpers/server-token";
+import { refreshAccessToken } from "../../lib/auth/helpers/session";
+import { apiClient, interceptors } from "./axios-instance";
+import { requestCancellation } from "./cancellation";
+import {
+  calculateRetryDelay,
+  shouldRetry,
+  sleep,
+  DEFAULT_RETRY_CONFIG,
+} from "./retry";
 
 // Re-export types
-export type { ApiError, ApiResponse, RequestConfig, RetryConfig } from './types';
+export type {
+  ApiError,
+  ApiResponse,
+  RequestConfig,
+  RetryConfig,
+} from "./types";
 export { interceptors, requestCancellation };
 
 // Convert AxiosError to ApiError
 function toApiError(error: AxiosError): ApiError {
   const responseData = error.response?.data as any;
-  
+
   return {
     status: error.response?.status ?? 0,
-    statusText: error.response?.statusText ?? 'Unknown Error',
-    message: responseData?.message ?? error.message ?? 'An unexpected error occurred',
+    statusText: error.response?.statusText ?? "Unknown Error",
+    message:
+      responseData?.message ?? error.message ?? "An unexpected error occurred",
     details: responseData?.details ?? responseData?.errors,
     timestamp: responseData?.timestamp,
     path: responseData?.path ?? error.config?.url,
@@ -273,7 +295,7 @@ function toApiError(error: AxiosError): ApiError {
 // Main authFetch function
 export async function authFetch<T = unknown>(
   url: string,
-  config: RequestConfig = {}
+  config: RequestConfig = {},
 ): Promise<ApiResponse<T>> {
   const {
     skipAuth = false,
@@ -282,9 +304,10 @@ export async function authFetch<T = unknown>(
     ...axiosConfig
   } = config;
 
-  const retryConfig = typeof retry === 'boolean' 
-    ? { ...DEFAULT_RETRY_CONFIG, enabled: retry }
-    : { ...DEFAULT_RETRY_CONFIG, ...retry, enabled: true };
+  const retryConfig =
+    typeof retry === "boolean"
+      ? { ...DEFAULT_RETRY_CONFIG, enabled: retry }
+      : { ...DEFAULT_RETRY_CONFIG, ...retry, enabled: true };
 
   let attempt = 0;
   let lastError: ApiError | null = null;
@@ -303,7 +326,7 @@ export async function authFetch<T = unknown>(
       };
 
       if (accessToken && !skipAuth) {
-        headers['Authorization'] = `Bearer ${accessToken}`;
+        headers["Authorization"] = `Bearer ${accessToken}`;
       }
 
       // Make the request
@@ -329,7 +352,7 @@ export async function authFetch<T = unknown>(
             },
             signal: externalSignal,
           });
-          
+
           return {
             data: retryResponse.data,
             status: retryResponse.status,
@@ -355,16 +378,23 @@ export async function authFetch<T = unknown>(
       };
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
-      
+
       // Handle cancellation
-      if (axiosError.name === 'CanceledError' || axiosError.code === 'ERR_CANCELED') {
-        throw new Error('Request was cancelled');
+      if (
+        axiosError.name === "CanceledError" ||
+        axiosError.code === "ERR_CANCELED"
+      ) {
+        throw new Error("Request was cancelled");
       }
 
       lastError = toApiError(axiosError);
 
       // Handle 401 with token refresh
-      if (axiosError.response?.status === 401 && retryConfig.enabled && !skipAuth) {
+      if (
+        axiosError.response?.status === 401 &&
+        retryConfig.enabled &&
+        !skipAuth
+      ) {
         const newAccessToken = await refreshAccessToken();
         if (newAccessToken) {
           attempt++;
@@ -390,7 +420,7 @@ export async function authFetch<T = unknown>(
 // JSON wrapper
 export async function authFetchJson<T>(
   url: string,
-  config?: RequestConfig
+  config?: RequestConfig,
 ): Promise<T> {
   const response = await authFetch<T>(url, config);
   return response.data;
@@ -402,75 +432,93 @@ export async function authFetchJson<T>(
 ```typescript
 // helpers.ts
 
-import { authFetchJson, RequestConfig, ApiError } from './api-client';
-import { env } from '@/shared/config';
-import { CollectionQueryParams } from '../collection/types';
-import { CollectionHelpers } from '../collection/helpers';
+import { authFetchJson, RequestConfig, ApiError } from "./api-client";
+import { env } from "@/shared/config";
+import { CollectionQueryParams } from "../collection/types";
+import { CollectionHelpers } from "../collection/helpers";
 
 const apiEndpoint = env.NEXT_PUBLIC_API_ENDPOINT;
 
 // Result type for type-safe error handling
-export type Result<T, E = ApiError> = 
+export type Result<T, E = ApiError> =
   | { success: true; data: T }
   | { success: false; error: E };
 
 // Call action function
-export function callAction<TReturn = void, TQuery extends CollectionQueryParams = CollectionQueryParams>(
+export function callAction<
+  TReturn = void,
+  TQuery extends CollectionQueryParams = CollectionQueryParams,
+>(
   path: string,
-  method: RequestConfig['method'],
-  options?: Omit<RequestConfig, 'method' | 'data'>
+  method: RequestConfig["method"],
+  options?: Omit<RequestConfig, "method" | "data">,
 ) {
   return async (payload?: unknown, query?: TQuery): Promise<TReturn> => {
     const response = await authFetchJson<TReturn>(
-      `${apiEndpoint}${path}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ''}`,
+      `${apiEndpoint}${path}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ""}`,
       {
         ...options,
         method,
         data: payload,
-      }
+      },
     );
     return response;
   };
 }
 
 // Call action with ID parameter
-export function callActionWithId<TReturn = void, TQuery extends CollectionQueryParams = CollectionQueryParams>(
+export function callActionWithId<
+  TReturn = void,
+  TQuery extends CollectionQueryParams = CollectionQueryParams,
+>(
   path: string,
-  method: RequestConfig['method'],
-  options?: Omit<RequestConfig, 'method' | 'data'>
+  method: RequestConfig["method"],
+  options?: Omit<RequestConfig, "method" | "data">,
 ) {
-  return async (resourceId: string, payload?: unknown, query?: TQuery): Promise<TReturn> => {
-    const pathChunks = path.split('/');
-    const pattern = pathChunks.find((chunk) => chunk.startsWith('{') && chunk.endsWith('}'));
-    
+  return async (
+    resourceId: string,
+    payload?: unknown,
+    query?: TQuery,
+  ): Promise<TReturn> => {
+    const pathChunks = path.split("/");
+    const pattern = pathChunks.find(
+      (chunk) => chunk.startsWith("{") && chunk.endsWith("}"),
+    );
+
     const resolvedPath = pattern ? path.replace(pattern, resourceId) : path;
 
     return authFetchJson<TReturn>(
-      `${apiEndpoint}${resolvedPath}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ''}`,
+      `${apiEndpoint}${resolvedPath}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ""}`,
       {
         method,
         data: payload,
         ...options,
-      }
+      },
     );
   };
 }
 
 // Safe version that returns Result type
-export function callActionSafe<TReturn = void, TQuery extends CollectionQueryParams = CollectionQueryParams>(
+export function callAction<
+  TReturn = void,
+  TQuery extends CollectionQueryParams = CollectionQueryParams,
+>(
   path: string,
-  method: RequestConfig['method'],
-  options?: Omit<RequestConfig, 'method' | 'data'>
+  method: RequestConfig["method"],
+  options?: Omit<RequestConfig, "method" | "data">,
 ) {
-  return async (payload?: unknown, query?: TQuery): Promise<Result<TReturn>> => {
+  return async (
+    payload?: unknown,
+    query?: TQuery,
+  ): Promise<Result<TReturn>> => {
     try {
       const data = await authFetchJson<TReturn>(
-        `${apiEndpoint}${path}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ''}`,
+        `${apiEndpoint}${path}${query ? `?${CollectionHelpers.paramsToQueryString(query)}` : ""}`,
         {
           ...options,
           method,
           data: payload,
-        }
+        },
       );
       return { success: true, data };
     } catch (error) {
@@ -483,27 +531,23 @@ export function callActionSafe<TReturn = void, TQuery extends CollectionQueryPar
 ## Migration Guide
 
 ### Before
+
 ```typescript
 // Old usage with TData generic
 const resp = await callAction<CreateProductInput, void | { error?: string }>(
-  '/api/product',
-  'POST'
+  "/api/product",
+  "POST",
 )(payload);
 ```
 
 ### After
+
 ```typescript
 // New usage - payload type is inferred, only return type needed
-const resp = await callAction<void>(
-  '/api/product',
-  'POST'
-)(payload);
+const resp = await callAction<void>("/api/product", "POST")(payload);
 
 // Or with safe version for type-safe error handling
-const result = await callActionSafe<Product>(
-  '/api/product',
-  'POST'
-)(payload);
+const result = await callAction<Product>("/api/product", "POST")(payload);
 
 if (result.success) {
   console.log(result.data);
@@ -513,25 +557,26 @@ if (result.success) {
 ```
 
 ### Using Interceptors
+
 ```typescript
-import { interceptors } from '@/shared/api';
+import { interceptors } from "@/shared/api";
 
 // Add request interceptor
 const requestInterceptorId = interceptors.request.use(
   (config) => {
-    console.log('Request:', config.url);
+    console.log("Request:", config.url);
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Add response interceptor
 const responseInterceptorId = interceptors.response.use(
   (response) => {
-    console.log('Response:', response.status);
+    console.log("Response:", response.status);
     return response;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Remove interceptor
@@ -539,42 +584,44 @@ interceptors.request.eject(requestInterceptorId);
 ```
 
 ### Using Request Cancellation
+
 ```typescript
-import { requestCancellation, authFetch } from '@/shared/api';
+import { requestCancellation, authFetch } from "@/shared/api";
 
 // Create a cancellable request
 async function fetchData() {
-  const key = requestCancellation.createRequestKey('/api/products', 'GET');
+  const key = requestCancellation.createRequestKey("/api/products", "GET");
   const controller = requestCancellation.createController(key);
-  
+
   try {
-    const response = await authFetch('/api/products', {
-      method: 'GET',
+    const response = await authFetch("/api/products", {
+      method: "GET",
       signal: controller.signal,
     });
     return response.data;
   } catch (error) {
-    if (error.message === 'Request was cancelled') {
-      console.log('Request was cancelled');
+    if (error.message === "Request was cancelled") {
+      console.log("Request was cancelled");
     }
     throw error;
   }
 }
 
 // Cancel the request
-requestCancellation.cancel('GET:/api/products');
+requestCancellation.cancel("GET:/api/products");
 
 // Cancel all requests
 requestCancellation.cancelAll();
 ```
 
 ### Using Retry Configuration
+
 ```typescript
-import { authFetch } from '@/shared/api';
+import { authFetch } from "@/shared/api";
 
 // Custom retry configuration
-const response = await authFetch('/api/products', {
-  method: 'GET',
+const response = await authFetch("/api/products", {
+  method: "GET",
   retry: {
     enabled: true,
     maxRetries: 3,
@@ -585,8 +632,8 @@ const response = await authFetch('/api/products', {
 });
 
 // Disable retry
-const response = await authFetch('/api/products', {
-  method: 'GET',
+const response = await authFetch("/api/products", {
+  method: "GET",
   retry: false,
 });
 ```

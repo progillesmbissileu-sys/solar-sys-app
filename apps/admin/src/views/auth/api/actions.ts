@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-import { callActionSafe } from '@/shared/api';
+import { callAction } from '@/shared/api';
 import { AuthTokens, setAuthTokens } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
 
@@ -13,7 +13,7 @@ export default async function loginAction(
   redirectTo: string | undefined,
   payload: z.infer<typeof loginSchema>
 ) {
-  const response = await callActionSafe<{
+  const response = await callAction<{
     data: { accessToken: string; refreshToken: string };
   }>('/api/login', 'post', {
     skipAuth: true,

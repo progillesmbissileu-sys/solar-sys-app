@@ -9,80 +9,7 @@ const apiEndpoint = env.NEXT_PUBLIC_API_ENDPOINT;
 
 /**
  * Creates a reusable API action function for a specific endpoint
- *
- * @param path - The API endpoint path
- * @param method - The HTTP method to use
- * @param options - Additional request configuration options
- * @returns A function that can be called with payload and query parameters
- *
- * @example
- * // Define the action
- * const getProducts = callAction<CollectionResponse<Product>>('/api/products', 'GET');
- *
- * // Call the action
- * const products = await getProducts(undefined, { page: 1, limit: 10 });
- *
- * // POST example
- * const createProduct = callAction<Product>('/api/products', 'POST');
- * const newProduct = await createProduct({ name: 'New Product', price: 100 });
  */
-export function callAction<
-  TReturn = void,
-  TQuery extends CollectionQueryParams = CollectionQueryParams,
->(path: string, method: RequestConfig['method'], options?: Omit<RequestConfig, 'method' | 'data'>) {
-  return async (payload?: unknown, query?: TQuery): Promise<TReturn> => {
-    const queryString = query ? `?${CollectionHelpers.paramsToQueryString(query)}` : '';
-
-    const response = await authFetchJson<TReturn>(`${apiEndpoint}${path}${queryString}`, {
-      ...options,
-      method,
-      data: payload,
-    });
-
-    return response;
-  };
-}
-
-/**
- * Creates a reusable API action function for endpoints that require an ID parameter
- * The ID is substituted into the path where {id} or similar pattern exists
- *
- * @param path - The API endpoint path with a placeholder for ID (e.g., '/api/products/{id}')
- * @param method - The HTTP method to use
- * @param options - Additional request configuration options
- * @returns A function that can be called with resourceId, payload, and query parameters
- *
- * @example
- * // Define the action
- * const getProduct = callActionWithId<{ data: Product }>('/api/products/{id}', 'GET');
- *
- * // Call the action
- * const product = await getProduct('123');
- *
- * // Update example
- * const updateProduct = callActionWithId<Product>('/api/products/{id}', 'PATCH');
- * const updated = await updateProduct('123', { name: 'Updated Name' });
- */
-export function callActionWithId<
-  TReturn = void,
-  TQuery extends CollectionQueryParams = CollectionQueryParams,
->(path: string, method: RequestConfig['method'], options?: Omit<RequestConfig, 'method' | 'data'>) {
-  return async (resourceId: string, payload?: unknown, query?: TQuery): Promise<TReturn> => {
-    // Find and replace the placeholder pattern
-    const pathChunks = path.split('/');
-    const pattern = pathChunks.find((chunk) => chunk.startsWith('{') && chunk.endsWith('}'));
-
-    const resolvedPath = pattern ? path.replace(pattern, resourceId) : path;
-
-    const queryString = query ? `?${CollectionHelpers.paramsToQueryString(query)}` : '';
-
-    return authFetchJson<TReturn>(`${apiEndpoint}${resolvedPath}${queryString}`, {
-      method,
-      data: payload,
-      ...options,
-    });
-  };
-}
 
 /**
  * Creates a safe API action function that returns a Result type instead of throwing
@@ -95,7 +22,7 @@ export function callActionWithId<
  *
  * @example
  * // Define the safe action
- * const createProductSafe = callActionSafe<Product>('/api/products', 'POST');
+ * const createProductSafe = callAction<Product>('/api/products', 'POST');
  *
  * // Call and handle result
  * const result = await createProductSafe({ name: 'New Product' });
@@ -106,7 +33,7 @@ export function callActionWithId<
  *   console.error('Error:', result.error.message);
  * }
  */
-export function callActionSafe<
+export function callAction<
   TReturn = void,
   TQuery extends CollectionQueryParams = CollectionQueryParams,
   TData extends object = any,
@@ -138,7 +65,7 @@ export function callActionSafe<
  *
  * @example
  * // Define the safe action
- * const updateProductSafe = callActionWithIdSafe<Product>('/api/products/{id}', 'PATCH');
+ * const updateProductSafe = callActionWithId<Product>('/api/products/{id}', 'PATCH');
  *
  * // Call and handle result
  * const result = await updateProductSafe('123', { name: 'Updated' });
@@ -149,7 +76,7 @@ export function callActionSafe<
  *   console.error('Error:', result.error.message);
  * }
  */
-export function callActionWithIdSafe<
+export function callActionWithId<
   TReturn = void,
   TQuery extends CollectionQueryParams = CollectionQueryParams,
   TData extends object = any,
@@ -182,7 +109,7 @@ export function mutation<TData extends object = any, TReturn = void>(
   method: RequestConfig['method'] = 'post'
 ) {
   return (payload: TData) => {
-    return callActionSafe<TReturn, any, TData>(path, method)(null, payload);
+    return callAction<TReturn, any, TData>(path, method)(null, payload);
   };
 }
 
@@ -191,9 +118,6 @@ export function mutationWithId<TData extends object = any, TReturn = void>(
   method: RequestConfig['method'] = 'put'
 ) {
   return (id: string, payload: TData) => {
-    return callActionWithIdSafe<TReturn, any, TData>(path, method)(id, payload);
+    return callActionWithId<TReturn, any, TData>(path, method)(id, payload);
   };
 }
-
-// Re-export authFetch for direct usage
-export { authFetch, authFetchJson } from './api-client';

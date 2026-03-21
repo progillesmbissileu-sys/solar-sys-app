@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import z from 'zod';
 
 import { ApiError } from '@/shared/api';
@@ -21,7 +20,6 @@ export function FormWrapper<TResult = unknown, TSchema extends z.ZodType<any> = 
   const form = useAppForm({
     ...props.formOptions,
     onSubmit: async ({ value }) => {
-      console.log('SUBMITTED', { value });
       const result = await props.serverAction(value);
 
       if (result?.success) {

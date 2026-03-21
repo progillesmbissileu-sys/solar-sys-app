@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+
+import { routePaths } from '@/shared/routes';
 import { Button } from '@/shared/ui';
 
 interface ErrorProps {
@@ -43,10 +46,13 @@ export default function Error({ error, reset }: ErrorProps) {
           </div>
         )}
 
-        <div className="flex justify-center gap-4">
-          <Button asChild onClick={reset}>
+        <div className="flex justify-center gap-x-4">
+          <Button onClick={reset} variant="primary">
             Retry
           </Button>
+          <Link href={routePaths.DASHBOARD}>
+            <Button>Home</Button>
+          </Link>
         </div>
       </div>
     </div>

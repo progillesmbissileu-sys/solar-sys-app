@@ -1,6 +1,6 @@
 import {
-  callActionSafe,
-  callActionWithIdSafe,
+  callAction,
+  callActionWithId,
   CollectionResponseType,
   mutation,
   mutationWithId,
@@ -13,11 +13,11 @@ import {
   UpdatePackPayload,
 } from '../model/product-package';
 
-export const productPackCollection = callActionSafe<
+export const productPackCollection = callAction<
   CollectionResponseType<ProductPackCollectionPreview>
 >('/api/product-packs', 'get');
 
-export const getProductPack = callActionWithIdSafe<{
+export const getProductPack = callActionWithId<{
   data: ProductPackage;
 }>('/api/product-packs/{id}', 'get');
 
@@ -28,9 +28,9 @@ export const updateProductPack = mutationWithId<UpdatePackPayload>(
   'put'
 );
 
-export const deleteProductPack = callActionWithIdSafe('/api/product-packs/{id}', 'delete');
+export const deleteProductPack = callActionWithId('/api/product-packs/{id}', 'delete');
 
-export const removeProductPackItem = callActionWithIdSafe(
+export const removeProductPackItem = callActionWithId(
   '/api/product-packs/item/{itemId}/remove',
   'delete'
 );

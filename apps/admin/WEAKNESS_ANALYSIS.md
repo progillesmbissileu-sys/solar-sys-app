@@ -86,10 +86,7 @@ export default function Page() {
 ```ts
 const _payload: CreateProductPayload = {
   mainImageId: uploadedPictures[0]?.id as string,
-  imageIds:
-    uploadedPictures.length > 1
-      ? uploadedPictures.slice(1).map((p) => p?.id)
-      : [null], // ← sends [null] to the API when only one image exists
+  imageIds: uploadedPictures.length > 1 ? uploadedPictures.slice(1).map((p) => p?.id) : [null], // ← sends [null] to the API when only one image exists
 };
 ```
 
@@ -104,11 +101,13 @@ When only one image is uploaded, the `imageIds` field is explicitly set to `[nul
 **File:** `src/shared/ui/organisms/app-table/AppTable.tsx`
 
 ```tsx
-{group.count && (
-  <div className="h-6 w-6 content-center rounded-full border ...">
-    {12}  {/* ← literal number, not group.count */}
-  </div>
-)}
+{
+  group.count && (
+    <div className="h-6 w-6 content-center rounded-full border ...">
+      {12} {/* ← literal number, not group.count */}
+    </div>
+  );
+}
 ```
 
 The grouped table row conditionally renders a count badge when `group.count` is truthy, but the badge always displays the hardcoded literal `12` instead of the actual `group.count` value. This feature has never worked correctly.
@@ -124,19 +123,23 @@ The grouped table row conditionally renders a count badge when `group.count` is 
 The project declares FSD but breaks its own layering rules in several places:
 
 **`app/(global)/layout.tsx` calls the API layer directly:**
+
 ```tsx
 // Routing layer reaching into shared/api — should be in a middleware or auth guard
-const response = await callActionSafe('/api/me', 'GET')();
+const response = await callAction('/api/me', 'GET')();
 if (!response.success && [401, 403].includes(response.error.status)) {
   redirect('/logout');
 }
 ```
+
 Business logic (session verification) belongs in `shared/lib/auth` or a Next.js middleware file, not inside a layout component.
 
 **`ProductDetailsView.tsx` (views layer) reaches into `shared/api`:**
+
 ```tsx
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
 ```
+
 Image operations for a product belong in the `features/products` layer. The view should call a feature-level action, not the shared API layer directly.
 
 **`views/auth/api/actions.ts` handles token storage:**
@@ -147,6 +150,7 @@ The login server action is placed in the `views` layer but performs auth token p
 ### 2.2 Two Conflicting URL Path Template Formats
 
 **Route paths** use the `:param` colon format:
+
 ```ts
 // src/shared/routes/index.ts
 PRODUCTS_OVERVIEW: '/products/:id',
@@ -154,9 +158,10 @@ MARKET_SERVICES_DETAILS: '/market-services/:id',
 ```
 
 **API path helpers** use the `{param}` brace format:
+
 ```ts
 // src/entities/product/api/product.ts
-export const getProduct = callActionWithIdSafe<...>('/api/product/{id}', 'get');
+export const getProduct = callActionWithId<...>('/api/product/{id}', 'get');
 ```
 
 Two completely separate template-replacement utilities run in parallel (`buildRoute` handles `:id`, `callActionWithId` handles `{id}`). Any developer must memorize which format belongs to which system. Mixing them up causes silent failures — the placeholder stays unreplaced in the final URL, and the request is made to a wrong endpoint without any compile-time or runtime error.
@@ -167,11 +172,11 @@ Two completely separate template-replacement utilities run in parallel (`buildRo
 
 Three independent mechanisms manage sidebar state simultaneously, only one of which is actually wired to the UI:
 
-| # | Location | Mechanism | Actually Used? |
-|---|----------|-----------|---------------|
-| 1 | `src/app/layouts/lib/layout-store.ts` | Zustand + `localStorage` persist | ❌ No |
-| 2 | `src/app/layouts/api/local-storage/index.ts` | Manual `localStorage` read/write | ❌ No |
-| 3 | `src/shared/ui/molecules/sidebar/SidebarProvider.tsx` | Cookie state from server (`sidebar:state`) | ✅ Yes |
+| #   | Location                                              | Mechanism                                  | Actually Used? |
+| --- | ----------------------------------------------------- | ------------------------------------------ | -------------- |
+| 1   | `src/app/layouts/lib/layout-store.ts`                 | Zustand + `localStorage` persist           | ❌ No          |
+| 2   | `src/app/layouts/api/local-storage/index.ts`          | Manual `localStorage` read/write           | ❌ No          |
+| 3   | `src/shared/ui/molecules/sidebar/SidebarProvider.tsx` | Cookie state from server (`sidebar:state`) | ✅ Yes         |
 
 Systems #1 and #2 are dead code that will mislead any developer trying to understand or modify sidebar behaviour.
 
@@ -234,8 +239,8 @@ Date fields on the two primary entities are typed as `any`, bypassing type check
 ```ts
 // src/entities/product/model/product.ts
 export type Product = {
-  createdAt?: any;  // should be Date | string
-  updatedAt?: any;  // should be Date | string
+  createdAt?: any; // should be Date | string
+  updatedAt?: any; // should be Date | string
 };
 
 // src/entities/product/model/product-package.ts
@@ -361,19 +366,19 @@ The primary landing page of the admin panel after login has no content. The `Das
 
 The following routes are declared in `src/shared/routes/index.ts` but have no corresponding page files in the `app/` directory:
 
-| Route Key | Path | Status |
-|-----------|------|--------|
-| `REGISTER` | `/register` | ❌ No page |
-| `FORGOT_PASSWORD` | `/forgot-password` | ❌ No page |
-| `PRODUCTS_EDIT` | `/products/:id/edit` | ❌ No page |
-| `USERS` | `/users` | ❌ No page |
-| `USERS_ADD` | `/users/add` | ❌ No page |
-| `USERS_VIEW` | `/users/view/:id` | ❌ No page |
-| `USERS_PROFILE` | `/users/profile` | ❌ No page |
-| `USERS_SETTINGS` | `/users/settings` | ❌ No page |
-| `USERS_PERMISSIONS` | `/users/permissions` | ❌ No page |
-| `LOCATIONS_ADD` | `/locations/add` | ❌ No page |
-| `LOCATIONS_VIEW` | `/locations/view/:id` | ❌ No page |
+| Route Key           | Path                  | Status     |
+| ------------------- | --------------------- | ---------- |
+| `REGISTER`          | `/register`           | ❌ No page |
+| `FORGOT_PASSWORD`   | `/forgot-password`    | ❌ No page |
+| `PRODUCTS_EDIT`     | `/products/:id/edit`  | ❌ No page |
+| `USERS`             | `/users`              | ❌ No page |
+| `USERS_ADD`         | `/users/add`          | ❌ No page |
+| `USERS_VIEW`        | `/users/view/:id`     | ❌ No page |
+| `USERS_PROFILE`     | `/users/profile`      | ❌ No page |
+| `USERS_SETTINGS`    | `/users/settings`     | ❌ No page |
+| `USERS_PERMISSIONS` | `/users/permissions`  | ❌ No page |
+| `LOCATIONS_ADD`     | `/locations/add`      | ❌ No page |
+| `LOCATIONS_VIEW`    | `/locations/view/:id` | ❌ No page |
 
 Navigating to any of these routes returns a 404. The entire **Users** module is absent.
 
@@ -422,13 +427,13 @@ Auth cookies have no expiry, so they persist indefinitely until the browser sess
 
 Multiple debugging statements were never removed:
 
-| File | Statement |
-|------|-----------|
-| `src/shared/ui/organisms/form/FormWrapper.tsx` | `console.log('SUBMITTED', { value })` |
-| `src/shared/ui/organisms/form/FormWrapper.tsx` | `console.log({ evt })` |
-| `src/shared/ui/molecules/inputs/SearchInput.tsx` | `console.log({ option })` in `handleSelect` |
+| File                                                    | Statement                                                |
+| ------------------------------------------------------- | -------------------------------------------------------- |
+| `src/shared/ui/organisms/form/FormWrapper.tsx`          | `console.log('SUBMITTED', { value })`                    |
+| `src/shared/ui/organisms/form/FormWrapper.tsx`          | `console.log({ evt })`                                   |
+| `src/shared/ui/molecules/inputs/SearchInput.tsx`        | `console.log({ option })` in `handleSelect`              |
 | `src/features/market-services/ui/MarketServiceForm.tsx` | `onError={(error) => console.log('FORM_ERRORS', error)}` |
-| `app/(auth)/logout/page.tsx` | `console.log(response)` |
+| `app/(auth)/logout/page.tsx`                            | `console.log(response)`                                  |
 
 The `MarketServiceForm` case is particularly poor: the `onError` callback does nothing but log, meaning form submission errors are invisible to the user.
 
@@ -502,22 +507,38 @@ Multiple blocks of commented-out code were left in shipped files, creating noise
 
 ```tsx
 // src/widgets/container/ui/DesktopPageContainer.tsx
-{/*{pageHeader?.title && (
+{
+  /*{pageHeader?.title && (
   <h1 className="font-semibold text-gray-900 xl:text-xl dark:text-gray-400">
     {pageHeader.title}
   </h1>
-)}*/}
+)}*/
+}
 ```
 
 ```tsx
 // src/views/auth/ui/LoginView.tsx
-{/*<div className="pl-7">*/}
-{/*  <p className="text-center text-sm text-gray-400 dark:text-gray-600">*/}
-{/*    <a href="#" className="underline underline-offset-[3px]">*/}
-{/*      login.forgotPassword*/}
-{/*    </a>*/}
-{/*  </p>*/}
-{/*</div>*/}
+{
+  /*<div className="pl-7">*/
+}
+{
+  /*  <p className="text-center text-sm text-gray-400 dark:text-gray-600">*/
+}
+{
+  /*    <a href="#" className="underline underline-offset-[3px]">*/
+}
+{
+  /*      login.forgotPassword*/
+}
+{
+  /*    </a>*/
+}
+{
+  /*  </p>*/
+}
+{
+  /*</div>*/
+}
 ```
 
 ```ts
@@ -552,6 +573,7 @@ Object.entries(envSchema).forEach(([key, value]) => {
 There are **no test files** anywhere in the project. Running `find . -name "*.test.*" -o -name "*.spec.*"` returns nothing. The `agents/` directory at the root of the app is completely empty — it was likely intended for Playwright E2E test agents or similar.
 
 The only quality gate in the project is `tsc --noEmit` (`check-types` script), which only catches type errors and does nothing to verify runtime behaviour. There are no:
+
 - Unit tests for utility functions (e.g. `buildRoute`, `CollectionHelpers`, `calculateRetryDelay`)
 - Integration tests for server actions
 - E2E tests for any user flow
@@ -611,41 +633,41 @@ This directory has no files. Its intent is unclear and it adds confusion to the 
 
 ## 7. Summary Table
 
-| # | Weakness | Severity | Primary Impact |
-|---|----------|:--------:|----------------|
-| 1.1 | `httpOnly` client cookie reading always returns `null` | 🔴 Critical | Auth client flows silently broken |
-| 1.2 | Delete modal success/failure logic inverted | 🔴 Critical | Modal never closes after success |
-| 1.3 | `redirect()` used inside client `useEffect` (logout) | 🔴 Critical | Logout throws uncaught exception |
-| 1.4 | `imageIds: [null]` sent to API on single image upload | 🔴 Critical | API receives invalid payload |
-| 1.5 | Grouped table always shows hardcoded `12` | 🔴 Critical | Feature never worked correctly |
-| 2.1 | FSD layer violations (layout, views, actions) | 🟠 High | Coupling, maintainability |
-| 2.2 | Two conflicting URL template formats (`:id` vs `{id}`) | 🟠 High | Silent routing bugs |
-| 2.3 | Three competing sidebar state systems | 🟠 High | Unpredictable UI state |
-| 2.4 | `@repo/core` hollow & listed as `devDependency` | 🟠 High | Monorepo value nullified; prod build risk |
-| 2.5 | Right panel state persists across navigation | 🟠 High | Stale panel content on navigation |
-| 2.6 | Login validation schema duplicated | 🟡 Medium | Divergence risk on rule changes |
-| 3.1 | `any` on `createdAt`/`updatedAt` in domain models | 🟡 Medium | Type safety undermined |
-| 3.2 | Pervasive `any` in form system | 🟡 Medium | Form type safety eliminated |
-| 3.3 | Type-unsafe panel props (`Record<string, unknown>` + double cast) | 🟡 Medium | Silent prop mismatches |
-| 3.4 | `MarketService.images` typed but never populated | 🟡 Medium | Dead type weight / unfinished feature |
-| 3.5 | `callActionSafe` defaults `TData` to `any` | 🟡 Medium | Payload type inference lost |
-| 4.1 | No i18n library — all keys render as literal strings | 🟡 Medium | Broken UI text across entire app |
-| 4.2 | Dashboard page is `<div>DASHBOARD</div>` | 🟡 Medium | Core feature unimplemented |
-| 4.3 | 11 dead routes declared with no pages | 🟡 Medium | Dead code, 404s |
-| 4.4 | `refreshPageCache` always revalidates `/` | 🟡 Medium | Cache invalidation never works |
-| 4.5 | `NEXT_PUBLIC_COOKIE_MAX_AGE` validated but never applied | 🟡 Medium | Sessions have no expiry |
-| 5.1 | `console.log` left in `FormWrapper`, `SearchInput`, `MarketServiceForm`, logout | 🟡 Medium | Info leakage, silent error swallowing |
-| 5.2 | `lodash` used but not declared in `package.json` | 🟡 Medium | Fragile implicit dependency |
-| 5.3 | Unused imports in `ProductDetailsView`, `SearchInput`, `ProductCollectionView` | 🟢 Low | Code hygiene |
-| 5.4 | HTTP method casing inconsistent (`'get'` vs `'GET'`) | 🟢 Low | Inconsistent convention |
-| 5.5 | `module.exports` in ESM project (`next.config.ts`) | 🟢 Low | Build fragility |
-| 5.6 | Commented-out code in multiple shipped files | 🟢 Low | Readability, ambiguity |
-| 5.7 | Weak env var validation (falsy check, no URL format check) | 🟢 Low | Late-failing misconfiguration |
-| 6.1 | Zero test coverage | 🟢 Low | No regression safety net |
-| 6.2 | `error.tsx` `reset` callback never wired to a button | 🟢 Low | Poor error recovery UX |
-| 6.3 | `src/shared/constant/` is empty | 🟢 Low | Misleading project structure |
-| 6.4 | `agents/` directory is completely empty | 🟢 Low | Misleading project structure |
+| #   | Weakness                                                                        |  Severity   | Primary Impact                            |
+| --- | ------------------------------------------------------------------------------- | :---------: | ----------------------------------------- |
+| 1.1 | `httpOnly` client cookie reading always returns `null`                          | 🔴 Critical | Auth client flows silently broken         |
+| 1.2 | Delete modal success/failure logic inverted                                     | 🔴 Critical | Modal never closes after success          |
+| 1.3 | `redirect()` used inside client `useEffect` (logout)                            | 🔴 Critical | Logout throws uncaught exception          |
+| 1.4 | `imageIds: [null]` sent to API on single image upload                           | 🔴 Critical | API receives invalid payload              |
+| 1.5 | Grouped table always shows hardcoded `12`                                       | 🔴 Critical | Feature never worked correctly            |
+| 2.1 | FSD layer violations (layout, views, actions)                                   |   🟠 High   | Coupling, maintainability                 |
+| 2.2 | Two conflicting URL template formats (`:id` vs `{id}`)                          |   🟠 High   | Silent routing bugs                       |
+| 2.3 | Three competing sidebar state systems                                           |   🟠 High   | Unpredictable UI state                    |
+| 2.4 | `@repo/core` hollow & listed as `devDependency`                                 |   🟠 High   | Monorepo value nullified; prod build risk |
+| 2.5 | Right panel state persists across navigation                                    |   🟠 High   | Stale panel content on navigation         |
+| 2.6 | Login validation schema duplicated                                              |  🟡 Medium  | Divergence risk on rule changes           |
+| 3.1 | `any` on `createdAt`/`updatedAt` in domain models                               |  🟡 Medium  | Type safety undermined                    |
+| 3.2 | Pervasive `any` in form system                                                  |  🟡 Medium  | Form type safety eliminated               |
+| 3.3 | Type-unsafe panel props (`Record<string, unknown>` + double cast)               |  🟡 Medium  | Silent prop mismatches                    |
+| 3.4 | `MarketService.images` typed but never populated                                |  🟡 Medium  | Dead type weight / unfinished feature     |
+| 3.5 | `callActionSafe` defaults `TData` to `any`                                      |  🟡 Medium  | Payload type inference lost               |
+| 4.1 | No i18n library — all keys render as literal strings                            |  🟡 Medium  | Broken UI text across entire app          |
+| 4.2 | Dashboard page is `<div>DASHBOARD</div>`                                        |  🟡 Medium  | Core feature unimplemented                |
+| 4.3 | 11 dead routes declared with no pages                                           |  🟡 Medium  | Dead code, 404s                           |
+| 4.4 | `refreshPageCache` always revalidates `/`                                       |  🟡 Medium  | Cache invalidation never works            |
+| 4.5 | `NEXT_PUBLIC_COOKIE_MAX_AGE` validated but never applied                        |  🟡 Medium  | Sessions have no expiry                   |
+| 5.1 | `console.log` left in `FormWrapper`, `SearchInput`, `MarketServiceForm`, logout |  🟡 Medium  | Info leakage, silent error swallowing     |
+| 5.2 | `lodash` used but not declared in `package.json`                                |  🟡 Medium  | Fragile implicit dependency               |
+| 5.3 | Unused imports in `ProductDetailsView`, `SearchInput`, `ProductCollectionView`  |   🟢 Low    | Code hygiene                              |
+| 5.4 | HTTP method casing inconsistent (`'get'` vs `'GET'`)                            |   🟢 Low    | Inconsistent convention                   |
+| 5.5 | `module.exports` in ESM project (`next.config.ts`)                              |   🟢 Low    | Build fragility                           |
+| 5.6 | Commented-out code in multiple shipped files                                    |   🟢 Low    | Readability, ambiguity                    |
+| 5.7 | Weak env var validation (falsy check, no URL format check)                      |   🟢 Low    | Late-failing misconfiguration             |
+| 6.1 | Zero test coverage                                                              |   🟢 Low    | No regression safety net                  |
+| 6.2 | `error.tsx` `reset` callback never wired to a button                            |   🟢 Low    | Poor error recovery UX                    |
+| 6.3 | `src/shared/constant/` is empty                                                 |   🟢 Low    | Misleading project structure              |
+| 6.4 | `agents/` directory is completely empty                                         |   🟢 Low    | Misleading project structure              |
 
 ---
 
-*Generated by static analysis of `apps/admin` and `packages/`.*
+_Generated by static analysis of `apps/admin` and `packages/`._

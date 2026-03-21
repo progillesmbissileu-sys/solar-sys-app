@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { callActionWithIdSafe } from '@/shared/api';
+import { callActionWithId } from '@/shared/api';
 import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
 
@@ -11,8 +11,6 @@ export const addProductImageAction = async (
   productId: string,
   isMainImage: boolean = false
 ) => {
-  console.log({ image, productId, isMainImage });
-
   const formData = new FormData();
 
   formData.append('image', image.file[0]);
@@ -22,13 +20,11 @@ export const addProductImageAction = async (
 
   const upload = await uploadImageAction(formData);
 
-  console.log({ upload });
-
   if (upload) {
-    const response = await callActionWithIdSafe('/api/product/media/{id}/images', 'POST')(
-      productId,
-      { imageId: upload.id, isMainImage }
-    );
+    const response = await callActionWithId('/api/product/media/{id}/images', 'POST')(productId, {
+      imageId: upload.id,
+      isMainImage,
+    });
 
     if (response.success) {
       revalidatePath(routePaths.PRODUCTS_OVERVIEW.replace('{id}', productId));

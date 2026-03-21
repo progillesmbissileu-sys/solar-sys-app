@@ -1,6 +1,6 @@
 import {
-  callActionSafe,
-  callActionWithIdSafe,
+  callAction,
+  callActionWithId,
   CollectionResponseType,
   mutation,
   mutationWithId,
@@ -14,11 +14,11 @@ import {
   UpdateMarketServicePayload,
 } from '../model/market-service';
 
-export const marketServiceCollection = callActionSafe<
+export const marketServiceCollection = callAction<
   CollectionResponseType<MarketServiceCollectionItem>
 >('/api/market-services', 'GET');
 
-export const marketServiceDetail = callActionWithIdSafe<{ data: MarketService }>(
+export const marketServiceDetail = callActionWithId<{ data: MarketService }>(
   '/api/market-services/{id}',
   'GET'
 );
@@ -33,7 +33,7 @@ export const marketServiceUpdate = mutationWithId<UpdateMarketServicePayload>(
   'PUT'
 );
 
-export const marketServiceDelete = callActionWithIdSafe('/api/market-services/{id}', 'DELETE');
+export const marketServiceDelete = callActionWithId('/api/market-services/{id}', 'DELETE');
 
 export const replaceServiceThumbnail = mutationWithId<{ thumbnailId: string }>(
   '/api/market-services/{serviceId}/thumbnail',
