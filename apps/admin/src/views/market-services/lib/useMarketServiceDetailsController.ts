@@ -7,7 +7,33 @@ import { useRightPanel } from '@/widgets/container';
 import { replaceServiceThumbnailAction } from '@/features/market-services';
 import { deleteServiceAction } from '@/features/market-services/lib/delete-service-action';
 
-export function useMarketServiceDetailsController(service: MarketService) {
+type MarketServiceDetailsControllerState = {
+  isUploading: boolean;
+  isModalOpen: boolean;
+};
+
+type MarketServiceDetailsControllerActions = {
+  handleEdit: () => void;
+
+  openFilePicker: () => void;
+  handleThumbnailReplace: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+
+  requestDelete: () => void;
+  handleDelete: () => Promise<void>;
+
+  // passthrough for DeleteConfirmationModal `onOpenChange`
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+type MarketServiceDetailsControllerRefs = {
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+};
+
+export function useMarketServiceDetailsController(service: MarketService): {
+  state: MarketServiceDetailsControllerState;
+  actions: MarketServiceDetailsControllerActions;
+  refs: MarketServiceDetailsControllerRefs;
+} {
   const { openPanel } = useRightPanel();
   const router = useRouter();
 
@@ -78,21 +104,20 @@ export function useMarketServiceDetailsController(service: MarketService) {
   }, [router, service.id]);
 
   return {
-    // state
-    isUploading,
-    isModalOpen,
-
-    // refs
-    fileInputRef,
-
-    // actions
-    handleEdit,
-    openFilePicker,
-    handleThumbnailReplace,
-    requestDelete,
-    handleDelete,
-
-    // modal setter for DeleteConfirmationModal
-    setIsModalOpen,
+    state: {
+      isUploading,
+      isModalOpen,
+    },
+    refs: {
+      fileInputRef,
+    },
+    actions: {
+      handleEdit,
+      openFilePicker,
+      handleThumbnailReplace,
+      requestDelete,
+      handleDelete,
+      setIsModalOpen,
+    },
   };
 }

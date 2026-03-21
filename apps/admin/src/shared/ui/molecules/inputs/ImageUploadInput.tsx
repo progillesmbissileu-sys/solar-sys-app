@@ -396,7 +396,7 @@ export function ImageUploadInput({
           {/* Dropzone tile */}
           <div
             className={cx(
-              'flex h-full items-center justify-center rounded-md border border-blue-200 bg-gray-50 text-gray-600',
+              'flex h-full items-center justify-center rounded-md border bg-gray-50 text-gray-600',
               !canAddMore && 'hidden',
               { 'aspect-square': multiple }
             )}

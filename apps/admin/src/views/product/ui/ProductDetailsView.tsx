@@ -23,33 +23,14 @@ import {
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { routePaths } from '@/shared/routes';
 import { PlusIcon } from 'lucide-react';
-import { useProductDetailsController } from '../lib/useProductDetailsController';
+import { useProductDetailsController } from '../lib/use-product-controller';
 
 export function ProductDetailsView({ product }: { product: Product }) {
   const { openPanel } = useRightPanel();
 
-  const {
-    isLowStock,
-    isOutOfStock,
-    stockStatus,
+  const controller = useProductDetailsController(product);
 
-    allImages,
-    selectedImage,
-    setSelectedImage,
-    canAddMoreImages,
-
-    isPending,
-
-    deleteModal,
-    openDeleteModal,
-    setDeleteModalOpen,
-    confirmDeleteImage,
-
-    uploadModal,
-    openUploadModal,
-    setUploadModalOpen,
-    confirmUploadImage,
-  } = useProductDetailsController(product);
+  const { state, actions } = controller;
 
   return (
     <DesktopPageContainer
@@ -92,8 +73,8 @@ export function ProductDetailsView({ product }: { product: Product }) {
               <figure className="relative aspect-square w-full overflow-hidden bg-gray-50 dark:bg-gray-900">
                 <AppImage
                   fill
-                  src={selectedImage.url}
-                  alt={selectedImage.alt}
+                  src={state.selectedImage.url}
+                  alt={state.selectedImage.alt}
                   unoptimized
                   className="object-cover"
                 />
@@ -102,9 +83,9 @@ export function ProductDetailsView({ product }: { product: Product }) {
 
             {/* Thumbnail Grid */}
             <div className="grid grid-cols-4 gap-2">
-              {allImages.length > 1 &&
-                allImages.map((image, index) => {
-                  const isSelected = selectedImage.url === image.url;
+              {state.allImages.length > 1 &&
+                state.allImages.map((image, index) => {
+                  const isSelected = state.selectedImage.url === image.url;
                   const isMainImage = image.url === product.mainImage.url;
 
                   return (
@@ -115,7 +96,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
                             ? 'ring-2 ring-blue-500 dark:ring-blue-400'
                             : 'hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600'
                         }`}
-                        onClick={() => setSelectedImage(image)}
+                        onClick={() => actions.setSelectedImage(image)}
                       >
                         <figure className="relative aspect-square w-full overflow-hidden bg-gray-50 dark:bg-gray-900">
                           <AppImage
@@ -134,11 +115,11 @@ export function ProductDetailsView({ product }: { product: Product }) {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            openDeleteModal(image);
+                            actions.openDeleteModal(image);
                           }}
                           className="absolute right-1 top-1 rounded-full bg-red-500 p-1.5 text-white opacity-0 shadow-lg transition-opacity hover:bg-red-600 group-hover:opacity-100"
                           title="Delete image"
-                          disabled={isPending}
+                          disabled={state.isPending}
                         >
                           <RiDeleteBinLine className="size-3.5" />
                         </button>
@@ -153,10 +134,10 @@ export function ProductDetailsView({ product }: { product: Product }) {
                     </div>
                   );
                 })}
-              {canAddMoreImages && (
+              {state.canAddMoreImages && (
                 <Card
                   className={`aspect-square cursor-pointer overflow-hidden bg-gray-50 p-0 transition-all dark:bg-gray-900`}
-                  onClick={openUploadModal}
+                  onClick={actions.openUploadModal}
                 >
                   <div className="h-full w-full content-center">
                     <PlusIcon className="mx-auto h-6 w-6 text-gray-500" />
@@ -186,7 +167,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
                     )}
                   </div>
                   <div className="flex items-center gap-3">
-                    <Badge variant={stockStatus.variant}>{stockStatus.label}</Badge>
+                    <Badge variant={state.stockStatus.variant}>{state.stockStatus.label}</Badge>
                   </div>
                 </div>
 
@@ -244,7 +225,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
                     <p className="text-xs text-gray-500 dark:text-gray-400">Stock Quantity</p>
                     <p className="font-medium text-gray-900 dark:text-gray-100">
                       {product.stockQuantity} units
-                      {isLowStock && !isOutOfStock && (
+                      {state.isLowStock && !state.isOutOfStock && (
                         <span className="ml-2 text-xs text-amber-600 dark:text-amber-400">
                           (Low threshold: {product.lowStockThreshold})
                         </span>
@@ -293,16 +274,16 @@ export function ProductDetailsView({ product }: { product: Product }) {
         </div>
 
         <DeleteConfirmationModal
-          open={deleteModal.isOpen}
-          loading={isPending}
+          open={state.deleteModal.isOpen}
+          loading={state.isPending}
           content={<p className="text-center">Êtes-vous sûr de vouloir supprimer cette image ?</p>}
-          onConfirm={confirmDeleteImage}
-          onOpenChange={setDeleteModalOpen}
+          onConfirm={actions.confirmDeleteImage}
+          onOpenChange={actions.setDeleteModalOpen}
         />
         <UploadImageModal
-          open={uploadModal.isOpen}
-          onOpenChange={setUploadModalOpen}
-          onConfirm={confirmUploadImage}
+          open={state.uploadModal.isOpen}
+          onOpenChange={actions.setUploadModalOpen}
+          onConfirm={actions.confirmUploadImage}
         />
       </main>
     </DesktopPageContainer>

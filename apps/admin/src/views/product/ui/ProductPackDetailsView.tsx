@@ -14,18 +14,10 @@ import {
 import { DesktopPageContainer } from '@/widgets/container';
 import { RiDeleteBinLine, RiPencilLine, RiBox1Line } from '@remixicon/react';
 import { routePaths } from '@/shared/routes';
-import { useProductPackDetailsController } from '../lib/useProductPackDetailsController';
+import { useProductPackDetailsController } from '../lib/use-product-pack-controller';
 
 export function ProductPackDetailsView({ productPackage }: { productPackage: ProductPackage }) {
-  const {
-    isPending,
-    handleEdit,
-    requestDeleteItem,
-    requestDeletePackage,
-    deleteModal,
-    toggleDeleteModal,
-    confirmDelete,
-  } = useProductPackDetailsController(productPackage);
+  const { state, actions } = useProductPackDetailsController(productPackage);
 
   return (
     <DesktopPageContainer
@@ -41,15 +33,15 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
         title: productPackage.designation,
         actions: (
           <div className="flex gap-2">
-            <Button variant="secondary" onClick={handleEdit} className="gap-x-2">
+            <Button variant="secondary" onClick={actions.handleEdit} className="gap-x-2">
               <RiPencilLine className="size-4" />
               Modifier
             </Button>
             <Button
               variant="destructive"
-              onClick={requestDeletePackage}
+              onClick={actions.requestDeletePackage}
               className="gap-x-2"
-              disabled={isPending}
+              disabled={state.isPending}
             >
               <RiDeleteBinLine className="size-4" />
               Supprimer
@@ -160,9 +152,9 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
                       </div>
                       <Button
                         variant="ghost"
-                        onClick={() => requestDeleteItem(item)}
+                        onClick={() => actions.requestDeleteItem(item)}
                         className="text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
-                        disabled={isPending}
+                        disabled={state.isPending}
                       >
                         <RiDeleteBinLine className="size-4" />
                       </Button>
@@ -221,11 +213,11 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
         </div>
       </main>
       <DeleteConfirmationModal
-        loading={isPending}
-        open={deleteModal.isOpen}
-        content={<p className="text-center">{deleteModal.message}</p>}
-        onConfirm={confirmDelete}
-        onOpenChange={toggleDeleteModal}
+        loading={state.isPending}
+        open={state.deleteModal.isOpen}
+        content={<p className="text-center">{state.deleteModal.message}</p>}
+        onConfirm={actions.confirmDelete}
+        onOpenChange={actions.toggleDeleteModal}
       />
     </DesktopPageContainer>
   );

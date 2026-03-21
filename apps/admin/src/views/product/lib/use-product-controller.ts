@@ -28,6 +28,13 @@ export function useProductDetailsController(product: Product) {
   const router = useRouter();
   const events = useEvents();
 
+  const actions = React.useMemo(() => {
+    return {
+      router,
+      events,
+    };
+  }, [events, router]);
+
   // Derived stock status
   const isLowStock = product.stockQuantity <= product.lowStockThreshold;
   const isOutOfStock = product.stockQuantity === 0;
@@ -88,14 +95,14 @@ export function useProductDetailsController(product: Product) {
       const response = await deleteImageMediaAction(imageId);
 
       if (response.success) {
-        events.success('Image supprimée avec success');
+        actions.events.success('Image supprimée avec success');
         setDeleteModal({ isOpen: false, image: null });
-        router.refresh();
+        actions.router.refresh();
       } else {
-        events.error("Echec de la suppression d'une image");
+        actions.events.error("Echec de la suppression d'une image");
       }
     });
-  }, [deleteModal.image?.id, events, router]);
+  }, [actions, deleteModal.image?.id]);
 
   const confirmUploadImage = React.useCallback(
     async (data: UploadImagePayload) => {
@@ -110,45 +117,66 @@ export function useProductDetailsController(product: Product) {
       );
 
       if (response.success) {
-        events.success('Image ajoutée avec success');
+        actions.events.success('Image ajoutée avec success');
         setUploadModal({ isOpen: false });
-        // ProductDetailsView currently relies on refresh for delete only;
-        // upload likely triggers revalidation elsewhere, but keeping it consistent:
-        router.refresh();
+        actions.router.refresh();
       } else {
-        events.error("Echec de l'ajout d'une image");
+        actions.events.error("Echec de l'ajout d'une image");
       }
     },
-    [events, product.id, router]
+    [actions, product.id]
   );
 
   const canAddMoreImages = allImages.length < MAX_PRODUCT_IMAGES;
 
-  return {
-    // derived
+  const state = React.useMemo(() => {
+    return {
+      // derived
+      isLowStock,
+      isOutOfStock,
+      stockStatus,
+
+      // gallery
+      allImages,
+      selectedImage,
+      canAddMoreImages,
+
+      // pending
+      isPending,
+
+      // delete modal
+      deleteModal,
+
+      // upload modal
+      uploadModal,
+    };
+  }, [
+    allImages,
+    canAddMoreImages,
+    deleteModal,
     isLowStock,
     isOutOfStock,
-    stockStatus,
-
-    // gallery
-    allImages,
-    selectedImage,
-    setSelectedImage,
-    canAddMoreImages,
-
-    // pending
     isPending,
-
-    // delete modal
-    deleteModal,
-    openDeleteModal,
-    setDeleteModalOpen,
-    confirmDeleteImage,
-
-    // upload modal
+    selectedImage,
+    stockStatus,
     uploadModal,
-    openUploadModal,
-    setUploadModalOpen,
-    confirmUploadImage,
+  ]);
+
+  return {
+    state,
+    actions: {
+      // gallery
+      setSelectedImage,
+
+      // delete modal
+      openDeleteModal,
+      setDeleteModalOpen,
+      confirmDeleteImage,
+
+      // upload modal
+      openUploadModal,
+      setUploadModalOpen,
+      confirmUploadImage,
+    },
   };
 }

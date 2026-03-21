@@ -65,7 +65,7 @@ function DesktopPageContainerInner({
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
       }
-      closePanel();
+      // closePanel();
     };
   }, [rightPanelOpen, shouldRender]);
 

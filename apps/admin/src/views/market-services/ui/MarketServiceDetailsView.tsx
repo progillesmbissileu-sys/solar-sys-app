@@ -32,11 +32,15 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
         title: service.designation,
         actions: (
           <div className="flex gap-2">
-            <Button variant="secondary" onClick={controller.handleEdit} className="gap-x-2">
+            <Button variant="secondary" onClick={controller.actions.handleEdit} className="gap-x-2">
               <RiPencilLine className="size-4" />
               Modifier
             </Button>
-            <Button variant="destructive" className="gap-x-2" onClick={controller.requestDelete}>
+            <Button
+              variant="destructive"
+              className="gap-x-2"
+              onClick={controller.actions.requestDelete}
+            >
               <RiDeleteBinLine className="size-4" />
               Supprimer
             </Button>
@@ -66,20 +70,20 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
                 {/* Hover overlay with modify button */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
                   <input
-                    ref={controller.fileInputRef}
+                    ref={controller.refs.fileInputRef}
                     type="file"
                     accept="image/*"
-                    onChange={controller.handleThumbnailReplace}
+                    onChange={controller.actions.handleThumbnailReplace}
                     className="hidden"
                   />
                   <Button
                     variant="secondary"
-                    onClick={controller.openFilePicker}
-                    disabled={controller.isUploading}
+                    onClick={controller.actions.openFilePicker}
+                    disabled={controller.state.isUploading}
                     className="gap-x-2"
                   >
                     <RiImageLine className="size-4" />
-                    {controller.isUploading ? 'Chargement...' : "Modifier l'image"}
+                    {controller.state.isUploading ? 'Chargement...' : "Modifier l'image"}
                   </Button>
                 </div>
               </figure>
@@ -183,14 +187,14 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
         </div>
       </main>
       <DeleteConfirmationModal
-        open={controller.isModalOpen}
+        open={controller.state.isModalOpen}
         content={
           <p className="text-center">
             Êtes-vous sûr de vouloir supprimer le service: <strong>{service.designation}</strong> ?
           </p>
         }
-        onConfirm={controller.handleDelete}
-        onOpenChange={controller.setIsModalOpen}
+        onConfirm={controller.actions.handleDelete}
+        onOpenChange={controller.actions.setIsModalOpen}
       />
     </DesktopPageContainer>
   );

@@ -34,6 +34,8 @@ export const UploadImageModal = (props: {
                 <div className="col-span-full">
                   <Field.Select
                     name="isMainImage"
+                    placeholder="Type (secondaire - principal)"
+                    defaultValue="false"
                     options={[
                       { label: 'Image secondaire', value: 'false' },
                       { label: 'Image principale', value: 'true' },

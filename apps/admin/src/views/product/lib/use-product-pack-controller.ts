@@ -25,9 +25,12 @@ export function useProductPackDetailsController(productPackage: ProductPackage) 
     message: null,
   });
 
-  const openDeleteModal = React.useCallback((params: { message: React.ReactNode; handle: () => void }) => {
-    setDeleteModal({ isOpen: true, message: params.message, handle: params.handle });
-  }, []);
+  const openDeleteModal = React.useCallback(
+    (params: { message: React.ReactNode; handle: () => void }) => {
+      setDeleteModal({ isOpen: true, message: params.message, handle: params.handle });
+    },
+    []
+  );
 
   const closeDeleteModal = React.useCallback(() => {
     setDeleteModal((prev) => ({ ...prev, isOpen: false }));
@@ -96,21 +99,22 @@ export function useProductPackDetailsController(productPackage: ProductPackage) 
   }, [deleteModal.handle]);
 
   return {
-    isPending,
+    state: {
+      isPending,
+      deleteModal,
+    },
+    actions: {
+      handleEdit,
+      requestDeleteItem,
+      requestDeletePackage,
+      confirmDelete,
 
-    // edit
-    handleEdit,
+      openDeleteModal,
+      closeDeleteModal,
+      toggleDeleteModal,
 
-    // delete actions
-    requestDeleteItem,
-    requestDeletePackage,
-
-    // modal state / controls
-    deleteModal,
-    openDeleteModal,
-    closeDeleteModal,
-    toggleDeleteModal,
-    confirmDelete,
-    setDeleteModal,
+      // kept for backward compatibility / edge cases where the view needs to set state directly
+      setDeleteModal,
+    },
   };
 }
