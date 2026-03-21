@@ -51,7 +51,7 @@ function Checkbox(props: CheckboxInputProps & WithFormBlockProps) {
   return <form.AppField name={props.name} children={(field) => <field.Checkbox {...props} />} />;
 }
 
-function Images(props: ImageUploadInputProps & WithFormBlockProps) {
+function ImageUploadInput(props: ImageUploadInputProps & WithFormBlockProps) {
   const form = useFormContext();
 
   return <form.AppField name={props.name} children={(field) => <field.ImageUpload {...props} />} />;
@@ -94,7 +94,7 @@ export {
   Email,
   Select,
   Checkbox,
-  Images,
+  ImageUploadInput,
   ImageField,
   Textarea,
   Search,

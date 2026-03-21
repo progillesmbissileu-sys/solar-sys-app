@@ -25,9 +25,9 @@ export function useNavigator() {
   ) => {
     const hash = !withoutHash ? globalThis?.location?.hash || '' : '';
 
-    // Replace path params like /user/:id
+    // Replace path params like /user/{id}
     const path = Object.keys(routeParams).reduce((acc, key) => {
-      return acc.replace(`:${key}`, routeParams[key]);
+      return acc.replace(`{${key}}`, routeParams[key]);
     }, route);
 
     // const backUrl = encodeURIComponent(pathname)

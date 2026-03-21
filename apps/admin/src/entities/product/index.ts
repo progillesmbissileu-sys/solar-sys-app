@@ -9,7 +9,7 @@ export type {
   CreateProductPayload,
   UpdateProductPayload,
 } from './model/product';
-export type { ProductImage } from './model/product-image';
+export { MAX_PRODUCT_IMAGES, type ProductImage } from './model/product-image';
 export {
   type ProductCategory,
   type ProductCategoryPreview,

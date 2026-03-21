@@ -1,6 +1,7 @@
 "use client";
 
 import { Toaster } from "sonner";
+import React from "react";
 
 interface EventProviderProps {
   children: React.ReactNode;
@@ -26,5 +27,3 @@ export function EventProvider({ children }: EventProviderProps) {
     </>
   );
 }
-
-export { useEvents } from "./use-events";

@@ -6,7 +6,7 @@ import { Layout } from '@/app/layouts';
 import { ThemeProvider } from 'next-themes';
 import { productModulePanels } from '@/views/product';
 import { marketServiceModulePanels } from '@/views/market-services';
-import { EventProvider } from '@repo/ui/event-provider';
+import { EventProvider } from '@repo/core';
 
 export const rightPanelRegistry = {
   ...productModulePanels,

@@ -8,7 +8,7 @@ import { createProductPackAction } from '../../lib/create-product-pack-action';
 import { updateProductPackAction } from '../../lib/update-product-pack-action';
 import { createPackFormSchema, updatePackFormSchema } from '../../model/product-pack-form-schemas';
 import z from 'zod';
-import { useEvents } from '@repo/ui/event-provider';
+import { useEvents } from '@repo/core';
 
 export default function ProductPackageForm({
   initialValues,

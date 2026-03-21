@@ -1,14 +1,13 @@
 'use client';
 
 import { Button } from '@/shared/ui';
-import Link from 'next/link';
 
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function Error({ error }: ErrorProps) {
+export default function Error({ error, reset }: ErrorProps) {
   const isDev = process.env.NODE_ENV === 'development';
 
   return (
@@ -45,8 +44,8 @@ export default function Error({ error }: ErrorProps) {
         )}
 
         <div className="flex justify-center gap-4">
-          <Button asChild>
-            <Link href="/dashboard">Go to Home</Link>
+          <Button asChild onClick={reset}>
+            Retry
           </Button>
         </div>
       </div>

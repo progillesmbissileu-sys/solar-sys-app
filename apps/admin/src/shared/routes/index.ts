@@ -8,31 +8,31 @@ export const routePaths = {
 
   PRODUCTS: '/products',
   PRODUCTS_MANAGEMENT: '/products',
-  PRODUCTS_OVERVIEW: '/products/:id',
-  PRODUCTS_INVENTORY: '/products/:id/inventory',
-  PRODUCTS_ORDERS_RECORD: '/products/:id/orders-history',
-  PRODUCTS_EDIT: '/products/:id/edit',
+  PRODUCTS_OVERVIEW: '/products/{id}',
+  PRODUCTS_INVENTORY: '/products/{id}/inventory',
+  PRODUCTS_ORDERS_RECORD: '/products/{id}/orders-history',
+  PRODUCTS_EDIT: '/products/{id}/edit',
 
   PRODUCTS_PACKAGES: '/product-packages',
-  PRODUCTS_PACKAGES_DETAILS: '/product-packages/:id',
+  PRODUCTS_PACKAGES_DETAILS: '/product-packages/{id}',
 
   PRODUCTS_CATEGORIES: '/product-categories',
   PRODUCTS_CATEGORIES_ADD: '/product-categories/create',
-  PRODUCTS_CATEGORIES_DETAILS: '/product-categories/:id',
+  PRODUCTS_CATEGORIES_DETAILS: '/product-categories/{id}',
 
   MARKET_SERVICES: '/market-services',
-  MARKET_SERVICES_DETAILS: '/market-services/:id',
+  MARKET_SERVICES_DETAILS: '/market-services/{id}',
 
   USERS: '/users',
   USERS_ADD: '/users/add',
-  USERS_VIEW: '/users/view/:id',
+  USERS_VIEW: '/users/view/{id}',
   USERS_PROFILE: '/users/profile',
   USERS_SETTINGS: '/users/settings',
   USERS_PERMISSIONS: '/users/permissions',
 
   LOCATIONS: '/locations',
   LOCATIONS_ADD: '/locations/add',
-  LOCATIONS_VIEW: '/locations/view/:id',
+  LOCATIONS_VIEW: '/locations/view/{id}',
 } as const;
 
 export type AppRoutes = typeof routePaths;

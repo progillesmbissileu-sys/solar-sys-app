@@ -5,12 +5,11 @@ import { ProductCategory } from '@/entities/product';
 import { UpdateCategoryForm } from '@/features/products';
 
 export type CategoryFormPanelProps = {
-  categories?: ProductCategory[];
   initialValues?: ProductCategory;
 };
 
 export function CategoryFormPanel({ panelProps }: PanelComponentProps) {
-  const { categories, initialValues } = (panelProps || {}) as CategoryFormPanelProps;
+  const { initialValues } = (panelProps || {}) as CategoryFormPanelProps;
 
-  return <UpdateCategoryForm categories={categories || []} initialValues={initialValues} />;
+  return <UpdateCategoryForm initialValues={initialValues} />;
 }

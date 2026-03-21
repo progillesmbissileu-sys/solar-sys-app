@@ -6,7 +6,7 @@ import { FormComponent, FormField, FormWrapper } from '@/shared/ui';
 import { createProductSchema, updateProductSchema } from '../../model/product-form-schemas';
 import { createProductAction } from '../../lib/create-product-action';
 import { updateProductAction } from '../../lib/update-product-action';
-import { useEvents } from '@repo/ui/event-provider';
+import { useEvents } from '@repo/core';
 import { getCategoriesAction } from '../../lib/category-collection-action';
 import z from 'zod';
 

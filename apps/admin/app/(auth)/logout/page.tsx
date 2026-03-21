@@ -1,10 +1,12 @@
 'use client';
 
 import { routePaths } from '@/shared/routes';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Page() {
+  const router = useRouter();
+
   useEffect(() => {
     (async () => {
       let canRedirect = false;
@@ -14,16 +16,14 @@ export default function Page() {
           method: 'DELETE',
         });
 
-        console.log(response);
-
         canRedirect = !!response.ok;
       } catch (error) {
         console.error(error);
       }
 
-      // if (canRedirect) {
-      redirect(routePaths.LOGIN);
-      // }
+      if (canRedirect) {
+        router.replace(routePaths.LOGIN);
+      }
     })();
   }, []);
 

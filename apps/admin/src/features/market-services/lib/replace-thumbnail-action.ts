@@ -1,7 +1,7 @@
 'use server';
 
 import { replaceServiceThumbnail } from '@/entities/market-service';
-import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
+import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { buildRoute } from '@/shared/lib/router';
 import { routePaths } from '@/shared/routes';
 import { revalidatePath } from 'next/cache';

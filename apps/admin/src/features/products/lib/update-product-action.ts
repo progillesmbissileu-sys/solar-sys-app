@@ -17,7 +17,7 @@ export const updateProductAction = async (payload: z.infer<typeof updateProductS
 
   const resp = await updateProduct(payload.id, _payload);
 
-  resp.success && revalidatePath(routePaths.PRODUCTS_OVERVIEW.replace(':id', payload.id), 'page');
+  resp.success && revalidatePath(routePaths.PRODUCTS_OVERVIEW.replace('{id}', payload.id), 'page');
 
   return resp;
 };

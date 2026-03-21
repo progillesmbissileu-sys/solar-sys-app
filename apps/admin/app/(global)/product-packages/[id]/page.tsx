@@ -1,7 +1,7 @@
 import { getProductPack } from '@/entities/product';
 import { AppRouterProps } from '../../../_lib';
 import { FailedRequestDisplay } from '@/shared/ui';
-import { ProductPackDetailsView } from '@/views/product/ui/ProductPackDetailsView';
+import { ProductPackDetailsView } from '@/views/product';
 
 export default async function Page({ params }: AppRouterProps) {
   const { id } = await params;

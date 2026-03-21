@@ -1,6 +1,6 @@
 'use server';
 
-import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
+import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { routePaths } from '@/shared/routes';
 import { createProduct, CreateProductPayload } from '@/entities/product';
 import { revalidatePath } from 'next/cache';
@@ -42,7 +42,7 @@ export const createProductAction = async (payload: z.infer<typeof createProductS
       imageIds:
         uploadedPictures.length > 1
           ? (uploadedPictures.slice(1) as any[]).map((picture) => picture?.id)
-          : [null],
+          : [],
     };
 
     const resp = await createProduct(_payload);

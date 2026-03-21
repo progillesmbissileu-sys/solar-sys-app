@@ -13,7 +13,7 @@ export type ImageUploadInputRemoveEvent = {
 };
 
 export type ImageUploadInputProps = {
-  name: string;
+  name?: string;
   /**
    * Expected to be an array of `File`s (new images) and/or `string` URLs
    * (already uploaded images).
@@ -64,9 +64,7 @@ function isFile(item: ImageItem): item is File {
 
 function normalizeValue(value: unknown): ImageItem[] {
   if (!Array.isArray(value)) return [];
-  return value.filter(
-    (v) => typeof v === 'string' || v instanceof File,
-  ) as ImageItem[];
+  return value.filter((v) => typeof v === 'string' || v instanceof File) as ImageItem[];
 }
 
 /**
@@ -117,9 +115,7 @@ export function ImageUploadInput({
   const effectiveMaxFileSize = maxFileSize ?? DEFAULT_MAX_FILE_SIZE;
 
   // ── Internal state ──────────────────────────────────────────────────
-  const [items, setItems] = React.useState<ImageItem[]>(() =>
-    normalizeValue(defaultValue),
-  );
+  const [items, setItems] = React.useState<ImageItem[]>(() => normalizeValue(defaultValue));
 
   const [isUploading, setIsUploading] = React.useState(false);
   const [isDragActive, setIsDragActive] = React.useState(false);
@@ -150,8 +146,7 @@ export function ImageUploadInput({
 
   React.useEffect(() => {
     const urls = items.map((item) => {
-      if (isFile(item))
-        return { src: URL.createObjectURL(item), revoke: true };
+      if (isFile(item)) return { src: URL.createObjectURL(item), revoke: true };
       return { src: item, revoke: false };
     });
 
@@ -169,15 +164,13 @@ export function ImageUploadInput({
     (next: ImageItem[]) => {
       const normalized = normalizeValue(next);
       const capped =
-        typeof effectiveMaxFiles === 'number'
-          ? normalized.slice(0, effectiveMaxFiles)
-          : normalized;
+        typeof effectiveMaxFiles === 'number' ? normalized.slice(0, effectiveMaxFiles) : normalized;
 
       lastCommittedRef.current = capped;
       setItems(capped);
       onChange?.(capped);
     },
-    [effectiveMaxFiles, onChange],
+    [effectiveMaxFiles, onChange]
   );
 
   // ── Remove ──────────────────────────────────────────────────────────
@@ -190,7 +183,7 @@ export function ImageUploadInput({
         void onRemove?.({ removed, index, nextValue });
       }
     },
-    [commit, items, onRemove],
+    [commit, items, onRemove]
   );
 
   // ── Open file picker ────────────────────────────────────────────────
@@ -211,11 +204,11 @@ export function ImageUploadInput({
       if (filtered.length === 0) return;
 
       // Validate file formats
-      const invalidFormatFiles = filtered.filter(
-        (f) => !effectiveAcceptedFormats.includes(f.type),
-      );
+      const invalidFormatFiles = filtered.filter((f) => !effectiveAcceptedFormats.includes(f.type));
       if (invalidFormatFiles.length > 0) {
-        const formatList = effectiveAcceptedFormats.map((f) => f.replace('image/', '').toUpperCase()).join(', ');
+        const formatList = effectiveAcceptedFormats
+          .map((f) => f.replace('image/', '').toUpperCase())
+          .join(', ');
         const errorMsg = `Invalid file format. Accepted formats: ${formatList}`;
         setValidationError(errorMsg);
         onValidationError?.({ type: 'format', message: errorMsg });
@@ -242,15 +235,11 @@ export function ImageUploadInput({
           : null;
 
       const cappedSelection =
-        remainingSlots === null
-          ? filtered
-          : filtered.slice(0, Math.max(0, remainingSlots));
+        remainingSlots === null ? filtered : filtered.slice(0, Math.max(0, remainingSlots));
 
       if (cappedSelection.length === 0) return;
 
-      const nextLocal = multiple
-        ? [...current, ...cappedSelection]
-        : [cappedSelection[0]];
+      const nextLocal = multiple ? [...current, ...cappedSelection] : [cappedSelection[0]];
 
       commit(nextLocal);
 
@@ -272,7 +261,18 @@ export function ImageUploadInput({
         setIsUploading(false);
       }
     },
-    [accept, autoUpload, commit, effectiveMaxFiles, items, multiple, upload, effectiveAcceptedFormats, effectiveMaxFileSize, onValidationError],
+    [
+      accept,
+      autoUpload,
+      commit,
+      effectiveMaxFiles,
+      items,
+      multiple,
+      upload,
+      effectiveAcceptedFormats,
+      effectiveMaxFileSize,
+      onValidationError,
+    ]
   );
 
   // ── File input change handler ───────────────────────────────────────
@@ -285,7 +285,7 @@ export function ImageUploadInput({
       if (selected.length === 0) return;
       await addFiles(selected);
     },
-    [addFiles],
+    [addFiles]
   );
 
   // ── Sync native file input for FormData submission ──────────────────
@@ -318,7 +318,7 @@ export function ImageUploadInput({
       const files = Array.from(evt.dataTransfer.files ?? []);
       await addFiles(files);
     },
-    [addFiles, disabled, isUploading],
+    [addFiles, disabled, isUploading]
   );
 
   const handleDragOver = React.useCallback(
@@ -327,25 +327,20 @@ export function ImageUploadInput({
       evt.stopPropagation();
       if (!isDragActive) setIsDragActive(true);
     },
-    [isDragActive],
+    [isDragActive]
   );
 
-  const handleDragLeave = React.useCallback(
-    (evt: React.DragEvent<HTMLDivElement>) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      setIsDragActive(false);
-    },
-    [],
-  );
+  const handleDragLeave = React.useCallback((evt: React.DragEvent<HTMLDivElement>) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    setIsDragActive(false);
+  }, []);
 
   const canAddMore =
-    typeof effectiveMaxFiles !== 'number'
-      ? true
-      : items.length < effectiveMaxFiles;
+    typeof effectiveMaxFiles !== 'number' ? true : items.length < effectiveMaxFiles;
 
   return (
-    <div className={cx('w-full', className)}>
+    <div className={cx('w-full', { 'aspect-video': !multiple }, className)}>
       {/* Hidden native file input – participates in FormData submission */}
       <input
         ref={fileInputRef}
@@ -358,27 +353,13 @@ export function ImageUploadInput({
         onChange={handleFileChange}
       />
 
-      {/* Hidden inputs for URL strings so they appear in FormData */}
-      {items
-        .filter((item): item is string => typeof item === 'string')
-        .map((url, index) => (
-          <input
-            key={`${url}-${index}`}
-            type="hidden"
-            name={name}
-            value={url}
-          />
-        ))}
-
       <div className="flex items-center justify-end gap-2">
-        {typeof effectiveMaxFiles === 'number' && (
+        {maxFiles && typeof effectiveMaxFiles === 'number' && (
           <span className="text-xs text-gray-500">
             {items.length}/{effectiveMaxFiles}
           </span>
         )}
-        {validationError && (
-          <span className="text-xs text-red-500">{validationError}</span>
-        )}
+        {validationError && <span className="text-xs text-red-500">{validationError}</span>}
       </div>
 
       <div
@@ -399,32 +380,33 @@ export function ImageUploadInput({
         onDragLeave={handleDragLeave}
         className={cx(
           'mt-2 rounded-md border border-dashed p-3 transition-colors',
-          isDragActive
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 bg-white hover:bg-gray-50',
+          isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white hover:bg-gray-50',
           (disabled || isUploading) && 'cursor-not-allowed opacity-60',
           focusRing,
+          { 'aspect-video': !multiple }
         )}
         aria-disabled={disabled || isUploading}
       >
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div
+          className={cx('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4', {
+            'h-full max-h-full grid-cols-1 bg-blue-500 lg:grid-cols-1': !multiple,
+          })}
+        >
           {/* Dropzone tile */}
           <div
             className={cx(
-              'flex aspect-square items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-gray-600',
+              'flex h-full items-center justify-center rounded-md border border-blue-200 bg-gray-50 text-gray-600',
               !canAddMore && 'hidden',
+              { 'aspect-square': multiple }
             )}
           >
             {isUploading ? (
-              <div className="flex flex-col items-center gap-2 text-xs">
-                <RiLoader2Fill
-                  className="size-5 animate-spin"
-                  aria-hidden="true"
-                />
+              <div className={cx('flex flex-col items-center gap-2 text-xs')}>
+                <RiLoader2Fill className="size-5 animate-spin" aria-hidden="true" />
                 <span>Uploading…</span>
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-2 text-xs">
+              <div className={cx('flex flex-col items-center gap-2 text-xs')}>
                 <RiImageAddLine className="size-5" aria-hidden="true" />
                 <span>{multiple ? 'Add' : 'Choose'}</span>
               </div>
@@ -434,14 +416,17 @@ export function ImageUploadInput({
           {/* Previews */}
           {items.length > 0 &&
             previewSrcs.map((src, index) => (
-              <div key={`${src}-${index}`} className="group relative">
-                <div className="aspect-square overflow-hidden rounded-md border border-gray-200 bg-gray-50">
-                  <img
-                    src={src}
-                    alt="Selected image preview"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <div key={`${src}-${index}`} className="group relative h-full">
+                <figure
+                  className={cx(
+                    'h-1/2 overflow-hidden rounded-md border border-gray-200 bg-gray-50 p-1',
+                    {
+                      'aspect-square': multiple || maxFiles,
+                    }
+                  )}
+                >
+                  <img src={src} alt="Selected image preview" className="" />
+                </figure>
                 <button
                   type="button"
                   onClick={(evt) => {
@@ -454,7 +439,7 @@ export function ImageUploadInput({
                     'absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/90 text-gray-900 shadow-sm transition-opacity',
                     'opacity-0 group-hover:opacity-100',
                     'disabled:cursor-not-allowed disabled:opacity-50',
-                    focusRing,
+                    focusRing
                   )}
                   aria-label="Remove image"
                 >

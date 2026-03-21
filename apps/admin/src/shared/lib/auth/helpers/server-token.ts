@@ -1,4 +1,5 @@
-import { REFRESH_TOKEN_COOKIE_NAME, TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
+import { env } from '@/shared/config';
+import { REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE_NAME } from '@/shared/lib/auth/constant';
 
 /**
  * Login function - call your API and store tokens in cookies
@@ -9,11 +10,12 @@ import { REFRESH_TOKEN_COOKIE_NAME, TOKEN_COOKIE_NAME } from '@/shared/lib/auth/
  */
 async function setAccessToken(token: string): Promise<void> {
   const cookieStore = await import('next/headers').then(({ cookies }) => cookies());
-  cookieStore.set(TOKEN_COOKIE_NAME, token, {
+  cookieStore.set(ACCESS_TOKEN_COOKIE_NAME, token, {
     path: '/',
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
+    maxAge: env.AUTH_ACCESS_COOKIE_MAX_AGE_SECONDS,
   });
 }
 
@@ -24,6 +26,7 @@ async function setRefreshToken(token: string): Promise<void> {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
+    maxAge: env.AUTH_REFRESH_COOKIE_MAX_AGE_SECONDS,
   });
 }
 
@@ -37,7 +40,7 @@ async function setAuthTokens(accessToken: string, refreshToken: string): Promise
  */
 async function getAccessToken(): Promise<string | null> {
   const cookieStore = await import('next/headers').then(({ cookies }) => cookies());
-  const token = cookieStore.get(TOKEN_COOKIE_NAME);
+  const token = cookieStore.get(ACCESS_TOKEN_COOKIE_NAME);
 
   return token?.value || null;
 }

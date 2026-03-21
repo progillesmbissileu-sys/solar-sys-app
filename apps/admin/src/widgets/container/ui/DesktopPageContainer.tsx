@@ -18,7 +18,6 @@ function DesktopPageContainerInner({
   pageHeader,
   tabs,
   defaultTab,
-  onTabChange,
 }: PageContainerProps) {
   const { setBreadcrumbs } = useBreadcrumbs();
   const rightPanelOpen = useRightPanelStore((state) => state.open);
@@ -29,9 +28,6 @@ function DesktopPageContainerInner({
   const sidebar = useSidebar();
 
   const panelProps = useRightPanelStore((state) => state.panelProps);
-  const [activeTab, setActiveTab] = useState<string>(
-    defaultTab || (tabs && tabs.length > 0 ? tabs[0].key : '')
-  );
 
   useEffect(() => {
     if (breadcrumbs) {
@@ -69,6 +65,7 @@ function DesktopPageContainerInner({
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
       }
+      closePanel();
     };
   }, [rightPanelOpen, shouldRender]);
 

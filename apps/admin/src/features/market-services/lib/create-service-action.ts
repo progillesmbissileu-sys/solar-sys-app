@@ -1,6 +1,6 @@
 'use server';
 
-import { deleteImageMediaAction, uploadImageAction } from '@/shared/api';
+import { deleteImageMediaAction, uploadImageAction } from '@/shared/lib';
 import { CreateMarketServicePayload } from '@/entities/market-service';
 import { marketServiceCreate } from '@/entities/market-service';
 import { routePaths } from '@/shared/routes';

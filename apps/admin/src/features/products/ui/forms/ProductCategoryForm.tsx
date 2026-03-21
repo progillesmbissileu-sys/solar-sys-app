@@ -5,7 +5,7 @@ import { formOptions } from '@tanstack/react-form';
 import z from 'zod';
 import { ProductCategoryType } from '@/entities/product';
 import { createProductCategoryAction } from '../../lib/create-product-category-action';
-import { useEvents } from '@repo/ui/event-provider';
+import { useEvents } from '@repo/core';
 
 export const categorySchema = z.object({
   id: z.uuid().optional(),

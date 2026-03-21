@@ -1,6 +1,6 @@
 'use server';
 
-import { callActionSafe } from '../client/helpers';
+import { callActionSafe } from '../../api/client/helpers';
 
 export async function uploadImageAction(
   formData: FormData

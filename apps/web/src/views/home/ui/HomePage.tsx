@@ -12,7 +12,7 @@ import { TestimonialsPreviewComponent } from '@/features/testimonials/ui/Testimo
 import { testimonials } from '@/shared/assets/data/testimonials';
 import { ProjectPreviewComponent } from '@/features/projects/ui/ProjectPreviewComponent';
 import { projects } from '@/shared/assets/data/projects';
-// import {EmbeddedMap} from "@repo/ui/map/EmbeddedMap";
+// import {EmbeddedMap} from "@repo/core/map/EmbeddedMap";
 
 export default function HomePage() {
   return (

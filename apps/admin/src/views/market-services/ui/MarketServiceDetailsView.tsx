@@ -56,7 +56,7 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
 
   const handleDelete = React.useCallback(async () => {
     const result = await deleteServiceAction(service.id);
-    setIsModalOpen(result.success);
+    setIsModalOpen(!result.success);
   }, [service.id, setIsModalOpen]);
 
   return (
@@ -66,7 +66,7 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
         { label: 'Services', href: routePaths.MARKET_SERVICES },
         {
           label: service.designation,
-          href: routePaths.MARKET_SERVICES_DETAILS.replace(':id', service.id),
+          href: routePaths.MARKET_SERVICES_DETAILS.replace('{id}', service.id),
         },
       ]}
       pageHeader={{

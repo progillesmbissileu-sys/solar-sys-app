@@ -30,6 +30,3 @@ export {
 
 // Collection types
 export * from './collection/types';
-
-// Actions
-export * from './actions/image-medias-actions';

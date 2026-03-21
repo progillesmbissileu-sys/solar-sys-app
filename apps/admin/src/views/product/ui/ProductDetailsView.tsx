@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { Product, ProductImage } from '@/entities/product';
+import { MAX_PRODUCT_IMAGES, Product, ProductImage } from '@/entities/product';
 import {
   AppImage,
   Badge,
@@ -12,8 +12,9 @@ import {
   DateDisplay,
   Divider,
   DeleteConfirmationModal,
+  UploadImageModal,
 } from '@/shared/ui';
-import { deleteImageMediaAction } from '@/shared/api';
+import { deleteImageMediaAction } from '@/shared/lib';
 import {
   RiStockLine,
   RiPriceTag3Line,
@@ -24,6 +25,9 @@ import {
 } from '@remixicon/react';
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { routePaths } from '@/shared/routes';
+import { PlusIcon } from 'lucide-react';
+import { addProductImageAction } from '@/features/products';
+import { set } from 'zod';
 
 export function ProductDetailsView({ product }: { product: Product }) {
   const router = useRouter();
@@ -49,6 +53,11 @@ export function ProductDetailsView({ product }: { product: Product }) {
     isOpen: false,
     image: null,
   });
+  const [uploadModal, setUploadModal] = useState<{
+    isOpen: boolean;
+  }>({
+    isOpen: false,
+  });
 
   const handleDeleteImage = (image: ProductImage) => {
     setDeleteModal({ isOpen: true, image });
@@ -64,6 +73,22 @@ export function ProductDetailsView({ product }: { product: Product }) {
     });
   };
 
+  const confirmUploadImage = async (data: {
+    file: File;
+    alt?: string;
+    title?: string;
+    isMainImage?: boolean;
+  }) =>
+    await addProductImageAction(
+      {
+        file: data.file,
+        alt: data.alt,
+        title: data.title,
+      },
+      product.id,
+      data.isMainImage
+    );
+
   return (
     <DesktopPageContainer
       breadcrumbs={[
@@ -71,7 +96,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
         { label: 'Produits', href: routePaths.PRODUCTS },
         {
           label: product.designation,
-          href: routePaths.PRODUCTS_OVERVIEW.replace(':id', product.id),
+          href: routePaths.PRODUCTS_OVERVIEW.replace('{id}', product.id),
         },
       ]}
       pageHeader={{
@@ -114,9 +139,9 @@ export function ProductDetailsView({ product }: { product: Product }) {
             </Card>
 
             {/* Thumbnail Grid */}
-            {allImages.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {allImages.map((image, index) => {
+            <div className="grid grid-cols-4 gap-2">
+              {allImages.length > 1 &&
+                allImages.map((image, index) => {
                   const isSelected = selectedImage.url === image.url;
                   const isMainImage = image.url === product.mainImage.url;
 
@@ -166,8 +191,17 @@ export function ProductDetailsView({ product }: { product: Product }) {
                     </div>
                   );
                 })}
-              </div>
-            )}
+              {allImages.length < MAX_PRODUCT_IMAGES && (
+                <Card
+                  className={`aspect-square cursor-pointer overflow-hidden bg-gray-50 p-0 transition-all dark:bg-gray-900`}
+                  onClick={() => setUploadModal({ isOpen: true })}
+                >
+                  <div className="h-full w-full content-center">
+                    <PlusIcon className="mx-auto h-6 w-6 text-gray-500" />
+                  </div>
+                </Card>
+              )}
+            </div>
           </div>
 
           {/* Product Info Section */}
@@ -302,6 +336,11 @@ export function ProductDetailsView({ product }: { product: Product }) {
           content={<p className="text-center">Êtes-vous sûr de vouloir supprimer cette image ?</p>}
           onConfirm={confirmDeleteImage}
           onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, isOpen: open }))}
+        />
+        <UploadImageModal
+          open={uploadModal.isOpen}
+          onOpenChange={(open) => setUploadModal((prev) => ({ ...prev, isOpen: open }))}
+          onConfirm={confirmUploadImage}
         />
       </main>
     </DesktopPageContainer>

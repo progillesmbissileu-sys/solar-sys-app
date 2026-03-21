@@ -4,3 +4,5 @@ export type ProductImage = {
   url: string;
   alt: string;
 };
+
+export const MAX_PRODUCT_IMAGES = 3;
