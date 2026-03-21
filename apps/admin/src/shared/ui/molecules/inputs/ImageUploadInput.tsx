@@ -3,6 +3,7 @@
 import React from 'react';
 import { RiDeleteBinLine, RiImageAddLine, RiLoader2Fill } from '@remixicon/react';
 import { cx, focusRing } from '@/shared/lib/utils';
+import Image from 'next/image';
 
 export type ImageItem = File | string;
 
@@ -380,7 +381,7 @@ export function ImageUploadInput({
         onDragLeave={handleDragLeave}
         className={cx(
           'mt-2 rounded-md border border-dashed p-3 transition-colors',
-          isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white hover:bg-gray-50',
+          isDragActive ? 'bg-blue-50' : 'border-gray-300 bg-white hover:bg-gray-50',
           (disabled || isUploading) && 'cursor-not-allowed opacity-60',
           focusRing,
           { 'aspect-video': !multiple }
@@ -389,7 +390,7 @@ export function ImageUploadInput({
       >
         <div
           className={cx('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4', {
-            'h-full max-h-full grid-cols-1 bg-blue-500 lg:grid-cols-1': !multiple,
+            'h-full max-h-full grid-cols-1 lg:grid-cols-1': !multiple,
           })}
         >
           {/* Dropzone tile */}
@@ -419,13 +420,18 @@ export function ImageUploadInput({
               <div key={`${src}-${index}`} className="group relative h-full">
                 <figure
                   className={cx(
-                    'h-1/2 overflow-hidden rounded-md border border-gray-200 bg-gray-50 p-1',
+                    'relative h-full overflow-hidden rounded-md border border-gray-200 bg-gray-50 p-1',
                     {
                       'aspect-square': multiple || maxFiles,
                     }
                   )}
                 >
-                  <img src={src} alt="Selected image preview" className="" />
+                  <Image
+                    fill
+                    src={src}
+                    alt="Selected image preview"
+                    className="h-full w-full object-cover"
+                  />
                 </figure>
                 <button
                   type="button"

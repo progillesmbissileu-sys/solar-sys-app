@@ -10,54 +10,13 @@ import {
   DeleteConfirmationModal,
   Divider,
 } from '@/shared/ui';
-import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
+import { DesktopPageContainer } from '@/widgets/container';
 import { RiDeleteBinLine, RiPencilLine, RiImageLine } from '@remixicon/react';
 import { routePaths } from '@/shared/routes';
-import React, { useRef, useState } from 'react';
-import { replaceServiceThumbnailAction } from '@/features/market-services';
-import { useRouter } from 'next/navigation';
-import { deleteServiceAction } from '@/features/market-services/lib/delete-service-action';
+import { useMarketServiceDetailsController } from '../lib/useMarketServiceDetailsController';
 
 export function MarketServiceDetailsView({ service }: { service: MarketService }) {
-  const { openPanel } = useRightPanel();
-  const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleEdit = () => {
-    openPanel('MARKET_SERVICE_FORM', {
-      title: 'Modifier le service',
-      width: '40vw',
-      initialValues: {
-        id: service.id,
-        designation: service.designation,
-        shortDescription: service.shortDescription,
-        contentDescription: service.contentDescription,
-        features: service.features,
-      },
-    });
-  };
-
-  const handleThumbnailReplace = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploading(true);
-    try {
-      const result = await replaceServiceThumbnailAction(service.id, file);
-      if (result.success) {
-        router.refresh();
-      }
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const handleDelete = React.useCallback(async () => {
-    const result = await deleteServiceAction(service.id);
-    setIsModalOpen(!result.success);
-  }, [service.id, setIsModalOpen]);
+  const controller = useMarketServiceDetailsController(service);
 
   return (
     <DesktopPageContainer
@@ -73,11 +32,11 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
         title: service.designation,
         actions: (
           <div className="flex gap-2">
-            <Button variant="secondary" onClick={handleEdit} className="gap-x-2">
+            <Button variant="secondary" onClick={controller.handleEdit} className="gap-x-2">
               <RiPencilLine className="size-4" />
               Modifier
             </Button>
-            <Button variant="destructive" className="gap-x-2" onClick={() => setIsModalOpen(true)}>
+            <Button variant="destructive" className="gap-x-2" onClick={controller.requestDelete}>
               <RiDeleteBinLine className="size-4" />
               Supprimer
             </Button>
@@ -107,20 +66,20 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
                 {/* Hover overlay with modify button */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
                   <input
-                    ref={fileInputRef}
+                    ref={controller.fileInputRef}
                     type="file"
                     accept="image/*"
-                    onChange={handleThumbnailReplace}
+                    onChange={controller.handleThumbnailReplace}
                     className="hidden"
                   />
                   <Button
                     variant="secondary"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isUploading}
+                    onClick={controller.openFilePicker}
+                    disabled={controller.isUploading}
                     className="gap-x-2"
                   >
                     <RiImageLine className="size-4" />
-                    {isUploading ? 'Chargement...' : "Modifier l'image"}
+                    {controller.isUploading ? 'Chargement...' : "Modifier l'image"}
                   </Button>
                 </div>
               </figure>
@@ -224,14 +183,14 @@ export function MarketServiceDetailsView({ service }: { service: MarketService }
         </div>
       </main>
       <DeleteConfirmationModal
-        open={isModalOpen}
+        open={controller.isModalOpen}
         content={
           <p className="text-center">
             Êtes-vous sûr de vouloir supprimer le service: <strong>{service.designation}</strong> ?
           </p>
         }
-        onConfirm={handleDelete}
-        onOpenChange={setIsModalOpen}
+        onConfirm={controller.handleDelete}
+        onOpenChange={controller.setIsModalOpen}
       />
     </DesktopPageContainer>
   );

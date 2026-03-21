@@ -18,7 +18,7 @@ export async function uploadImageAction(
   return response.success ? response.data : null;
 }
 
-export async function deleteImageMediaAction(imageId: string): Promise<unknown> {
+export async function deleteImageMediaAction(imageId: string) {
   const response = await callActionSafe(`/api/image-media/${imageId}`, 'DELETE')();
 
   return response;

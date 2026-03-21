@@ -1,8 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { MAX_PRODUCT_IMAGES, Product, ProductImage } from '@/entities/product';
+import type { Product } from '@/entities/product';
 import {
   AppImage,
   Badge,
@@ -14,7 +12,6 @@ import {
   DeleteConfirmationModal,
   UploadImageModal,
 } from '@/shared/ui';
-import { deleteImageMediaAction } from '@/shared/lib';
 import {
   RiStockLine,
   RiPriceTag3Line,
@@ -26,68 +23,33 @@ import {
 import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
 import { routePaths } from '@/shared/routes';
 import { PlusIcon } from 'lucide-react';
-import { addProductImageAction } from '@/features/products';
-import { set } from 'zod';
+import { useProductDetailsController } from '../lib/useProductDetailsController';
 
 export function ProductDetailsView({ product }: { product: Product }) {
-  const router = useRouter();
-  const isLowStock = product.stockQuantity <= product.lowStockThreshold;
-  const isOutOfStock = product.stockQuantity === 0;
   const { openPanel } = useRightPanel();
 
-  const stockStatus = isOutOfStock
-    ? { variant: 'error' as const, label: 'Out of Stock' }
-    : isLowStock
-      ? { variant: 'warning' as const, label: 'Low Stock' }
-      : { variant: 'success' as const, label: 'In Stock' };
+  const {
+    isLowStock,
+    isOutOfStock,
+    stockStatus,
 
-  // Gallery state
-  const allImages = [product.mainImage, ...(product.images || [])];
-  const [selectedImage, setSelectedImage] = useState<ProductImage>(product.mainImage);
+    allImages,
+    selectedImage,
+    setSelectedImage,
+    canAddMoreImages,
 
-  const [isPending, startTransition] = useTransition();
-  const [deleteModal, setDeleteModal] = useState<{
-    isOpen: boolean;
-    image: ProductImage | null;
-  }>({
-    isOpen: false,
-    image: null,
-  });
-  const [uploadModal, setUploadModal] = useState<{
-    isOpen: boolean;
-  }>({
-    isOpen: false,
-  });
+    isPending,
 
-  const handleDeleteImage = (image: ProductImage) => {
-    setDeleteModal({ isOpen: true, image });
-  };
+    deleteModal,
+    openDeleteModal,
+    setDeleteModalOpen,
+    confirmDeleteImage,
 
-  const confirmDeleteImage = () => {
-    if (!deleteModal.image?.id) return;
-
-    startTransition(async () => {
-      await deleteImageMediaAction(deleteModal.image!.id!);
-      setDeleteModal({ isOpen: false, image: null });
-      router.refresh();
-    });
-  };
-
-  const confirmUploadImage = async (data: {
-    file: File;
-    alt?: string;
-    title?: string;
-    isMainImage?: boolean;
-  }) =>
-    await addProductImageAction(
-      {
-        file: data.file,
-        alt: data.alt,
-        title: data.title,
-      },
-      product.id,
-      data.isMainImage
-    );
+    uploadModal,
+    openUploadModal,
+    setUploadModalOpen,
+    confirmUploadImage,
+  } = useProductDetailsController(product);
 
   return (
     <DesktopPageContainer
@@ -172,7 +134,7 @@ export function ProductDetailsView({ product }: { product: Product }) {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleDeleteImage(image);
+                            openDeleteModal(image);
                           }}
                           className="absolute right-1 top-1 rounded-full bg-red-500 p-1.5 text-white opacity-0 shadow-lg transition-opacity hover:bg-red-600 group-hover:opacity-100"
                           title="Delete image"
@@ -191,10 +153,10 @@ export function ProductDetailsView({ product }: { product: Product }) {
                     </div>
                   );
                 })}
-              {allImages.length < MAX_PRODUCT_IMAGES && (
+              {canAddMoreImages && (
                 <Card
                   className={`aspect-square cursor-pointer overflow-hidden bg-gray-50 p-0 transition-all dark:bg-gray-900`}
-                  onClick={() => setUploadModal({ isOpen: true })}
+                  onClick={openUploadModal}
                 >
                   <div className="h-full w-full content-center">
                     <PlusIcon className="mx-auto h-6 w-6 text-gray-500" />
@@ -335,11 +297,11 @@ export function ProductDetailsView({ product }: { product: Product }) {
           loading={isPending}
           content={<p className="text-center">Êtes-vous sûr de vouloir supprimer cette image ?</p>}
           onConfirm={confirmDeleteImage}
-          onOpenChange={(open) => setDeleteModal((prev) => ({ ...prev, isOpen: open }))}
+          onOpenChange={setDeleteModalOpen}
         />
         <UploadImageModal
           open={uploadModal.isOpen}
-          onOpenChange={(open) => setUploadModal((prev) => ({ ...prev, isOpen: open }))}
+          onOpenChange={setUploadModalOpen}
           onConfirm={confirmUploadImage}
         />
       </main>

@@ -13,41 +13,46 @@ export const UploadImageModal = (props: {
   return (
     <>
       <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-        <DialogContent className="flex h-[50vh] flex-col gap-12 overflow-hidden bg-gray-100 p-5 md:max-w-sm">
+        <DialogContent className="overflow-hidden bg-gray-100 p-4 md:max-w-sm">
           <DialogHeader className="h-fit">
             <DialogTitle className="hidden"></DialogTitle>
           </DialogHeader>
 
-          <div>
+          <div className="pt-9">
             <FormWrapper serverAction={props.onConfirm} formOptions={{ defaultValues: {} }}>
-              <div>
-                <Field.ImageUploadInput name="file" multiple={false} />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-full">
+                  <Field.ImageUploadInput name="file" multiple={false} />
+                </div>
+
+                <div className="col-span-full md:col-span-1">
+                  <Field.Text name="alt" placeholder="common.alt" />
+                </div>
+                <div className="col-span-full md:col-span-1">
+                  <Field.Text name="title" placeholder="common.title" />
+                </div>
+                <div className="col-span-full">
+                  <Field.Select
+                    name="isMainImage"
+                    options={[
+                      { label: 'Image secondaire', value: 'false' },
+                      { label: 'Image principale', value: 'true' },
+                    ]}
+                  />
+                </div>
+                <div className="col-span-full md:col-span-1">
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => props.onOpenChange(false)}
+                  >
+                    Annuler
+                  </Button>
+                </div>
+                <div className="col-span-full md:col-span-1">
+                  <SubmitButton label="Confirmer" className="h-10" />
+                </div>
               </div>
-              {/*<div>
-                <Field.Select
-                  name="isMainImage"
-                  options={[
-                    { label: 'Image secondaire', value: 'false' },
-                    { label: 'Image principale', value: 'true' },
-                  ]}
-                />
-              </div>*/}
-              {/*<div>
-                <Field.Text name="alt" />
-              </div>
-              <div>
-                <Field.Text name="title" />
-              </div>
-              <div className="flex w-full gap-x-3">
-                <Button
-                  variant="secondary"
-                  className="w-full"
-                  onClick={() => props.onOpenChange(false)}
-                >
-                  Annuler
-                </Button>
-                <SubmitButton label="Confirmer" />
-              </div>*/}
             </FormWrapper>
           </div>
         </DialogContent>

@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductPackage, ProductPackageItem } from '@/entities/product';
+import { ProductPackage } from '@/entities/product';
 import {
   AppImage,
   Badge,
@@ -11,65 +11,21 @@ import {
   Divider,
   DeleteConfirmationModal,
 } from '@/shared/ui';
-import { DesktopPageContainer, useRightPanel } from '@/widgets/container';
+import { DesktopPageContainer } from '@/widgets/container';
 import { RiDeleteBinLine, RiPencilLine, RiBox1Line } from '@remixicon/react';
-import { removeProductPackItemAction, deleteProductPackAction } from '@/features/products';
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { routePaths } from '@/shared/routes';
+import { useProductPackDetailsController } from '../lib/useProductPackDetailsController';
 
 export function ProductPackDetailsView({ productPackage }: { productPackage: ProductPackage }) {
-  const { openPanel } = useRightPanel();
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [deleteModal, setDeleteModal] = useState<{
-    handle: any;
-    isOpen: boolean;
-    message: any;
-  }>({
-    isOpen: false,
-    handle: null,
-    message: null,
-  });
-
-  const handleEdit = () => {
-    openPanel('PRODUCT_PACKAGE_FORM', {
-      title: 'Modifier le package',
-      width: '50vw',
-      initialValues: {
-        id: productPackage.id,
-        designation: productPackage.designation,
-        description: productPackage.description,
-        price: productPackage.price,
-        items: productPackage.items.map((item) => ({
-          value: item.productId,
-          label: item.productName,
-        })),
-      },
-    });
-  };
-
-  const handleDeleteItem = (item: ProductPackageItem) => {
-    startTransition(async () => {
-      await removeProductPackItemAction(item.id);
-      setDeleteModal((prevState) => ({ ...prevState, isOpen: false }));
-      router.refresh();
-    });
-  };
-
-  // const handleDelete = React.useCallback(async () => {
-  //   const result = await deleteServiceAction(service.id);
-  //   setIsModalOpen(result.success);
-  // }, [service.id, setIsModalOpen]);
-
-  const handleDeletePackage = () => {
-    startTransition(async () => {
-      const result = await deleteProductPackAction(productPackage.id);
-      if (result.success) {
-        router.push(routePaths.PRODUCTS_PACKAGES);
-      }
-    });
-  };
+  const {
+    isPending,
+    handleEdit,
+    requestDeleteItem,
+    requestDeletePackage,
+    deleteModal,
+    toggleDeleteModal,
+    confirmDelete,
+  } = useProductPackDetailsController(productPackage);
 
   return (
     <DesktopPageContainer
@@ -91,13 +47,7 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
             </Button>
             <Button
               variant="destructive"
-              onClick={() =>
-                setDeleteModal((prevState) => ({
-                  isOpen: !prevState.isOpen,
-                  handle: handleDeletePackage,
-                  message: 'Supprimer ce package ? Cette action est irréversible.',
-                }))
-              }
+              onClick={requestDeletePackage}
               className="gap-x-2"
               disabled={isPending}
             >
@@ -210,13 +160,7 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
                       </div>
                       <Button
                         variant="ghost"
-                        onClick={() =>
-                          setDeleteModal((prevState) => ({
-                            isOpen: !prevState.isOpen,
-                            handle: () => handleDeleteItem(item),
-                            message: `Supprimer "${item.productName}" du package ?`,
-                          }))
-                        }
+                        onClick={() => requestDeleteItem(item)}
                         className="text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
                         disabled={isPending}
                       >
@@ -280,10 +224,8 @@ export function ProductPackDetailsView({ productPackage }: { productPackage: Pro
         loading={isPending}
         open={deleteModal.isOpen}
         content={<p className="text-center">{deleteModal.message}</p>}
-        onConfirm={deleteModal.handle}
-        onOpenChange={() =>
-          setDeleteModal((prevState) => ({ ...prevState, isOpen: !prevState.isOpen }))
-        }
+        onConfirm={confirmDelete}
+        onOpenChange={toggleDeleteModal}
       />
     </DesktopPageContainer>
   );
